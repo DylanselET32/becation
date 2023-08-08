@@ -1,6 +1,6 @@
 /* Aquí los métodos para conseguir los datos de los usuarios en la BDD */
 const pool = require('../database/connection');
-const CRUD = require('../services/crud');
+const CRUD = require('../models/crud');
 
 /* ORDEN: TABLA, DATOS A PEDIR, EXTRAS*/
 
