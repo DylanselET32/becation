@@ -1,0 +1,1 @@
+/* Aquí los métodos para conseguir los datos de los roles en la BDD */
