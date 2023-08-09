@@ -112,15 +112,13 @@ const editVacation = async (req, res) => {
 
 const deleteVacation = async (req, res) => {
   try {
-    // //NO ES CORRECTO ELIMINAR UN USUARIO, SE DEBE DESACTIVAR NUNCA ELIMINAR. PERO POR NORMATIVA DEJO EL ENDPOINT
-    // const id = req.vacation.idVacation; // Obtener el ID del usuario desde el auth
-    // const result = await CRUD.remove("vacation", id); // Eliminar el usuario utilizando la función remove de CRUD
-    // if (result === 0) { // Si el usuario no existe
-    //   res.status(404).json({ message: 'Vacation not found' });
-    //   return;
-    // }
-    // res.status(200).json({}); //confirmo que se elimino correctamente
-    res.status(200).json("ENDPOINT ENRUTADO");
+    const id = req.body.id_vacation; // Obtener el ID de la vacación
+    const result = vDAO.removeVacation(id);
+    if (result === 0) { // Si la vacación no existe
+      res.status(404).json({ message: 'Vacation not found' });
+      return;
+    }
+    res.status(200).json({}); //confirmo que se eliminó correctamente
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
