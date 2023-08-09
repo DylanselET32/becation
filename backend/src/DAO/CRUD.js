@@ -2,10 +2,9 @@
 const pool = require('../database/connection');
 
 /*Método para convertir nombre de una tabla a ID*/
-/* Ejemplo => user --> idUser */
+/* Ejemplo => user --> user_id */
 function toId(table) {
-    const t =  table.charAt(0).toUpperCase() + table.slice(1);
-    return `id${t}`
+    return `${table}_id`;
 }
 
 /* Get All genérico */
