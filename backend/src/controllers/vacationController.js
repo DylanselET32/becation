@@ -37,11 +37,13 @@ const getAllVacationsByUser = async (req, res) => {
 };
 
 const getAllVacationsBetweenDates = async (req, res) => {
-  //esta funcion solo podria ser ejecutada por un admin
+  //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
-    // const respuesta = await vacationService.getAllVacations();
-    // res.status(200).json(respuesta);
-    res.status(200).json("ENDPOINT ENRUTADO");
+    const data = req.body;
+    const fecha1 = data.startDate;
+    const fecha2 = data.endDate;
+    const respuesta = await vDAO.getVacationsBetweenDates("initial_date", fecha1, fecha2);
+    res.status(200).json(respuesta);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
