@@ -51,26 +51,11 @@ const getAllVacationsBetweenDates = async (req, res) => {
 };
 
 const getVacationById = async (req, res) => {
-  //esta funcion solo podria ser ejecutada por un admin
+  //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
-    // const id = req.params.id; // Obtener el ID del usuario desde la ruta
-    // const vacation = await vacationService.getVacationById(id);
-    // if (!(utils.isExist(vacation))){res.status(404).json({ message: 'Vacation not found' });return;};
-    // res.status(200).json(vacation);
-    res.status(200).json("ENDPOINT ENRUTADO");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-const getVacation = async (req, res) => {
-  try {
-    // const id = req.vacation.idVacation; // Obtener el ID del usuario desde el auth
-    // const vacation = await vacationService.getVacationById(id);
-    // if (!(utils.isExist(vacation))){res.status(404).json({ message: 'Vacation not found' });return;};
-    // res.status(200).json(vacation);
-    res.status(200).json("ENDPOINT ENRUTADO");
+    const id = req.params.vacation_id;
+    const vacation = await vDAO.getVacationById(id);
+    res.status(200).json(vacation);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -145,31 +130,6 @@ const editVacation = async (req, res) => {
   }
 };
 
-const disableVacation = async (req, res) => {
-  try {
-    // const id = req.vacation.idVacation; // Obtener el ID del usuario desde el auth
-
-    // // Obtener el usuario por ID
-    // const vacation = await vacationService.getVacationById(id);
-    // // Validar si el usuario existe
-    // if (!utils.isExist(vacation)) {
-    //   return res.status(404).json({ message: 'Vacation not found' });
-    // }
-
-    // const data = { is_active: false }; // Actualiza el campo "is_active" a false para desactivar el usuario
-    // const result = await vacationService.editVacation(data, id); // Editar el usuario utilizando la función edit de CRUD
-    // if (result === 0) { // Si el usuario no existe
-    //   res.status(404).json({ message: 'Vacation not deleted' });
-    //   return;
-    // }
-    // res.status(200).json({});
-    res.status(200).json("ENDPOINT ENRUTADO");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
 const deleteVacation = async (req, res) => {
   try {
     // //NO ES CORRECTO ELIMINAR UN USUARIO, SE DEBE DESACTIVAR NUNCA ELIMINAR. PERO POR NORMATIVA DEJO EL ENDPOINT
@@ -193,7 +153,6 @@ module.exports = {
   getAllVacationsByUser,
   getAllVacationsBetweenDates,
   getVacationById,
-  getVacation,
   addVacation,
   editVacation,
   deleteVacation,

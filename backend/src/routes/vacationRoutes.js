@@ -11,10 +11,7 @@ This file only contains routing, the code and logic behind each query is in the 
 router.get('/getAllVacations' ,vacationController.getAllVacations);
 
 // Get a vacation by ID
-router.get('/getVacationById/:id', vacationController.getVacationById);
-
-// Get a current user vacations (By token)
-router.get('/getVacation', vacationController.getVacation);
+router.get('/getVacationById/:vacation_id', vacationController.getVacationById);
 
 // Add a new vacation
 router.post('/addVacation', vacationController.addVacation);
@@ -35,7 +32,5 @@ router.get('/getAllVacationsByUser/:user_id' ,vacationController.getAllVacations
 
 // Get all vacations between dates
 router.get('/getAllVacationsBetweenDates' ,vacationController.getAllVacationsBetweenDates);
-
-
 
 module.exports = router;
