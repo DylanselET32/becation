@@ -1,5 +1,6 @@
 import Header from "./components/Header"
 import LogoBecation from "./imgs/BeCation_logo.png"
+import Login from "./pages/Login"
 
 function App() {
 
@@ -7,6 +8,7 @@ function App() {
   return (
     <>
       <Header />
+      <Login />
     </>
   )
 }
