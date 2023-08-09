@@ -23,13 +23,23 @@ const editVacation = async (data, id) => await CRUD.edit('vacation', data, id);
 /* DELETE */
 const removeVacation = async (id) => await CRUD.remove('vacation', id);
 
+/* MÉTODOS ESPECÍFICOS */
+const getVacationsByRole = async (role_id) => {
+    let sql = `SELECT v.*, r.role_name from ((vacation v inner join user u ON v.required_user_id = u.user_id) inner join role r ON u.role_id = r.role_id) WHERE r.role_id = ?`;
+    let params = [role_id];
+
+    const [results] = await pool.promise().query(sql, params);
+    return results;
+};
+
 
 module.exports = {
     getAllVacations,
     getVacationById,
     getVacationByColumn,
     getVacationsBetweenDates,
+    getVacationsByRole,
     addVacation,
     editVacation,
-    removeVacation,
+    removeVacation
 };
