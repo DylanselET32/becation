@@ -31,10 +31,10 @@ router.delete('/deleteVacation', vacationController.deleteVacation);
 router.get('/getAllVacationsByArea/:role_id' ,vacationController.getAllVacationsByArea);
 
 // Get all vacations by user
-router.get('/getAllVacationsByUser/:id' ,vacationController.getAllVacationsByUser);
+router.get('/getAllVacationsByUser/:user_id' ,vacationController.getAllVacationsByUser);
 
-// Get all vacations by user
-router.get('/getAllVacationsBetweenDates/:dates' ,vacationController.getAllVacationsBetweenDates);
+// Get all vacations between dates
+router.get('/getAllVacationsBetweenDates' ,vacationController.getAllVacationsBetweenDates);
 
 
 
