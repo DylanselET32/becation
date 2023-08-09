@@ -1,6 +1,6 @@
 /* Aquí los métodos para conseguir los datos de los roles en la BDD */
 const pool = require('../database/connection');
-const CRUD = require('../models/crud');
+const CRUD = require('./crud');
 
 /* GETS */
 const getAllRoles = async () => await CRUD.getAll('role', ["role_id", "role_name"]);
