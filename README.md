@@ -12,7 +12,7 @@ Este repositorio contiene el proyecto web de la aplicación BeCation, desarrolla
 - **Documentation Manager:** Gonzalo Giménez
 
 **Team Documentation:**
-- Javier Rojas
+- Lucas Rojas Liambo
 - Ezequiel Baqueiro
 
 **Team FrontEnd:**
