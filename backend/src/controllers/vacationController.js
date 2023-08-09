@@ -64,32 +64,12 @@ const getVacationById = async (req, res) => {
 
 const addVacation = async (req, res) => {
   try {
-    //     const data = req.body;
+    const data = req.body;
 
-    //     // Verificar si el email ya está registrado
-    //     const emailExists = await vacationService.getVacationByColumn('email', data.email,null); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
-    //     if (emailExists.length) {
-    //       return res.status(400).json({ message: 'Email already exists' });
-    //     }
-
-    //     // Verificar si el nombre de usuario ya está en uso
-    //     const vacationNameExists = await vacationService.getVacationByColumn("vacationName", data.vacationName,null); //lo pongo con null el tercer prop para que tenga en cuenta los vacations desaibilitados
-    //     if (vacationNameExists.length) {
-    //       return res.status(400).json({ message: 'Vacationname already taken' });
-    //     }
-
-    //     // encriptar contraseña
-    //     const dataE = {
-    //       ...data,
-    //       password: await utils.encryptText(data.password)
-    //     }
-    //     // Agregar usuario
-    //     const id = await vacationService.addVacation(dataE);
-    //     if(!id) throw new Error('Error al agregar usuario');
-    //     const token = utils.createToken({idVacation:id}); // Crear el token JWT
-    //     res.status(200).json({ token }); // Devolver el token en la respuesta
-    //     sendConfirmEmail(id);
-    res.status(200).json("ENDPOINT ENRUTADO");
+    // Agregar vacacion
+    const id = await vDAO.addVacation(data);
+    if(!id) throw new Error('Error al agregar la vacación');
+    res.status(200).json("La vacación se agregó correctamente");
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
