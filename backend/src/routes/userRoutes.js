@@ -11,7 +11,7 @@ This file only contains routing, the code and logic behind each query is in the 
 router.get('/getAllUsers',authMiddleware ,userController.getAllUsers);
 
 // Get all users by area
-router.get('/getAllUsersByArea',authMiddleware ,userController.getAllUsersByArea);
+router.get('/getAllUsersByArea/:area_id',authMiddleware ,userController.getAllUsersByArea);
 
 // Get all areas
 router.get('/getAllAreas',authMiddleware ,userController.getAllAreas);

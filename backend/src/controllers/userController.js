@@ -1,5 +1,7 @@
 // const CRUD = require('../services/crud')
-// const userService = require('../services/userService');
+ const { getAllRoles } = require('../DAO/RoleDAO');
+const UserDAO = require('../DAO/UserDAO');
+const { encryptText, createToken } = require('../utils/authUtils');
 // const { sendConfirmEmail } = require('../utils/emeilSendUtils');
 // const utils = require('../utils/utils')
 // const bcrypt = require('bcryptjs');
@@ -7,9 +9,8 @@
 const getAllUsers = async (req,res) => {
   //esta funcion solo podria ser ejecutada por un admin
   try {
-    // const respuesta = await userService.getAllUsers();
-    // res.status(200).json(respuesta);
-    res.status(200).json("ENDPOINT ENRUTADO");
+    const respuesta = await UserDAO.getAllUsers()
+    res.status(200).json(respuesta);
   }catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -17,11 +18,11 @@ const getAllUsers = async (req,res) => {
 }
 
 const getAllUsersByArea = async (req,res) => {
-    //esta funcion solo podria ser ejecutada por un admin
+    //esta funcion solo podria ser ejecutada por un admin o persona con privilegios y recibe por parametros el id del area y devuelve todos los usuarios que estan en ese area
     try {
-      // const respuesta = await userService.getAllUsers();
-      // res.status(200).json(respuesta);
-      res.status(200).json("ENDPOINT ENRUTADO");
+      const area_id = req.params.area_id
+      const respuesta = await UserDAO.getUserByColumn("role_id",area_id);
+      res.status(200).json(respuesta);
     }catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
@@ -29,11 +30,11 @@ const getAllUsersByArea = async (req,res) => {
 }
 
 const getAllAreas = async (req,res) => {
-    //esta funcion solo podria ser ejecutada por un admin
+    //esta funcion solo podria ser ejecutada por un admin o persona con privilegios
     try {
-      // const respuesta = await userService.getAllUsers();
-      // res.status(200).json(respuesta);
-      res.status(200).json("ENDPOINT ENRUTADO");
+      const respuesta = await getAllRoles()
+      res.status(200).json(respuesta);
+      
     }catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
@@ -43,25 +44,22 @@ const getAllAreas = async (req,res) => {
 const getUserById = async (req,res) => {
   //esta funcion solo podria ser ejecutada por un admin
   try {
-    // const id = req.params.id; // Obtener el ID del usuario desde la ruta
-    // const user = await userService.getUserById(id); 
-    // if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
-    // res.status(200).json(user); 
-    res.status(200).json("ENDPOINT ENRUTADO");
-
+    const id = req.params.id; // Obtener el ID del usuario desde la ruta
+    const user = await UserDAO.getUserById(id); 
+    if (!user){res.status(404).json({ message: 'User not found' });return;};
+    res.status(200).json(user); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
 const getUser = async (req,res) => {
+  //esta funcion va a ser llamada por un usuario y va a devolver su informacion a partir de su token
   try {
-    // const id = req.user.idUser; // Obtener el ID del usuario desde el auth
-    // const user = await userService.getUserById(id); 
-    // if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
-    // res.status(200).json(user); 
-    res.status(200).json("ENDPOINT ENRUTADO");
-
+    const user_id = req.user.user_id; // Obtener el ID del usuario desde el token en el middleware auth 
+    const user = await UserDAO.getUserById(user_id); 
+    if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
+    res.status(200).json(user); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -71,31 +69,28 @@ const getUser = async (req,res) => {
 
 const addUser = async (req, res) => {
   try {
-//     const data = req.body;
+    //const user_id = req.user.user_id; // Obtener el ID del usuario desde el token en el middleware auth 
+   
+    const data = req.body;
+    // Verificar si el email ya está registrado
+    const emailExists = await UserDAO.getUserByColumn('email', data.email,null); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
+    if (emailExists.length) {
+      return res.status(400).json({ message: 'Email already exists' });
+    }
 
-//     // Verificar si el email ya está registrado
-//     const emailExists = await userService.getUserByColumn('email', data.email,null); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
-//     if (emailExists.length) {
-//       return res.status(400).json({ message: 'Email already exists' });
-//     }
 
-//     // Verificar si el nombre de usuario ya está en uso
-//     const userNameExists = await userService.getUserByColumn("userName", data.userName,null); //lo pongo con null el tercer prop para que tenga en cuenta los users desaibilitados
-//     if (userNameExists.length) {
-//       return res.status(400).json({ message: 'Username already taken' });
-//     }
+    // encriptar contraseña 
+    const dataE = {
+      ...data,
+      password: await encryptText(data.password) 
+    }
 
-//     // encriptar contraseña 
-//     const dataE = {
-//       ...data,
-//       password: await utils.encryptText(data.password) 
-//     }
-//     // Agregar usuario
-//     const id = await userService.addUser(dataE);
-//     if(!id) throw new Error('Error al agregar usuario');
-//     const token = utils.createToken({idUser:id}); // Crear el token JWT
-//     res.status(200).json({ token }); // Devolver el token en la respuesta
-//     sendConfirmEmail(id);
+    // Agregar usuario
+    const id = await UserDAO.addUser(dataE);
+    if(!id) throw new Error('Error al agregar usuario');
+    const token = createToken({user_id:id}); // Crear el token JWT
+    res.status(200).json({ token }); // Devolver el token en la respuesta
+    sendConfirmEmail(id);
 res.status(200).json("ENDPOINT ENRUTADO");
 
   } catch (error) {
