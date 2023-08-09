@@ -2,7 +2,7 @@ const CRUD = require('../DAO/CRUD')
 const vDAO = require('../DAO/VacationDAO');
 
 const getAllVacations = async (req, res) => {
-  //Este método solo podria ser ejecutada por un admin
+  //Este método solo podria ser ejecutada por un admin o RRHH
   try {
     const respuesta = await vDAO.getAllVacations();
     res.status(200).json(respuesta);
@@ -13,11 +13,11 @@ const getAllVacations = async (req, res) => {
 };
 
 const getAllVacationsByArea = async (req, res) => {
-  //esta funcion solo podria ser ejecutada por un admin
+  //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
-    // const respuesta = await vacationService.getAllVacations();
-    // res.status(200).json(respuesta);
-    res.status(200).json("ENDPOINT ENRUTADO");
+    const role_id = req.params.role_id;
+    const respuesta = await vDAO.getVacationsByRole(role_id);
+    res.status(200).json(respuesta);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -48,18 +48,6 @@ const getAllVacationsBetweenDates = async (req, res) => {
   }
 };
 
-const getAllAreas = async (req, res) => {
-  //esta funcion solo podria ser ejecutada por un admin
-  try {
-    // const respuesta = await vacationService.getAllVacations();
-    // res.status(200).json(respuesta);
-    res.status(200).json("ENDPOINT ENRUTADO");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
 const getVacationById = async (req, res) => {
   //esta funcion solo podria ser ejecutada por un admin
   try {
@@ -73,6 +61,7 @@ const getVacationById = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 const getVacation = async (req, res) => {
   try {
     // const id = req.vacation.idVacation; // Obtener el ID del usuario desde el auth
@@ -189,34 +178,6 @@ const deleteVacation = async (req, res) => {
     //   return;
     // }
     // res.status(200).json({}); //confirmo que se elimino correctamente
-    res.status(200).json("ENDPOINT ENRUTADO");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-//Funciones especificas
-
-const login = async (req, res) => {
-  try {
-    // const vacation = req.body.vacation; // Obtener el nombre de usuario desde el body
-    // const password = req.body.password;
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // let vacationDB = null;
-    // if (emailRegex.test(vacation)) {
-    //   vacationDB = await vacationService.getVacationByColumn("email", vacation,null,["idVacation","name","surname","email","vacationName","password","photo"]);
-    // } else {
-    //   vacationDB = await vacationService.getVacationByColumn("vacationName", vacation,null,["idVacation","name","surname","email","vacationName","password","photo"]);
-    // }
-    // if (!(utils.isExist(vacationDB))) { res.status(404).json({ message: 'Invalid Vacation' }); return; };
-    // const isMatch = await utils.hashCompare(password, vacationDB[0].password);
-    // if (!isMatch) {
-    //   res.status(401).json({ message: "Invalid credentials" });
-    //   return;
-    // }
-    // const token = utils.createToken(vacationDB[0]); // Crear el token JWT
-    // res.status(200).json({ token }); // Devolver el token en la respuesta
     res.status(200).json("ENDPOINT ENRUTADO");
   } catch (error) {
     console.error(error);

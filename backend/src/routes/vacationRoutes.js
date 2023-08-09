@@ -28,7 +28,7 @@ router.delete('/deleteVacation', vacationController.deleteVacation);
 //especific routes
 
 // Get all vacations by area
-router.get('/getAllVacationsByArea/:id' ,vacationController.getAllVacationsByArea);
+router.get('/getAllVacationsByArea/:role_id' ,vacationController.getAllVacationsByArea);
 
 // Get all vacations by user
 router.get('/getAllVacationsByUser/:id' ,vacationController.getAllVacationsByUser);
