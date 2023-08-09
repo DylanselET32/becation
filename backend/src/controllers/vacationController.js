@@ -78,32 +78,21 @@ const addVacation = async (req, res) => {
 
 const editVacation = async (req, res) => {
   try {
-    // const id = req.vacation.idVacation; // Obtener el ID del usuario desde el auth
-
-    // // Obtener el usuario por ID
-    // const vacation = await vacationService.getVacationById(id);
-    // // Validar si el usuario existe
-    // if (!utils.isExist(vacation)) {
-    //   return res.status(404).json({ message: 'Vacation not found' });
-    // }
-
-    // // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
-    // let data = {};
-    // for (const prop in req.body) {
-    //   if(prop != "is_active"){
-    //     data[prop] = req.body[prop];
-    //   }
-    // }
-    // if(data.password!=undefined) {
-    //   data.password = await utils.encryptText(data.password);
-    // }
-    // const result = await vacationService.editVacation(data, id); // Editar el usuario utilizando la función edit de CRUD
-    // if (result === 0) { // Si el usuario no existe
-    //   res.status(404).json({ message: 'Vacation not edit' });
-    //   return;
-    // }
-    // res.status(200).json({});
-    res.status(200).json("ENDPOINT ENRUTADO");
+    const id = req.body.id_vacation; // Obtener el ID de la vacación
+    if (id === 0 || id == null) { // Si la vacación no existe
+      res.status(404).json({ message: 'Vacation not found' });
+      return;
+    }
+    
+    // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
+    let data = {};
+    for (const prop in req.body) {
+      if(prop != "is_active"){
+        data[prop] = req.body[prop];
+      }
+    }
+    const edit = await vDAO.editVacation(data, id);
+    res.status(200).json(edit);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
