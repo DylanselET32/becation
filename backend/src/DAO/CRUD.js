@@ -37,6 +37,41 @@ const getById = async (table, id, selectFields = ['*'], extraClauses = null) => 
     return results[0];
 };
 
+/* Get All By campo de un foreign key */
+/*
+const getByColumnFK = async (table, column, value, selectFields = ['*'], extraClauses = null) => {
+    let sql = `SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`;
+    let params = [table, column, value];
+
+    if (extraClauses) {
+        if (extraClauses.includes('WHERE')) {
+            sql += ` AND ${extraClauses.replace('WHERE', '')}`;
+        }else {
+            sql += ` ${extraClauses}`;
+        }
+    }
+    
+    const [results, fields] = await pool.promise().query(sql, params);
+    return results;
+};
+*/
+
+/* Get All Between Dates */
+const getAllBetweenDates = async (table, column, date1, date2, selectFields = ['*'], extraClauses = null) => {
+    let sql = `SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? BETWEEN ? AND ?`;
+    let params = [table, column, date1, date2];
+
+    if (extraClauses) {
+        if (extraClauses.includes('WHERE')) {
+            sql += ` AND ${extraClauses.replace('WHERE', '')}`;
+        }else {
+            sql += ` ${extraClauses}`;
+        }
+    }
+    
+    const [results, fields] = await pool.promise().query(sql, params);
+    return results;
+};
 
 /* ADD genérico */
 const add = async (table, data) => {
