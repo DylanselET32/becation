@@ -34,7 +34,7 @@ router.get('/getAllVacationsByArea/:id' ,vacationController.getAllVacationsByAre
 router.get('/getAllVacationsByUser/:id' ,vacationController.getAllVacationsByUser);
 
 // Get all vacations by user
-router.get('/GetAllVacationsBetweenDates/:dates' ,vacationController.GetAllVacationsBetweenDates);
+router.get('/getAllVacationsBetweenDates/:dates' ,vacationController.getAllVacationsBetweenDates);
 
 
 

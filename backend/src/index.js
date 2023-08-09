@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require("cors");
-// const {authMiddleware} = require('./routes/authMiddleware')
+const { authMiddleware } = require('./middleware/authMiddleware');
 require('dotenv').config()
 
 
