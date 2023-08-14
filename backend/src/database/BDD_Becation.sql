@@ -1,55 +1,144 @@
-create database becation_bdd;
-use becation_bdd;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-create table role(
-	role_id int not null,
-    role_name varchar(25) not null,
-    primary key(role_id)
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema becation_db
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `becation_db`;
+CREATE SCHEMA IF NOT EXISTS `becation_db` ;
+USE `becation_db` ;
+
+
+-- -----------------------------------------------------
+-- Table `becation_db`.`user`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `becation_db`.`user` ;
+
+CREATE TABLE IF NOT EXISTS `becation_db`.`user` (
+    `user_id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL COMMENT 'nombre de pila',
+    `surname` VARCHAR(50) NOT NULL COMMENT 'apellido del usuario',
+    `email` VARCHAR(150) NOT NULL COMMENT 'email del usuario (empresarial si es posible)',
+    `password` VARCHAR(500) NOT NULL COMMENT 'contraseña encriptada',
+    `dni` BIGINT(9) NOT NULL,
+    `is_able` TINYINT NOT NULL DEFAULT 1 COMMENT 'es una usuario activo en la empresa para usar el sistema???',
+    `privileges` INT NOT NULL,
+    `to_create` TIMESTAMP NOT NULL COMMENT 'fecha que se da de alta EN EL SISTEMA\n\ndato predeterminado: CURRENT_TIMESTAMP    ',
+    `sign_up_date` DATETIME NULL COMMENT 'fecha que se da de alta administrativa en la empresa',
+    `to_update` INT NOT NULL COMMENT 'ID del ultimo usuario que realizo modificaciones en los datos',
+    `to_update_date` DATETIME NOT NULL COMMENT 'fecha de la ultima modificacion',
+    PRIMARY KEY (`user_id`),
+    UNIQUE INDEX `dni_UNIQUE` (`dni` ASC),
+    UNIQUE INDEX `email_UNIQUE` (`email` ASC)
 );
 
-create table user(
-	user_id int auto_increment not null,
-    name varchar(50),
-    surname varchar(50),
-    email varchar(150) not null,
-    password varchar(500) not null,
-    dni int,
-    is_able boolean,
-    role_id int not null,
-    available_days int,
-    contrat_day date,
-    primary key(user_id),
-    foreign key(role_id) references role(role_id)
+
+-- -----------------------------------------------------
+-- Table `becation_db`.`area`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `becation_db`.`area` ;
+
+CREATE TABLE IF NOT EXISTS `becation_db`.`area` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `area` VARCHAR(50) NOT NULL COMMENT 'areas de la empresa',
+    `area_manager` INT NULL COMMENT 'id de empleado que es el JEFE de esta area',
+    `to_create` TIMESTAMP NOT NULL COMMENT 'marca temporal automatica de cuando se crea este registro en le DB\ndato predeterminado: CURRENT_TIMESTAMP    ',
+    `to_update` INT NOT NULL COMMENT 'ID del ultimo usuario que realizo modificaciones en los datos',
+    `to_update_date` DATETIME NOT NULL COMMENT 'fecha de la ultima modificacion',
+    PRIMARY KEY (`id`),
+    INDEX `area_manager_id_idx` (`area_manager` ASC),
+    CONSTRAINT `area_manager_id`
+    FOREIGN KEY (`area_manager`)
+    REFERENCES `becation_db`.`user` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
 );
 
-create table vacation(
-	vacation_id int auto_increment not null,
-    required_user_id int not null,
-    hr_user_id int,
-    initial_date date,
-    final_date date,
-    days_taked date,
-    status enum("acepted", "denied", "revised"),
-    note text,
-    primary key(vacation_id),
-    foreign key(required_user_id) references user(user_id)
-);
 
-/*DATOS DE TESTEO - BORRAR EN PRODUCCION*/
+-- -----------------------------------------------------
+-- Table `becation_db`.`role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `becation_db`.`role` ;
 
-INSERT INTO role (role_id, role_name) VALUES
-(1, 'Admin'),
-(2, 'RRHH'),
-(3, 'Employee');
-
-INSERT INTO user (name, surname, email, password, dni, is_able, role_id, available_days, contrat_day)
-VALUES
-('John', 'Doe', 'john@example.com', 'hashed_password', 123456789, 1, 1, 20, '2022-01-15'),
-('Jane', 'Smith', 'jane@example.com', 'hashed_password', 987654321, 1, 2, 15, '2022-03-10'),
-('Michael', 'Johnson', 'michael@example.com', 'hashed_password', 456789123, 1, 3, 18, '2022-02-20');
+CREATE TABLE IF NOT EXISTS `becation_db`.`role` (
+    `id` INT NOT NULL,
+    `role_name` VARCHAR(45) NOT NULL COMMENT 'si es jefe, PM, etc',
+    `to_create` TIMESTAMP NOT NULL COMMENT 'marca temporal automatica de cuando se crea este registro en le DB\ndato predeterminado: CURRENT_TIMESTAMP    ',
+    `to_update` INT NOT NULL COMMENT 'ID del ultimo usuario que realizo modificaciones en los datos\n',
+    `to_update_date` DATETIME NOT NULL COMMENT 'fecha de la ultima modificacion',
+    PRIMARY KEY (`id`)
+)ENGINE = InnoDB;
 
 
-INSERT INTO vacation (required_user_id, hr_user_id, initial_date, final_date, days_taked, status, note)
-VALUES
-(1, 2, '2023-08-15', '2023-08-20', 6, 'acepted', 'Vacation by the sea'),
-(2, 3, '2023-09-10', '2023-09-15', 5, 'revised', 'Family trip');
+-- -----------------------------------------------------
+-- Table `becation_db`.`employer`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `becation_db`.`employer` ;
+
+CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
+    `id` INT NOT NULL,
+    `user_id` INT NULL COMMENT 'datos del usuario',
+    `available_days` INT NULL COMMENT 'cantidad de dias disponibles para tomarse',
+    `total_days` INT NOT NULL DEFAULT 15 COMMENT 'cantidad de dias anuales contractuales',
+    `is_cumulative` INT NOT NULL DEFAULT 0 COMMENT 'se pueden acumular vacaciones? aca la cantidad de años que pueden se acumulados',
+    `role_id` INT NOT NULL COMMENT 'que rol cumple dentro del area que se encuantra',
+    `area` INT NOT NULL COMMENT 'area de trabajo en la que esta el empleado actualmente trabajando',
+    `to_update` INT NOT NULL COMMENT 'ID del ultimo usuario que realizo modificaciones en los datos',
+    `to_update_date` DATETIME NOT NULL COMMENT 'fecha de la ultima modificacion',
+    `to_create` TIMESTAMP NOT NULL COMMENT 'marca temporal automatica de cuando se crea este registro en le DB\ndato predeterminado: CURRENT_TIMESTAMP    ',
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
+    INDEX `role_id_idx` (`role_id` ASC),
+    INDEX `area_id_idx` (`area` ASC),
+    CONSTRAINT `user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `becation_db`.`user` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `role_id`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `becation_db`.`role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `area_id`
+    FOREIGN KEY (`area`)
+    REFERENCES `becation_db`.`area` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `becation_db`.`vacation`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `becation_db`.`vacation` ;
+
+CREATE TABLE IF NOT EXISTS `becation_db`.`vacation` (
+    `id` INT NOT NULL,
+    `employee` INT NOT NULL COMMENT 'datos del empleado (no de usuario)',
+    `start_date` DATETIME NOT NULL COMMENT 'fecha inicial',
+    `end_date` DATETIME NOT NULL COMMENT 'fecha final',
+    `status` ENUM("aproved", "denied", "revision", "null") NULL DEFAULT 'null' COMMENT 'aprobado rechazado observado',
+    `note` TEXT(500) NULL DEFAULT 'null',
+    `date_asked` DATETIME NOT NULL COMMENT 'fecha que el eempleado pidio las vacaciones',
+    `area_manager_authorization` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'el jefe del area autoriza o no al empleado',
+    `to_create` TIMESTAMP NOT NULL COMMENT 'marca temporal automatica de cuando se crea este registro en le DB\ndato predeterminado: CURRENT_TIMESTAMP    ',
+    `to_update` INT NOT NULL COMMENT 'quien fue el de rrhh que modifico estas vacaciones por ultima vez\nID del ultimo usuario que realizo modificaciones en los datos',
+    `to_update_date` DATETIME NOT NULL COMMENT 'fecha de la ultima modificacion',
+    PRIMARY KEY (`id`),
+    INDEX `employee_id_idx` (`employee` ASC),
+    CONSTRAINT `employee_id`
+    FOREIGN KEY (`employee`)
+    REFERENCES `becation_db`.`employer` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
