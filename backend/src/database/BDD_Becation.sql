@@ -113,16 +113,16 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
 
 
 -- -----------------------------------------------------
--- Table `becation_db`.`vacaciones`
+-- Table `becation_db`.`vacation`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `becation_db`.`vacaciones` ;
+DROP TABLE IF EXISTS `becation_db`.`vacation` ;
 
-CREATE TABLE IF NOT EXISTS `becation_db`.`vacaciones` (
+CREATE TABLE IF NOT EXISTS `becation_db`.`vacation` (
     `id` INT NOT NULL,
     `employee` INT NOT NULL COMMENT 'datos del empleado (no de usuario)',
     `start_date` DATETIME NOT NULL COMMENT 'fecha inicial',
     `end_date` DATETIME NOT NULL COMMENT 'fecha final',
-    `status` ENUM("aproved", "denied", "revision") NULL DEFAULT 'revision' COMMENT 'aprobado rechazado observado',
+    `status` ENUM("aproved", "denied", "revision", "null") NULL DEFAULT 'null' COMMENT 'aprobado rechazado observado',
     `note` TEXT(500) NULL DEFAULT 'null',
     `date_asked` DATETIME NOT NULL COMMENT 'fecha que el eempleado pidio las vacaciones',
     `area_manager_authorization` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'el jefe del area autoriza o no al empleado',
