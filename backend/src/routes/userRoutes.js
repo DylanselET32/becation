@@ -27,6 +27,7 @@ router.post('/addUser',authMiddleware, userController.addUser);
 
 // Edit an existing user
 router.patch('/editUser',authMiddleware, userController.editUser);
+router.patch('/editUserById/:id',authMiddleware, userController.editUserById);
 
 // Delete an existing user
 router.patch('/disableUser',authMiddleware, userController.disableUser); //Este se utiliza para "eliminar" usuarios, los desabilita permanentemente

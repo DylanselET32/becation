@@ -21,12 +21,12 @@ const hashCompare = async (text, hash) => {
 
 //JWT Funtions
 const createToken = (user) => {
-  const token = jwt.sign({ idUser: user.idUser }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
+  const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
   return token;
 };
 
-const createEmailTokenById = (idUser,email,data = null) => {
-  const token = jwt.sign({ idUser, email, data}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_EMAIL});
+const createEmailTokenById = (user_id,email,data = null) => {
+  const token = jwt.sign({ user_id, email, data}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_EMAIL});
   return token;
 };
 const verifyToken = (token) => {
