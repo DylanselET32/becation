@@ -1,0 +1,43 @@
+.section_login{
+    /* background: red; */
+    margin: 13vh 0 0 0;
+}
+.login_container{
+    background: red;
+}
+
+.input_login{
+    background: #f3f1f1;
+    display: flex;
+    border-radius: 12px;
+    padding: 3px;
+}
+
+.input_login input{
+    border: none;
+    width: 90%;
+    background: #f3f1f1;
+    padding: 7px;
+    outline: none;
+}
+
+.input_login img{
+    opacity: 0.3;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.input_login img:hover{
+    opacity: 0.6;
+}
+
+/* .input_container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+/* .input_container input{
+    width: 90%;
+    max-width: 300px;
+} */
