@@ -1,14 +1,18 @@
 import Header from "./components/Header"
 import LogoBecation from "./imgs/BeCation_logo.png"
 import Login from "./pages/Login"
+import "./stylesheets/app.css"
 
 function App() {
 
 
   return (
     <>
-      <Header />
-      <Login />
+      <div className="app">
+        <Header />
+        <Login />
+      </div>
+    
     </>
   )
 }
