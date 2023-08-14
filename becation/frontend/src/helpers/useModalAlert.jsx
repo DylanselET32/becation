@@ -3,6 +3,7 @@ import { useState } from 'react';
 const useModalAlert= ()=>{
   const [modalAlertResponse, setModalAlertResponse]= useState(false);
   const [alert , setAlert]= useState(false);
+  const [msg,setMsg] = useState("")
 
   const handleModalAlert= (e)=>{
     if(e.target.value == "X"){
@@ -35,6 +36,6 @@ const useModalAlert= ()=>{
     },3899)
   }
 
-  return [modalAlertResponse, handleModalAlert, alert ,openModalAlert, modalAlertCalled]
+  return [ handleModalAlert, alert ,openModalAlert, modalAlertCalled, msg, setMsg]
 }
 export default useModalAlert;
