@@ -16,8 +16,8 @@ const getAll = async (table, selectFields = ['*'], extraClauses = null) => {
 
 /* Get By Id genérico */
 const getById = async (table, id, selectFields = ['*'], extraClauses = null) => {
-    let sql = `SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`;
-    let params = [table, toId(table), id];
+    let sql = `SELECT ${selectFields.join(', ')} FROM ?? WHERE id = ?`;
+    let params = [table, id];
     
     if (extraClauses) {
         if (extraClauses.includes('WHERE')) {
