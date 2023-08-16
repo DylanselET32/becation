@@ -1,9 +1,11 @@
 .section_login{
     /* background: red; */
     margin: 13vh 0 0 0;
+    font-family: 'Poppins', sans-serif;
+    
 }
 .login_container{
-    background: red;
+    border-radius: 20px;
 }
 
 .input_login{
@@ -31,6 +33,13 @@
     opacity: 0.6;
 }
 
+.button_login{
+    font-weight: bold;
+}
+
+.aviso-hidden{
+    display: none;
+}
 /* .input_container{
     display: flex;
     justify-content: space-between;
