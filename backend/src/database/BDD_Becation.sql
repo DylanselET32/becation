@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`role` (
 DROP TABLE IF EXISTS `becation_db`.`employer` ;
 
 CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
-    `id` INT NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT NULL COMMENT 'datos del usuario',
     `available_days` INT NULL COMMENT 'cantidad de dias disponibles para tomarse',
     `total_days` INT NOT NULL DEFAULT 15 COMMENT 'cantidad de dias anuales contractuales',
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
 DROP TABLE IF EXISTS `becation_db`.`vacation` ;
 
 CREATE TABLE IF NOT EXISTS `becation_db`.`vacation` (
-    `id` INT NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `employee` INT NOT NULL COMMENT 'datos del empleado (no de usuario)',
     `start_date` DATETIME NOT NULL COMMENT 'fecha inicial',
     `end_date` DATETIME NOT NULL COMMENT 'fecha final',
@@ -142,3 +142,8 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`vacation` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+INSERT INTO `becation_db`.`user`(`name`, `surname`, `email`, `password`, `dni`, `privileges`) VALUES("Gonzalo", "Carranza", "gonzalocarranza@streambe.com", "gonzac123", 11223344, 1);
+INSERT INTO `becation_db`.`user`(`name`, `surname`, `email`, `password`, `dni`, `privileges`) VALUES("Diego", "Sanchez", "diegosanchez@streambe.com", "diegos123", 55667788, 1);
+INSERT INTO `becation_db`.`user`(`name`, `surname`, `email`, `password`, `dni`, `privileges`) VALUES("Dylan", "Seltzer", "dylanseltzer@streambe.com", "dylans123", 11663388, 2);
