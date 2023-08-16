@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c6678d5f-9611-4d52-9bfc-a14ab36e2b3f",
+		"_postman_id": "f4dbe590-cc08-437f-b70c-e0933c2248c7",
 		"name": "BeCation",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,63 +9,80 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "getUser",
+					"name": "login",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"email\": \"juanp@gmail.com\",\r\n    \"password\":\"juanp123\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:3000/user/getUser",
+							"raw": "localhost:3000/v1/user/login",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
+								"v1",
 								"user",
-								"getUser"
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "employer",
+			"item": [
+				{
+					"name": "getEmployer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/Employer/getEmployer",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"Employer",
+								"getEmployer"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getAllUsers",
+					"name": "getAllEmployer",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/user/getAllUsers",
+							"raw": "localhost:3000/v1/employer/getAllEmployersByArea/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"user",
-								"getAllUsers"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getUserById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/user/getUserById/:id",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"user",
-								"getUserById",
+								"v1",
+								"employer",
+								"getAllEmployersByArea",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "1"
 								}
 							]
 						}
@@ -73,7 +90,74 @@
 					"response": []
 				},
 				{
-					"name": "addUser",
+					"name": "getAllEmployersByArea",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/employer/getAllEmployers",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"employer",
+								"getAllEmployers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAreas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/employer/getAllAreas",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"employer",
+								"getAllAreas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEmployerById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/employer/getEmployerById/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"employer",
+								"getEmployerById",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEmployer",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -87,14 +171,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/user/addUser",
+							"raw": "localhost:3000/v1/employer/addEmployer",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"user",
-								"addUser"
+								"v1",
+								"employer",
+								"addEmployer"
 							]
 						}
 					},
@@ -115,12 +200,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/user/editUserById/:id",
+							"raw": "localhost:3000/v1/user/editUserById/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
+								"v1",
 								"user",
 								"editUserById",
 								":id"
@@ -150,12 +236,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/user/editUser",
+							"raw": "localhost:3000/v1/user/editUser",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
+								"v1",
 								"user",
 								"editUser"
 							]
@@ -178,12 +265,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/user/login",
+							"raw": "localhost:3000/v1/user/login",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
+								"v1",
 								"user",
 								"login"
 							]
@@ -192,6 +280,10 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "vacation",
+			"item": []
 		}
 	],
 	"auth": {
