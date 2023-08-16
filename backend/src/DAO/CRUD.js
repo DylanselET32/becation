@@ -1,12 +1,6 @@
 /* Este archivo JS contiene todos los métodos genéricos para conseguir datos de la BDD */
 const pool = require('../database/connection');
 
-/*Método para convertir nombre de una tabla a ID (USAR SOLO CON USER)*/
-/* Ejemplo => user --> user_id */
-function toId(table) {
-    return `${table}_id`;
-}
-
 /* Get All genérico */
 const getAll = async (table, selectFields = ['*'], extraClauses = null) => {
     let sql = `SELECT ${selectFields.join(', ')} FROM ??`;
