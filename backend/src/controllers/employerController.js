@@ -1,5 +1,6 @@
 
 const { getAllRoles } = require('../DAO/RoleDAO');
+const UserDAO = require('../DAO/UserDAO');
 const EmployerDAO = require('../DAO/EmployerDAO');
 const AreaDAO = require('../DAO/AreaDAO');
 const { hashCompare } = require('../utils/authUtils');
@@ -69,11 +70,11 @@ const getEmployer = async (req,res) => {
 
 const addEmployer = async (req, res) => {
   try {
-    //const employer_id = req.employer.employer_id; // Obtener el ID del usuario desde el token en el middleware auth 
+    const employer_id = req.employer.employer_id; // Obtener el ID del usuario desde el token en el middleware auth 
 
     const data = req.body;
     // Verificar si el email ya está registrado
-    const emailExists = await EmployerDAO.getEmployerByColumn('email', data.email,null); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
+    const emailExists = await UserDAO.getUserByColumn('email', data.email,null); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
     if (emailExists.length) {
       return res.status(400).json({ message: 'Email already exists' });
     }
@@ -81,8 +82,16 @@ const addEmployer = async (req, res) => {
 
     // encriptar contraseña 
     const dataE = {
-      ...data,
-      password: await encryptText(data.password) 
+        name:null,
+        surname:null,
+        email:null,
+        dni:null,
+        is_able:null,
+        privileges:null,
+        sign_up_date:null,
+        to_update: employer_id,
+        to_update_date: Date(),
+        password: await encryptText(data.password) 
     }
 
     // Agregar usuario
