@@ -15,8 +15,8 @@ const getAllVacations = async (req, res) => {
 const getAllVacationsByArea = async (req, res) => {
   //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
-    const role_id = req.params.role_id;
-    const respuesta = await vDAO.getVacationsByRole(role_id);
+    const area_id = req.params.area_id;
+    const respuesta = await vDAO.getVacationsByArea(area_id);
     res.status(200).json(respuesta);
   } catch (error) {
     console.error(error);
@@ -24,11 +24,12 @@ const getAllVacationsByArea = async (req, res) => {
   }
 };
 
+/*TOKEN ACA */
 const getAllVacationsByUser = async (req, res) => {
   //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
-    const user_id = req.user.user_id;
-    const respuesta = await vDAO.getVacationByColumn("user_id", user_id);
+    const employer_id = req.user.id;
+    const respuesta = await vDAO.getVacationByColumn("employee", employer_id);
     res.status(200).json(respuesta);
   } catch (error) {
     console.error(error);
@@ -42,7 +43,7 @@ const getAllVacationsBetweenDates = async (req, res) => {
     const data = req.body;
     const fecha1 = data.startDate;
     const fecha2 = data.endDate;
-    const respuesta = await vDAO.getVacationsBetweenDates("initial_date", fecha1, fecha2);
+    const respuesta = await vDAO.getVacationsBetweenDates("start_date", fecha1, fecha2);
     res.status(200).json(respuesta);
   } catch (error) {
     console.error(error);
@@ -53,7 +54,7 @@ const getAllVacationsBetweenDates = async (req, res) => {
 const getVacationById = async (req, res) => {
   //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
-    const id = req.params.vacation_id;
+    const id = req.params.id;
     const vacation = await vDAO.getVacationById(id);
     res.status(200).json(vacation);
   } catch (error) {
@@ -87,9 +88,7 @@ const editVacation = async (req, res) => {
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
     let data = {};
     for (const prop in req.body) {
-      if(prop != "is_active"){
-        data[prop] = req.body[prop];
-      }
+      data[prop] = req.body[prop];
     }
     const edit = await vDAO.editVacation(data, id);
     res.status(200).json(edit);
