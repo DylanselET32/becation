@@ -88,9 +88,7 @@ const editVacation = async (req, res) => {
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
     let data = {};
     for (const prop in req.body) {
-      if(prop != "is_active"){
-        data[prop] = req.body[prop];
-      }
+      data[prop] = req.body[prop];
     }
     const edit = await vDAO.editVacation(data, id);
     res.status(200).json(edit);
