@@ -19,7 +19,7 @@ USE `becation_db` ;
 DROP TABLE IF EXISTS `becation_db`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `becation_db`.`user` (
-    `user_id` INT NOT NULL AUTO_INCREMENT,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL COMMENT 'nombre de pila',
     `surname` VARCHAR(50) NOT NULL COMMENT 'apellido del usuario',
     `email` VARCHAR(150) NOT NULL COMMENT 'email del usuario (empresarial si es posible)',
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`user` (
     `sign_up_date` DATETIME NULL COMMENT 'fecha que se da de alta administrativa en la empresa',
     `to_update` INT NOT NULL COMMENT 'ID del ultimo usuario que realizo modificaciones en los datos',
     `to_update_date` DATETIME NOT NULL COMMENT 'fecha de la ultima modificacion',
-    PRIMARY KEY (`user_id`),
+    PRIMARY KEY (`id`),
     UNIQUE INDEX `dni_UNIQUE` (`dni` ASC),
     UNIQUE INDEX `email_UNIQUE` (`email` ASC)
 );
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`area` (
     INDEX `area_manager_id_idx` (`area_manager` ASC),
     CONSTRAINT `area_manager_id`
     FOREIGN KEY (`area_manager`)
-    REFERENCES `becation_db`.`user` (`user_id`)
+    REFERENCES `becation_db`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
     INDEX `area_id_idx` (`area` ASC),
     CONSTRAINT `user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `becation_db`.`user` (`user_id`)
+    REFERENCES `becation_db`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT `role_id`
