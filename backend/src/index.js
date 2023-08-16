@@ -26,8 +26,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.use('/user', require('./routes/userRoutes'));
-app.use('/vacation',authMiddleware, require('./routes/vacationRoutes'));
+app.use('/v1', require('./routes/v1/indexV1')); //esta es la version 1 de la api
 
 //en caso de que no entre en ninguna ruta anterior, va a tirar la siguiente
 app.use(function(req, res, next) {

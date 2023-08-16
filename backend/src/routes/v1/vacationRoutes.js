@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const vacationController = require('../controllers/vacationController');
-const { authMiddleware } = require('../middleware/authMiddleware');
+const vacationController = require('../../controllers/vacationController');
+const { authMiddleware } = require('../../middleware/authMiddleware');
 
 /*
 This file only contains routing, the code and logic behind each query is in the controller.
