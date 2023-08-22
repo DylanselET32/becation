@@ -11,7 +11,7 @@ const { encryptText, createToken } = require('../utils/authUtils');
 const getAllEmployers = async (req,res) => {
   //esta funcion solo podria ser ejecutada por un admin
   try {
-    const respuesta = await EmployerDAO.getAllEmployers()
+    const respuesta = await EmployerDAO.getAllCompleteEmployer()
     res.status(200).json(respuesta);
   }catch (error) {
     console.error(error);
@@ -23,7 +23,7 @@ const getAllEmployersByArea = async (req,res) => {
     //esta funcion solo podria ser ejecutada por un admin o persona con privilegios y recibe por parametros el id del area y devuelve todos los usuarios que estan en ese area
     try {
       const area_id = req.params.id
-      const respuesta = await EmployerDAO.getEmployerByColumn("area",area_id);
+      const respuesta = await EmployerDAO.getAllCompleteEmployerByArea(area_id);
       res.status(200).json(respuesta);
     }catch (error) {
       console.error(error);
@@ -46,7 +46,7 @@ const getEmployerById = async (req,res) => {
   //esta funcion solo podria ser ejecutada por un admin
   try {
     const id = req.params.id; // Obtener el ID del usuario desde la ruta
-    const employer = await EmployerDAO.getCompleteEmployerById(id); 
+    const employer = await EmployerDAO.getCompleteEmployer(id); 
     if (!employer){res.status(404).json({ message: 'Employer not found' });return;};
     res.status(200).json(employer); 
   } catch (error) {
@@ -58,7 +58,7 @@ const getEmployer = async (req,res) => {
   //esta funcion va a ser llamada por un usuario y va a devolver su informacion a partir de su token
   try {
     const employer_id = req.employer.employer_id; // Obtener el ID del usuario desde el token en el middleware auth 
-    const employer = await EmployerDAO.getCompleteEmployerById(employer_id); 
+    const employer = await EmployerDAO.getCompleteEmployer(employer_id); 
     if (!employer){res.status(404).json({ message: 'Employer not found' });return;};
     res.status(200).json(employer); 
   } catch (error) {
@@ -70,7 +70,7 @@ const getEmployer = async (req,res) => {
 
 const addEmployer = async (req, res) => {
   try {
-    const employer_id = req.employer.employer_id; // Obtener el ID del usuario desde el token en el middleware auth 
+    const employerAdmin_id = req.employer.employer_id; // Obtener el ID del usuario desde el token en el middleware auth 
 
     const data = req.body;
     // Verificar si el email ya está registrado
@@ -80,24 +80,44 @@ const addEmployer = async (req, res) => {
     }
 
 
-    // encriptar contraseña 
-    const dataE = {
-        name:null,
-        surname:null,
-        email:null,
-        dni:null,
-        is_able:null,
-        privileges:null,
-        sign_up_date:null,
-        to_update: employer_id,
+    
+    //recopila info de user y encriptar contraseña 
+    const dataUser = {
+        name:data.name,
+        surname:data.surname,
+        email:data.email,
+        dni:data.dni,
+        is_able:true,
+        privileges:data.privileges,
+        sign_up_date:data.sign_up_date,
+        password: await encryptText(data.password),
+        to_update: employerAdmin_id,
         to_update_date: Date(),
-        password: await encryptText(data.password) 
+    }
+    
+    const user_id = await UserDAO.addUser(dataUser);
+    if(!user_id) throw new Error('Error adding user');
+
+    const dataEmployer = {
+      user_id,
+      available_days:data.available_days,
+      total_days :data.total_days,
+      is_cumulative:data.is_cumulative,
+      role_id:data.role_id,
+      area:data.area_id,
+      to_update_date:employerAdmin_id,
+      to_update:Date(),
     }
 
+    const employer_id = await EmployerDAO.addEmployer(dataEmployer);
+    if(!employer_id){
+      UserDAO.removeUser(user_id);
+      throw new Error('Error adding user');
+    } 
+      
+    
     // Agregar usuario
-    const id = await EmployerDAO.addEmployer(dataE);
-    if(!id) throw new Error('Error al agregar usuario');
-    const token = createToken({employer_id:id}); // Crear el token JWT
+    const token = createToken({employer_id}); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
     //sendConfirmEmail(id);
 

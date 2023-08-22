@@ -29,6 +29,22 @@ const getCompleteEmployer = async(employer_id) =>{
     return results;
 }
 
+const getAllCompleteEmployer = async() =>{
+    let sql = `SELECT u.*, a.area, e.*, r.role_name FROM (((user u inner join employer e on u.id = e.user_id) inner join area a on e.area = a.id) inner join role r on e.role_id = r.id)`;
+    let params = [];
+
+    const [results] = await pool.promise().query(sql, params);
+    return results;
+}
+
+const getAllCompleteEmployerByArea = async(area_id) =>{
+    let sql = `SELECT u.*, a.area, e.*, r.role_name FROM (((user u inner join employer e on u.id = e.user_id) inner join area a on e.area = a.id) inner join role r on e.role_id = r.id) WHERE a.id = ?`;
+    let params = [area_id];
+    
+    const [results] = await pool.promise().query(sql, params);
+    return results;
+}
+
 
 module.exports = {
     getAllEmployers,
@@ -37,4 +53,7 @@ module.exports = {
     addEmployer,
     editEmployer,
     removeEmployer,
+    getCompleteEmployer,
+    getAllCompleteEmployer,
+    getAllCompleteEmployerByArea,
 };
