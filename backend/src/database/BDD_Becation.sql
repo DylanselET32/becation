@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`area` (
 DROP TABLE IF EXISTS `becation_db`.`role` ;
 
 CREATE TABLE IF NOT EXISTS `becation_db`.`role` (
-    `id` INT NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `role_name` VARCHAR(45) NOT NULL COMMENT 'si es jefe, PM, etc',
     `to_create` TIMESTAMP NOT NULL COMMENT 'marca temporal automatica de cuando se crea este registro en le DB\ndato predeterminado: CURRENT_TIMESTAMP    ',
     `to_update` INT NOT NULL COMMENT 'ID del ultimo usuario que realizo modificaciones en los datos\n',
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`role` (
 DROP TABLE IF EXISTS `becation_db`.`employer` ;
 
 CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
-    `id` INT NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT NULL COMMENT 'datos del usuario',
     `available_days` INT NULL COMMENT 'cantidad de dias disponibles para tomarse',
     `total_days` INT NOT NULL DEFAULT 15 COMMENT 'cantidad de dias anuales contractuales',
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
 DROP TABLE IF EXISTS `becation_db`.`vacation` ;
 
 CREATE TABLE IF NOT EXISTS `becation_db`.`vacation` (
-    `id` INT NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `employee` INT NOT NULL COMMENT 'datos del empleado (no de usuario)',
     `start_date` DATETIME NOT NULL COMMENT 'fecha inicial',
     `end_date` DATETIME NOT NULL COMMENT 'fecha final',
