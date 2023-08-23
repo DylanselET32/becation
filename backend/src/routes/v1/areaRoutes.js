@@ -23,3 +23,5 @@ router.patch('/editArea', areaController.editArea);
 
 // Delete an existing area
 router.delete('/deleteArea', areaController.deleteArea); 
+
+module.exports = router;

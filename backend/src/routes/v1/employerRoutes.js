@@ -8,13 +8,10 @@ This file only contains routing, the code and logic behind each query is in the 
 */
 
 // Get all employers
-router.get('/getAllEmployers',authMiddleware ,employerController.getAllEmployers);
+ router.get('/getAllEmployers',authMiddleware ,employerController.getAllEmployers);
 
 // Get all employers by area
 router.get('/getAllEmployersByArea/:id',authMiddleware ,employerController.getAllEmployersByArea);
-
-// Get all areas
-router.get('/getAllAreas',authMiddleware ,employerController.getAllAreas);
 
 // Get a employer by ID
 router.get('/getEmployerById/:id',authMiddleware, employerController.getEmployerById);
@@ -30,8 +27,7 @@ router.patch('/editEmployer',authMiddleware, employerController.editEmployer);
 router.patch('/editEmployerById/:id',authMiddleware, employerController.editEmployerById);
 
 // Delete an existing employer
-router.patch('/disableEmployer',authMiddleware, employerController.disableEmployer); //Este se utiliza para "eliminar" usuarios, los desabilita permanentemente
-router.delete('/deleteEmployer',authMiddleware, employerController.deleteEmployer); //Esta para un futuro, pero no deberia ser utilizado por logica empresarial, en su lugar desabilitar usuarios
+router.delete('/deleteEmployer',authMiddleware, employerController.deleteEmployerById); //Esta para un futuro, pero no deberia ser utilizado por logica empresarial, en su lugar desabilitar usuarios
 
 //especific routes
 

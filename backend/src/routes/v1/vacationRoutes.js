@@ -20,7 +20,7 @@ router.post('/addVacation', vacationController.addVacation);
 router.patch('/editVacation', vacationController.editVacation);
 
 // Delete an existing vacation
-router.delete('/deleteVacation', vacationController.deleteVacation); 
+router.delete('/deleteVacation/:id', vacationController.deleteVacation); 
 
 //especific routes
 

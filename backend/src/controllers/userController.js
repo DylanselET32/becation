@@ -238,7 +238,7 @@ const login = async (req, res) => {
     const uEmail = req.body.email; // Obtener el nombre de usuario desde el body
     const password = req.body.password;
     
-    const userDB =  await UserDAO.getUserByColumn("email", uEmail,null,["user_id","password"]);;
+    const userDB =  await UserDAO.getUserByColumn("email", uEmail,null,["id","password"]);;
     
    
     if (!userDB) { res.status(404).json({ message: 'Invalid User' }); return; };

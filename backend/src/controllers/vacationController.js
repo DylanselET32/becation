@@ -1,4 +1,3 @@
-const CRUD = require('../DAO/CRUD')
 const vDAO = require('../DAO/VacationDAO');
 
 const getAllVacations = async (req, res) => {
@@ -23,6 +22,7 @@ const getAllVacationsByArea = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 /*TOKEN ACA */
 const getAllVacationsByUser = async (req, res) => {
@@ -100,7 +100,7 @@ const editVacation = async (req, res) => {
 
 const deleteVacation = async (req, res) => {
   try {
-    const id = req.body.id_vacation; // Obtener el ID de la vacación
+    const id = req.params.id; // Obtener el ID de la vacación
     const result = vDAO.removeVacation(id);
     if (result === 0) { // Si la vacación no existe
       res.status(404).json({ message: 'Vacation not found' });

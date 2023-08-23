@@ -58,7 +58,7 @@ const add = async (table, data) => {
 /* UPDATE genérico */
 const edit = async (table, data, id) => {
     const [results, fields] = await pool.promise()
-    .query(`UPDATE ?? SET ? WHERE ?? = ?`, [table,data,toId(table) ,id]);
+    .query(`UPDATE ?? SET ? WHERE ?? = ?`, [table,data,"id",id]);
     return results.affectedRows;
 };
 
@@ -69,7 +69,7 @@ const remove = async (table, id, where = null) => {
 
     if (id) {
         sql += ' WHERE ?? = ?';
-        params.push(toId(table), id);
+        params.push("id", id);
     }
 
     if (where) {

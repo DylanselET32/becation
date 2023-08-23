@@ -23,3 +23,5 @@ router.patch('/editRole', roleController.editRole);
 
 // Delete an existing role
 router.delete('/deleteRole', roleController.deleteRole); 
+
+module.exports = router;
