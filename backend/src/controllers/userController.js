@@ -165,30 +165,54 @@ const { encryptText, createToken } = require('../utils/authUtils');
 //   }
 // }
 
-// const disableUser = async (req, res) => {
-//   try {
-//     const id = req.user.user_id; // Obtener el ID del usuario desde el auth
+const disableUser = async (req, res) => {
+  try {
+    const id = req.user.user_id; // Obtener el ID del usuario desde el auth
     
-//     // Obtener el usuario por ID
-//     const user = await UserDAO.getUserById(id);
-//     // Validar si el usuario existe
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
+    // Obtener el usuario por ID
+    const user = await UserDAO.getUserById(id);
+    // Validar si el usuario existe
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-//     const data = { is_able: false }; // Actualiza el campo "is_able" a false para desactivar el usuario
-//     const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
-//     if (result === 0) { // Si el usuario no existe
-//       res.status(404).json({ message: 'Failed to disable user' });
-//       return;
-//     }
-//     res.status(200).json({});
+    const data = { is_able: false }; // Actualiza el campo "is_able" a false para desactivar el usuario
+    const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
+    if (result === 0) { // Si el usuario no existe
+      res.status(404).json({ message: 'Failed to disable user' });
+      return;
+    }
+    res.status(200).json({});
 
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+const disableUserById = async (req, res) => {
+  try {
+    const id = req.params.user_id; // Obtener el ID del usuario desde el auth
+    
+    // Obtener el usuario por ID
+    const user = await UserDAO.getUserById(id);
+    // Validar si el usuario existe
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const data = { is_able: false }; // Actualiza el campo "is_able" a false para desactivar el usuario
+    const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
+    if (result === 0) { // Si el usuario no existe
+      res.status(404).json({ message: 'Failed to disable user' });
+      return;
+    }
+    res.status(200).json({});
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
 // const deleteUser = async (req,res) => {
 //   try {
@@ -234,6 +258,36 @@ const login = async (req, res) => {
   }
 }
 
+const resetPassword = async (req, res) => {
+  try {
+    //aca va a ir la funcion para blanquear una contraseña 
+
+    // const uEmail = req.body.email; // Obtener el nombre de usuario desde el body
+    // const password = req.body.password;
+    
+    // const userDB =  await UserDAO.getUserByColumn("email", uEmail,null,["user_id","password"]);;
+    
+   
+    // if (!userDB) { res.status(404).json({ message: 'Invalid User' }); return; };
+
+    // const isMatch = await hashCompare(password, userDB[0].password);
+    // if (!isMatch) {
+    //   res.status(401).json({ message: "Invalid credentials" });
+    //   return;
+    // }
+    // const token = createToken({user_id:userDB[0].user_id}); // Crear el token JWT
+    // res.status(200).json({ token }); // Devolver el token en la respuesta
+
+    res.status(400).json({});
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+
+
 
   
 module.exports = {
@@ -245,8 +299,9 @@ module.exports = {
   // addUser,
   // editUser,
   // editUserById,
-  // disableUser,
+  disableUser,
   // deleteUser,
   login,
+  resetPassword,
 
 }

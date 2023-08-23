@@ -30,13 +30,16 @@ This file only contains routing, the code and logic behind each query is in the 
 // router.patch('/editUserById/:id',authMiddleware, userController.editUserById);
 
 // Delete an existing user
-// router.patch('/disableUser',authMiddleware, userController.disableUser); //Este se utiliza para "eliminar" usuarios, los desabilita permanentemente
+router.patch('/disableUser',authMiddleware, userController.disableUser); //Este se utiliza para "eliminar" usuarios, los desabilita permanentemente
+
 // router.delete('/deleteUser',authMiddleware, userController.deleteUser); //Esta para un futuro, pero no deberia ser utilizado por logica empresarial, en su lugar desabilitar usuarios
 
 //especific routes
 
 //Login
 router.post('/login', userController.login); //no necesita estar logueado 
+
+router.post('/resetPassword', userController.resetPassword); 
 
 
 module.exports = router;

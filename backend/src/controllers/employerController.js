@@ -1,9 +1,7 @@
 
-const { getAllRoles } = require('../DAO/RoleDAO');
 const UserDAO = require('../DAO/UserDAO');
 const EmployerDAO = require('../DAO/EmployerDAO');
 const AreaDAO = require('../DAO/AreaDAO');
-const { hashCompare } = require('../utils/authUtils');
 const { encryptText, createToken } = require('../utils/authUtils');
 // const { sendConfirmEmail } = require('../utils/emeilSendUtils');
 
@@ -245,15 +243,18 @@ const editEmployerById = async (req,res) => {
 }
 
 
-const deleteEmployer = async (req,res) => {
+const deleteEmployerById = async (req,res) => {
   try {
-    //Por logica empresarial no es correcto eliminar por completo a un usuario de una empresa, debido a que siempre debe quedar registro, pero por normativa tiene que estar el endpoint. 
-    const id = req.employer.employer_id; // Obtener el ID del usuario desde el auth
-    const result = await EmployerDAO.removeEmployer(id); // Eliminar el usuario 
-    if (result === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'Employer not found' });
+    //Por logica empresarial no es correcto eliminar por completo a un usuario/empleado de una empresa, debido a que siempre debe quedar registro, pero por normativa tiene que estar el endpoint. 
+    const id = req.params.employer_id; // Obtener el ID del empleado desde el auth
+    const resultE = await EmployerDAO.removeEmployer(id); // Eliminar el Empleado
+    const resultU = await UserDAO.removeUser(resultE.id); // Eliminar el usuario
+
+    if (resultE === 0 || resultU === 0) { // Si el usuario no existe
+      res.status(404).json({ message: 'error deleting employee'});
       return;
     }
+
     res.status(200).json({}); //confirmo que se elimino correctamente
 
   }catch(error){
@@ -263,31 +264,6 @@ const deleteEmployer = async (req,res) => {
 }
 
 //Funciones especificas
-
-const login = async (req, res) => {
-  try {
-    const uEmail = req.body.email; // Obtener el nombre de usuario desde el body
-    const password = req.body.password;
-    
-    const employerDB =  await EmployerDAO.getEmployerByColumn("email", uEmail,null,["employer_id","password"]);;
-    
-   
-    if (!employerDB) { res.status(404).json({ message: 'Invalid Employer' }); return; };
-
-    const isMatch = await hashCompare(password, employerDB[0].password);
-    if (!isMatch) {
-      res.status(401).json({ message: "Invalid credentials" });
-      return;
-    }
-    const token = createToken({employer_id:employerDB[0].employer_id}); // Crear el token JWT
-    res.status(200).json({ token }); // Devolver el token en la respuesta
-    
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
 
 
   
@@ -300,8 +276,5 @@ module.exports = {
   addEmployer,
   editEmployer,
   editEmployerById,
-  disableEmployer,
-  deleteEmployer,
-  login,
-
+  deleteEmployerById,
 }
