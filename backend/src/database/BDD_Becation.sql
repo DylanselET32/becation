@@ -142,3 +142,5 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`vacation` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO `becation_db`.`user`(`name`, `surname`, `email`, `password`, `dni`, `is_able`, `privileges`) VALUES("admin", "admin", "admin@streambe.com", "$2a$10$fJN.9kJ2Y5zq.ZlqBQLRW.c2DOSrrPgTKop6AD6zUmR2NdBN2yAt2", 11223344, 1, 10); 
