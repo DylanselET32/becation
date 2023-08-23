@@ -1,40 +1,109 @@
-.section_login{
-    /* background: red; */
-    margin: 13vh 0 0 0;
-}
-
-.input_login{
-    background: #f3f1f1;
-    display: flex;
-    border-radius: 12px;
-    padding: 3px;
-}
-
-.input_login input{
-    border: none;
+.contenedor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 90%;
-    background: #f3f1f1;
-    padding: 7px;
-    outline: none;
+    max-width: 500px;
+    padding: 4.5em 3em;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
 }
 
-.input_login img{
+.form__title {
+    font-size: 2rem;
+    margin-bottom: .5em;
+    color: #f2f2f2;
+}
+
+.form__container {
+    margin-top: 3em;
+    display: grid;
+    gap: 2.5em;
+}
+
+.form__group {
+    position: relative;
+    color: #f2f2f2;
+}
+
+.form__label {
+    color: #f2f2f2;
+    position: absolute;
+    top: -20px;
+    left: 3px;
+}
+
+.form__input {
+    width: 100%;
+    background: transparent;
+    color: #f2f2f2;
+    font-size: 1rem;
+    padding: .6em .3em;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #f2f2f2;
+    float: left;
+}
+
+.form__span {
+    position: absolute;
+    right: 8px;
+}
+
+.form__span img {
     opacity: 0.3;
     cursor: pointer;
     transition: .2s;
 }
 
-.input_login img:hover{
+.form__span img:hover {
     opacity: 0.6;
 }
 
-/* .input_container{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-} */
+.register-link {
+    font-size: .8em;
+    font-weight: 300;
+    text-align: center;
+    color: #f2f2f2;
+    margin: 20px;
+}
 
-/* .input_container input{
-    width: 90%;
-    max-width: 300px;
-} */
+.register-link a {
+    color: #f2f2f2;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.btn-login {
+    background: transparent;
+    color: #f2f2f2;
+    font-weight: 300;
+    font-size: 1rem;
+    padding: .8em 0;
+    margin-top: 1.5rem;
+    border: none;
+    border-radius: .5em;
+    cursor: pointer;
+    border: .3px solid #f2f2f2;
+    width: 100%;
+    transition: .2s;
+}
+
+.btn-login:hover {
+    background: #f2f2f2;
+    color: #2e2e2e;
+    opacity: 0.7;
+    font-weight: 500;
+}
+
+@media (max-width: 425px) {
+    .form__title {
+        font-size: 1.8rem;
+    }
+}

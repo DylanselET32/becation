@@ -1,0 +1,21 @@
+.modal_aviso{
+    transition: .5s;
+    z-index: 10;
+    animation-name: modalAviso;
+    animation-duration: 4s;
+    animation-timing-function:ease;
+    animation-iteration-count: 1;
+}
+
+@keyframes modalAviso {
+    0%{
+        transform: translateY(0);
+        opacity: 0;
+    }50%{
+        transform: translateY(-5rem);
+        opacity: 1;
+    }100%{
+        transform: translateY(0);
+        opacity: 0;
+    }
+} 
