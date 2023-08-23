@@ -86,14 +86,14 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
     `total_days` INT NOT NULL DEFAULT 15 COMMENT 'cantidad de dias anuales contractuales',
     `is_cumulative` INT NOT NULL DEFAULT 0 COMMENT 'se pueden acumular vacaciones? aca la cantidad de años que pueden se acumulados',
     `role_id` INT NOT NULL COMMENT 'que rol cumple dentro del area que se encuantra',
-    `area` INT NOT NULL COMMENT 'area de trabajo en la que esta el empleado actualmente trabajando',
+    `area_id` INT NOT NULL COMMENT 'area de trabajo en la que esta el empleado actualmente trabajando',
     `to_update` INT NOT NULL COMMENT 'ID del ultimo usuario que realizo modificaciones en los datos',
     `to_update_date` DATETIME NOT NULL COMMENT 'fecha de la ultima modificacion',
     `to_create` TIMESTAMP NOT NULL COMMENT 'marca temporal automatica de cuando se crea este registro en le DB\ndato predeterminado: CURRENT_TIMESTAMP    ',
     PRIMARY KEY (`id`),
     UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
     INDEX `role_id_idx` (`role_id` ASC),
-    INDEX `area_id_idx` (`area` ASC),
+    INDEX `area_id_idx` (`area_id` ASC),
     CONSTRAINT `user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `becation_db`.`user` (`id`)
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`employer` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT `area_id`
-    FOREIGN KEY (`area`)
+    FOREIGN KEY (`area_id`)
     REFERENCES `becation_db`.`area` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION

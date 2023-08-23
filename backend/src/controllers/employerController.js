@@ -74,13 +74,11 @@ const addEmployer = async (req, res) => {
 
     const data = req.body;
     // Verificar si el email ya está registrado
-    const emailExists = await UserDAO.getUserByColumn('email', data.email,null); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
+    const emailExists = await UserDAO.getUserByColumn('email', data.email,null,["id", "name", "surname", "password","email", "dni", "is_able", "privileges", "to_create", "sign_up_date", "to_update", "to_update_date"]); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
     if (emailExists.length) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 
-
-    
     //recopila info de user y encriptar contraseña 
     const dataUser = {
         name:data.name,
@@ -91,7 +89,7 @@ const addEmployer = async (req, res) => {
         privileges:data.privileges,
         sign_up_date:data.sign_up_date,
         password: await encryptText(data.password),
-        to_update: employerAdmin_id,
+        to_update:employerAdmin_id,
         to_update_date: Date(),
     }
     
@@ -104,9 +102,9 @@ const addEmployer = async (req, res) => {
       total_days :data.total_days,
       is_cumulative:data.is_cumulative,
       role_id:data.role_id,
-      area:data.area_id,
-      to_update_date:employerAdmin_id,
-      to_update:Date(),
+      area_id:data.area_id,
+      to_update:employerAdmin_id,
+      to_update_date: Date(),
     }
 
     const employer_id = await EmployerDAO.addEmployer(dataEmployer);
@@ -129,32 +127,58 @@ const addEmployer = async (req, res) => {
 
 const editEmployer = async (req,res) => {
   try {
-    const id = req.employer.employer_id; // Obtener el ID del usuario desde el auth
+    const employer_id = req.user.employer_id; // Obtener el ID del usuario desde el auth
+
     // Obtener el usuario por ID
-    const employer = await EmployerDAO.getEmployerById(id);
+    const previousEmployer = await EmployerDAO.getEmployerById(employer_id);
     // Validar si el usuario existe
-    if (!employer) {
+    if (!previousEmployer) {
       return res.status(404).json({ message: 'Employer not found' });
     }
+    const previousUser = await UserDAO.getUserById(previousEmployer.employer_id)
+   
 
+    const fieldsUser = ['name','surname','dni','privileges','sign_up_date','password'];
+    const fieldsEmployer = ['available_days','total_days','is_cumulative','role_id','area_id','to_update'];
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
-    let data = {};
-    for (const prop in req.body) {
-      if(prop != "is_able"){
-        data[prop] = req.body[prop];
-      }
-    }
-    if(data.password!=undefined) {
-      data.password = await encryptText(data.password);
-    }
-    const result = await EmployerDAO.editEmployer(data, id); // Editar el usuario utilizando la función edit de CRUD
-    if (result === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'Failed to edit employer'});
-      return;
-    }
-    res.status(200).json({});
+    let dataUser = {};
+    let dataEmployer = {};
 
-  }catch (error) {
+    for (const prop in req.body) {
+        if(fieldsUser.includes(prop)){dataUser[prop] = req.body[prop]}
+        if(fieldsEmployer.includes(prop)){dataEmployer[prop] = req.body[prop]}
+    }
+
+    if(dataUser.password!=undefined) {
+      dataUser.password = await encryptText(dataUser.password);
+    }
+
+    if (dataUser.length>0){
+      dataUser  = {...dataUser,
+        to_update_date:Date(),
+        to_update:employer_id,}
+        const result = await UserDAO.editUser(dataUser, previousUser.id); // Editar el usuario utilizando la función edit de CRUD
+        if (result === 0) { //si no se pudo editar 
+          res.status(404).json({ message: 'Failed to edit user information'});
+          return;
+        } 
+    }
+    if (dataEmployer.length>0){
+      dataEmployer  = {...dataEmployer,
+        to_update_date:Date(),
+        to_update:employer_id,}
+        const result = await EmployerDAO.editEmployer(dataEmployer, employer_id); // Editar el usuario utilizando la función edit de CRUD
+        if (result === 0) { //si no se pudo editar 
+          res.status(404).json({ message: 'Failed to edit employer information'});
+          if(dataUser.length>0){ await UserDAO.editUser(previousUser.filter(e=>e!="id"), previousUser.id)}; //en caso de que falle, devuelve al estado anterior los datos editados en dataUser
+          return;
+        } 
+    }
+    
+
+    res.status(200).json({}); //devuelve satus 200 en caso de haber editado todo exitosamente 
+
+  }catch (error) { 
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
@@ -162,62 +186,64 @@ const editEmployer = async (req,res) => {
 
 const editEmployerById = async (req,res) => {
   try {
-    const id = req.params.id; // Obtener el ID del usuario desde el auth
+    const employerAdmin_id = req.user.employer_id; // Obtener el ID del usuario admin desde el auth
+    const employer_id = req.params.id; // Obtener el ID del usuario desde params
+
     // Obtener el usuario por ID
-    const employer = await EmployerDAO.getEmployerById(id);
-    console.log(employer)
+    const previousEmployer = await EmployerDAO.getEmployerById(employer_id);
     // Validar si el usuario existe
-    if (!employer) {
+    if (!previousEmployer) {
       return res.status(404).json({ message: 'Employer not found' });
     }
+    const previousUser = await UserDAO.getUserById(previousEmployer.employer_id)
+   
 
+    const fieldsUser = ['name','surname','dni','privileges','sign_up_date','password'];
+    const fieldsEmployer = ['available_days','total_days','is_cumulative','role_id','area_id','to_update'];
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
-    let data = {};
+    let dataUser = {};
+    let dataEmployer = {};
+
     for (const prop in req.body) {
-      if(prop != "is_able"){
-        data[prop] = req.body[prop];
-      }
+        if(fieldsUser.includes(prop)){dataUser[prop] = req.body[prop]}
+        if(fieldsEmployer.includes(prop)){dataEmployer[prop] = req.body[prop]}
     }
-    if(data.password!=undefined) {
-      data.password = await encryptText(data.password);
-    }
-    const result = await EmployerDAO.editEmployer(data, id); // Editar el usuario utilizando la función edit de CRUD
-    if (result === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'Failed to edit employer'});
-      return;
-    }
-    res.status(200).json({});
 
-  }catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-}
+    if(dataUser.password!=undefined) {
+      dataUser.password = await encryptText(dataUser.password);
+    }
 
-const disableEmployer = async (req, res) => {
-  try {
-    const id = req.employer.employer_id; // Obtener el ID del usuario desde el auth
+    if (dataUser.length>0){
+      dataUser  = {...dataUser,
+        to_update_date:Date(),
+        to_update:employerAdmin_id,}
+        const result = await UserDAO.editUser(dataUser, previousUser.id); // Editar el usuario utilizando la función edit de CRUD
+        if (result === 0) { //si no se pudo editar 
+          res.status(404).json({ message: 'Failed to edit user information'});
+          return;
+        } 
+    }
+    if (dataEmployer.length>0){
+      dataEmployer  = {...dataEmployer,
+        to_update_date:Date(),
+        to_update:employerAdmin_id,}
+        const result = await EmployerDAO.editEmployer(dataEmployer, employer_id); // Editar el usuario utilizando la función edit de CRUD
+        if (result === 0) { //si no se pudo editar 
+          res.status(404).json({ message: 'Failed to edit employer information'});
+          if(dataUser.length>0){ await UserDAO.editUser(previousUser.filter(e=>e!="id"), previousUser.id)}; //en caso de que falle, devuelve al estado anterior los datos editados en dataUser
+          return;
+        } 
+    }
     
-    // Obtener el usuario por ID
-    const employer = await EmployerDAO.getEmployerById(id);
-    // Validar si el usuario existe
-    if (!employer) {
-      return res.status(404).json({ message: 'Employer not found' });
-    }
 
-    const data = { is_able: false }; // Actualiza el campo "is_able" a false para desactivar el usuario
-    const result = await employerService.editEmployer(data, id); // Editar el usuario utilizando la función edit de CRUD
-    if (result === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'Failed to disable employer' });
-      return;
-    }
-    res.status(200).json({});
+    res.status(200).json({}); //devuelve satus 200 en caso de haber editado todo exitosamente 
 
-  } catch (error) {
+  }catch (error) { 
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
 
 const deleteEmployer = async (req,res) => {
   try {
