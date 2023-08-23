@@ -1,8 +1,8 @@
-const RoleDAO = require('../DAO/RoleDAO');
+const AreaDAO = require('../DAO/AreaDAO');
 
-const getAllRoles = async (req, res)=>{
+const getAllAreas = async (req, res)=>{
     try {
-        const respuesta = await RoleDAO.getAllRoles();
+        const respuesta = await AreaDAO.getAllAreas();
         res.status(200).json(respuesta);
     }catch (error) {
         console.error(error);
@@ -10,10 +10,10 @@ const getAllRoles = async (req, res)=>{
     }
 };
 
-const getRoleById = async (req, res)=>{
+const getAreaById = async (req, res)=>{
     try {
-        const idRol = req.params.role_id;
-        const respuesta = await RoleDAO.getRoleById(idRol);
+        const idArea = req.params.area_id;
+        const respuesta = await AreaDAO.getAreaById(idArea);
         res.status(200).json(respuesta);
     }catch (error) {
         console.error(error);
@@ -21,10 +21,10 @@ const getRoleById = async (req, res)=>{
     }
 };
 
-const getRoleByName = async (req, res)=>{
+const getAreaByColumn = async (req, res)=>{
     try {
-        const nameRol = req.params.role_name;
-        const respuesta = await RoleDAO.getRoleById(nameRol);
+        const columnName = req.params.area_name;
+        const respuesta = await AreaDAO.getAreaById(columnName);
         res.status(200).json(respuesta);
     }catch (error) {
         console.error(error);
@@ -32,12 +32,11 @@ const getRoleByName = async (req, res)=>{
     }
 };
 
-const addRole = async (req, res) =>{
+const addArea = async (req, res) =>{
     try {
         const data = req.body;
-    
         // Agregar vacacion
-        const id = await RoleDAO.addRole(data);
+        const id = await AreaDAO.addArea(data);
         if(!id) throw new Error('Error al agregar la vacación');
         res.status(200).json("El rol se agregó correctamente");
     } catch (error) {
@@ -46,9 +45,9 @@ const addRole = async (req, res) =>{
     }
 };
 
-const editRole = async (req, res) => {
+const editArea = async (req, res) => {
     try {
-        const id = req.body.role_id; // Obtener el ID de la vacación
+        const id = req.body.area_id; // Obtener el ID de la vacación
         if (id === 0 || id == null) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });
             return;
@@ -58,7 +57,7 @@ const editRole = async (req, res) => {
         for (const prop in req.body) {
             data[prop] = req.body[prop];
         }
-        const edit = await RoleDAO.editRole(data, id);
+        const edit = await AreaDAO.editArea(data, id);
         res.status(200).json(edit);
         } catch (error) {
         console.error(error);
@@ -66,10 +65,10 @@ const editRole = async (req, res) => {
     }
 };
 
-const deleteRole = async (req, res) => {
+const deleteArea = async (req, res) => {
     try {
-        const id = req.body.role_id; // Obtener el ID de la vacación
-        const result = RoleDAO.removeRole(id);
+        const id = req.body.area_id; // Obtener el ID de la vacación
+        const result = AreaDAO.removeArea(id);
         if (result === 0) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });
             return;
@@ -82,10 +81,10 @@ const deleteRole = async (req, res) => {
 };
 
 module.exports = {
-    getAllRoles,
-    getRoleById,
-    getRoleByName,
-    addRole,
-    editRole,
-    deleteRole,
+    getAllAreas,
+    getAreaById,
+    getAreaByColumn,
+    addArea,
+    editArea,
+    deleteArea,
 };
