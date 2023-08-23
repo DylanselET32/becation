@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f4dbe590-cc08-437f-b70c-e0933c2248c7",
+		"_postman_id": "d77eb9ba-7f9b-4e26-b117-002885b39b99",
 		"name": "BeCation",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"email\": \"juanp@gmail.com\",\r\n    \"password\":\"juanp123\"\r\n    \r\n}",
+							"raw": " {\r\n    \"email\": \"admin@streambe.com\",\r\n    \"password\":\"admin\"\r\n    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -63,7 +63,7 @@
 					"response": []
 				},
 				{
-					"name": "getAllEmployer",
+					"name": "getAllEmployerByArea",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -90,7 +90,7 @@
 					"response": []
 				},
 				{
-					"name": "getAllEmployersByArea",
+					"name": "getAllEmployers",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -283,7 +283,217 @@
 		},
 		{
 			"name": "vacation",
-			"item": []
+			"item": [
+				{
+					"name": "getVacation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/Employer/getEmployer",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"Employer",
+								"getEmployer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllVacations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/vacation/getAllVacations",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"vacation",
+								"getAllVacations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllVacationsByArea",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/vacation/getAllVacationsByArea/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"vacation",
+								"getAllVacationsByArea",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllVacationsBetweenDates",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\":\"2023-08-20T19:59:11.000Z\",\r\n    \"endDate\":\"2023-08-29T5:59:11.000Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/v1/vacation/getAllVacationsBetweenDates",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"vacation",
+								"getAllVacationsBetweenDates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllVacationsByUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/vacation/getAllVacationsByUser/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"vacation",
+								"getAllVacationsByUser",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getVacationById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/vacation/getVacationById/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"vacation",
+								"getVacationById",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addVacation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"employee\": 1,\r\n    \"start_date\": \"2023-08-29T19:59:11.000Z\",\r\n    \"end_date\": \"2023-08-31T19:59:11.000Z\",\r\n    \"status\": \"denied\",\r\n    \"note\": \"No sos la bestia\",\r\n    \"date_asked\": \"2023-08-25T00:59:11.000Z\",\r\n    \"area_manager_authorization\": 0,\r\n    \"to_create\": \"2023-08-23T20:00:40.000Z\",\r\n    \"to_update\": 1,\r\n    \"to_update_date\": \"2023-08-24T00:59:11.000Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/v1/vacation/addVacation",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"vacation",
+								"addVacation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteVacation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/vacation/deleteVacation/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"vacation",
+								"deleteVacation",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -291,7 +501,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE2OTIwMjQzNjYsImV4cCI6MTY5NDYxNjM2Nn0.O7r05x9w4CF0R0NoHQpaFkWkhIqgqlZpP3E1N35vkqE",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTI4MTgxNTYsImV4cCI6MTY5NTQxMDE1Nn0.Bul7hgstLQsHpTkaB6GzzYEABN6MHbZ1SiR-89s2q3Y",
 				"type": "string"
 			}
 		]
