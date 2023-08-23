@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import "../stylesheets/calendar.css"
 import interactionPlugin from '@fullcalendar/interaction';
+import FormVacation from '../components/FormVacation'
 
 const events= [
     { title: "Evento 3 ", start: "2023-08-23", end: "2023-08-30", },
@@ -16,11 +17,15 @@ const events= [
     { title: "Evento 10 ", start: "2023-08-23", end: "2023-08-30", },
     { title: "Evento 11 ", start: "2023-08-23", end: "2023-08-30", },
     { title: "Evento 12 ", start: "2023-08-23", end: "2023-08-30", }, { title: "Evento 5 ", start: "2023-08-23", end: "2023-08-30", },
-
-
 ]
 
 export default function Calendar(){
+
+    const [isAvailableForm, setIsAvailableForm] = useState(false)
+
+    const handleVacationFormRequest = ()=>{
+        setIsAvailableForm(true)
+    }
 
     const handleEventChange = (e)=>{
         console.log(e.event._instance.range.start)
@@ -60,8 +65,15 @@ export default function Calendar(){
                     }
                     />
                 </div>
+                
             </section>
-            <button>CREAR EVENTO</button>
+            <section className='aside_main'>
+                <button className='button_ask_vacation' onClick={handleVacationFormRequest}>Pedir Vacaciones</button>
+                <div className='form_vacation_container'>
+                    { isAvailableForm && <FormVacation/>}
+                </div>
+            </section>
+            
         </main>
     )
 

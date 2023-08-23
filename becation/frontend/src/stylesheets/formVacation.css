@@ -1,0 +1,32 @@
+.form{
+    /* display: block; */
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: start;
+}
+
+.input_container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input_container input{
+    padding: 5px;
+    border-radius: 8px;
+    border: .5px #888;
+    background: #c2c2c2;
+}
+
+.button_container{
+    justify-content: center;
+}
+
+.button_container input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+}
