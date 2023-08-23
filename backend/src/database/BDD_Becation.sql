@@ -143,4 +143,7 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-INSERT INTO `becation_db`.`user`(`name`, `surname`, `email`, `password`, `dni`, `is_able`, `privileges`) VALUES("admin", "admin", "admin@streambe.com", "$2a$10$fJN.9kJ2Y5zq.ZlqBQLRW.c2DOSrrPgTKop6AD6zUmR2NdBN2yAt2", 11223344, 1, 10); 
+INSERT INTO `becation_db`.`user`(`name`, `surname`, `email`, `password`, `dni`, `is_able`, `privileges`) VALUES("admin", "admin", "admin@streambe.com", "$2a$10$fJN.9kJ2Y5zq.ZlqBQLRW.c2DOSrrPgTKop6AD6zUmR2NdBN2yAt2", 11223344, 1, 10);
+INSERT INTO `becation_db`.`area`(`area`, `area_manager`) VALUES("admin_area", 1);
+INSERT INTO `becation_db`.`role`(`role_name`) VALUES("admin");
+INSERT INTO `becation_db`.`employer`(`user_id`, `available_days`, `total_days`, `is_cumulative`, `role_id`, `area`) VALUES(1, 10, 15, 0, 1, 1);
