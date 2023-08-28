@@ -30,7 +30,11 @@ const getAllVacationsByUser = async (req, res) => {
   try {
     const employer_id = req.user.id;
     const respuesta = await vDAO.getVacationByColumn("employee", employer_id);
-    res.status(200).json(respuesta);
+    if (respuesta == null) {
+      res.status(404).json({ message: "No se encontró el registro solicitado"});
+    }else{
+      res.status(200).json(respuesta);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -110,7 +114,7 @@ const deleteVacation = async (req, res) => {
       res.status(404).json({ message: 'Vacation not found' });
       return;
     }
-    res.status(200).json({}); //confirmo que se eliminó correctamente
+    res.status(200).json({ message: "La vacación se eliminó correctamente."}); //confirmo que se eliminó correctamente
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
