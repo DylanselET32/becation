@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d77eb9ba-7f9b-4e26-b117-002885b39b99",
+		"_postman_id": "7fc82d1c-d1ae-43be-aa17-f851b3a04281",
 		"name": "BeCation",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -32,6 +32,53 @@
 								"v1",
 								"user",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "disableUser",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/user/disableUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"user",
+								"disableUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "disableUserByEmployerId",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/user/disableUserByEmployerId/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"user",
+								"disableUserByEmployerId",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -110,26 +157,6 @@
 					"response": []
 				},
 				{
-					"name": "getAllAreas",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/v1/employer/getAllAreas",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"v1",
-								"employer",
-								"getAllAreas"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "getEmployerById",
 					"request": {
 						"method": "GET",
@@ -149,7 +176,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "3"
 								}
 							]
 						}
@@ -163,7 +190,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"name\": \"juan\",\r\n    \"surname\": \"perez\",\r\n    \"password\":\"juanp123\",\r\n    \"email\": \"juanp@gmail.com\",\r\n    \"dni\": 65466168,\r\n    \"is_able\": 1,\r\n    \"role_id\": 1,\r\n    \"available_days\": 15,\r\n    \"contrat_day\": \"2022-01-15\"\r\n}",
+							"raw": " {\r\n    \"name\": \"maria\",\r\n    \"surname\": \"gonzalez\",\r\n    \"password\":\"mariag123\",\r\n    \"email\": \"mariag@streambe.com\",\r\n    \"dni\": 12342786,\r\n    \"privileges\":2,\r\n    \"role_id\": 1,\r\n    \"area_id\":1,\r\n    \"available_days\": 6,\r\n    \"total_days\":7,\r\n    \"is_cumulative\":1,\r\n    \"contrat_day\": \"2022-08-17\",\r\n    \"sign_up_date\":\"2023-08-20\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -186,13 +213,13 @@
 					"response": []
 				},
 				{
-					"name": "editUserById",
+					"name": "editEmployerById",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"surname\": \"sanchez\",\r\n    \"password\":\"juans123\",\r\n    \"role_id\": 2,\r\n    \"available_days\": 20\r\n}",
+							"raw": " {\r\n    \"name\": \"maria\",\r\n    \"available_days\":4\r\n   \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -200,21 +227,21 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/v1/user/editUserById/:id",
+							"raw": "localhost:3000/v1/employer/editEmployerById/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"v1",
-								"user",
-								"editUserById",
+								"employer",
+								"editEmployerById",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "3"
 								}
 							]
 						}
@@ -222,13 +249,13 @@
 					"response": []
 				},
 				{
-					"name": "editUser",
+					"name": "editEmployer",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"surname\": \"sanchez\",\r\n    \"password\":\"juans123\",\r\n    \"role_id\": 2,\r\n    \"available_days\": 20\r\n}",
+							"raw": " {\r\n    \"surname\": \"admin\",\r\n    \"available_days\":60\r\n   \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -494,6 +521,31 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Area",
+			"item": [
+				{
+					"name": "getAllAreas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/area/getAllAreas",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"area",
+								"getAllAreas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -501,7 +553,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTI4MTgxNTYsImV4cCI6MTY5NTQxMDE1Nn0.Bul7hgstLQsHpTkaB6GzzYEABN6MHbZ1SiR-89s2q3Y",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjkzMjI3NTE5LCJleHAiOjE2OTU4MTk1MTl9.dmYYX88LQGeslpCJxSSgugQS4mby-SAMUw8XtD_j76g",
 				"type": "string"
 			}
 		]
