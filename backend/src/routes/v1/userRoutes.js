@@ -31,6 +31,7 @@ This file only contains routing, the code and logic behind each query is in the 
 
 // Delete an existing user
 router.patch('/disableUser',authMiddleware, userController.disableUser); //Este se utiliza para "eliminar" usuarios, los desabilita permanentemente
+router.patch('/disableUserByEmployerId/:id',authMiddleware, userController.disableUserByEmployerId); //Este se utiliza para "eliminar" usuarios, los desabilita permanentemente
 
 // router.delete('/deleteUser',authMiddleware, userController.deleteUser); //Esta para un futuro, pero no deberia ser utilizado por logica empresarial, en su lugar desabilitar usuarios
 

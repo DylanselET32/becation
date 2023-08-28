@@ -55,7 +55,8 @@ const getEmployerById = async (req,res) => {
 const getEmployer = async (req,res) => {
   //esta funcion va a ser llamada por un usuario y va a devolver su informacion a partir de su token
   try {
-    const employer_id = req.employer.employer_id; // Obtener el ID del usuario desde el token en el middleware auth 
+    const employer_id = req.employer.id; // Obtener el ID del usuario desde el token en el middleware auth 
+    console.log(employer_id)
     const employer = await EmployerDAO.getCompleteEmployer(employer_id); 
     if (!employer){res.status(404).json({ message: 'Employer not found' });return;};
     res.status(200).json(employer); 
@@ -67,8 +68,9 @@ const getEmployer = async (req,res) => {
 
 
 const addEmployer = async (req, res) => {
+  //al crear un empleado le crea un usario, son relaciones 1 en 1. sin usuario no hay empleado y sin empleado no hay usuario.
   try {
-    const employerAdmin_id = req.employer.employer_id; // Obtener el ID del usuario desde el token en el middleware auth 
+    const employerAdmin_id = req.employer.id; // Obtener el ID del usuario desde el token en el middleware auth 
 
     const data = req.body;
     // Verificar si el email ya está registrado
@@ -104,13 +106,14 @@ const addEmployer = async (req, res) => {
       to_update:employerAdmin_id,
       to_update_date: Date(),
     }
+    let employer_id;
+    try { //hago otro try catch para que el error sql no salte directo al catch general, sino que primero elimine el usuario creado
+      employer_id = await EmployerDAO.addEmployer(dataEmployer);
+    } catch (error) {
+      await UserDAO.removeUser(user_id);
+      throw error;
+    }
 
-    const employer_id = await EmployerDAO.addEmployer(dataEmployer);
-    if(!employer_id){
-      UserDAO.removeUser(user_id);
-      throw new Error('Error adding user');
-    } 
-      
     
     // Agregar usuario
     const token = createToken({id:employer_id}); // Crear el token JWT
@@ -125,7 +128,7 @@ const addEmployer = async (req, res) => {
 
 const editEmployer = async (req,res) => {
   try {
-    const employer_id = req.user.employer_id; // Obtener el ID del usuario desde el auth
+    const employer_id = req.employer.id; // Obtener el ID del usuario desde el auth
 
     // Obtener el usuario por ID
     const previousEmployer = await EmployerDAO.getEmployerById(employer_id);
@@ -184,7 +187,7 @@ const editEmployer = async (req,res) => {
 
 const editEmployerById = async (req,res) => {
   try {
-    const employerAdmin_id = req.user.employer_id; // Obtener el ID del usuario admin desde el auth
+    const employerAdmin_id = req.employer.id; // Obtener el ID del usuario admin desde el auth
     const employer_id = req.params.id; // Obtener el ID del usuario desde params
 
     // Obtener el usuario por ID
@@ -193,7 +196,7 @@ const editEmployerById = async (req,res) => {
     if (!previousEmployer) {
       return res.status(404).json({ message: 'Employer not found' });
     }
-    const previousUser = await UserDAO.getUserById(previousEmployer.employer_id)
+    const previousUser = await UserDAO.getUserById(previousEmployer.user_id)
    
 
     const fieldsUser = ['name','surname','dni','privileges','sign_up_date','password'];
@@ -211,7 +214,7 @@ const editEmployerById = async (req,res) => {
       dataUser.password = await encryptText(dataUser.password);
     }
 
-    if (dataUser.length>0){
+    if (Object.keys(dataUser).length>0){
       dataUser  = {...dataUser,
         to_update_date:Date(),
         to_update:employerAdmin_id,}
@@ -221,7 +224,7 @@ const editEmployerById = async (req,res) => {
           return;
         } 
     }
-    if (dataEmployer.length>0){
+    if (Object.keys(dataEmployer).length>0){
       dataEmployer  = {...dataEmployer,
         to_update_date:Date(),
         to_update:employerAdmin_id,}
@@ -232,7 +235,7 @@ const editEmployerById = async (req,res) => {
           return;
         } 
     }
-    
+   
 
     res.status(200).json({}); //devuelve satus 200 en caso de haber editado todo exitosamente 
 
@@ -246,7 +249,7 @@ const editEmployerById = async (req,res) => {
 const deleteEmployerById = async (req,res) => {
   try {
     //Por logica empresarial no es correcto eliminar por completo a un usuario/empleado de una empresa, debido a que siempre debe quedar registro, pero por normativa tiene que estar el endpoint. 
-    const id = req.params.employer_id; // Obtener el ID del empleado desde el auth
+    const id = req.params.id; // Obtener el ID del empleado desde params
     const resultE = await EmployerDAO.removeEmployer(id); // Eliminar el Empleado
     const resultU = await UserDAO.removeUser(resultE.id); // Eliminar el usuario
 

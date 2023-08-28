@@ -1,5 +1,6 @@
 
- const { getAllRoles } = require('../DAO/RoleDAO');
+ const { getEmployerById } = require('../DAO/EmployerDAO');
+const { getAllRoles } = require('../DAO/RoleDAO');
 const UserDAO = require('../DAO/UserDAO');
 const { hashCompare } = require('../utils/authUtils');
 const { encryptText, createToken } = require('../utils/authUtils');
@@ -56,7 +57,7 @@ const { encryptText, createToken } = require('../utils/authUtils');
 // const getUser = async (req,res) => {
 //   //esta funcion va a ser llamada por un usuario y va a devolver su informacion a partir de su token
 //   try {
-//     const user_id = req.user.user_id; // Obtener el ID del usuario desde el token en el middleware auth 
+//     const user_id = req.employer.user_id; // Obtener el ID del usuario desde el token en el middleware auth 
 //     const user = await UserDAO.getUserById(user_id); 
 //     if (!user){res.status(404).json({ message: 'User not found' });return;};
 //     res.status(200).json(user); 
@@ -69,7 +70,7 @@ const { encryptText, createToken } = require('../utils/authUtils');
 
 // const addUser = async (req, res) => {
 //   try {
-//     //const user_id = req.user.user_id; // Obtener el ID del usuario desde el token en el middleware auth 
+//     //const user_id = req.employer.user_id; // Obtener el ID del usuario desde el token en el middleware auth 
 
 //     const data = req.body;
 //     // Verificar si el email ya está registrado
@@ -100,7 +101,7 @@ const { encryptText, createToken } = require('../utils/authUtils');
 
 // const editUser = async (req,res) => {
 //   try {
-//     const id = req.user.user_id; // Obtener el ID del usuario desde el auth
+//     const id = req.employer.user_id; // Obtener el ID del usuario desde el auth
 //     // Obtener el usuario por ID
 //     const user = await UserDAO.getUserById(id);
 //     // Validar si el usuario existe
@@ -167,17 +168,20 @@ const { encryptText, createToken } = require('../utils/authUtils');
 
 const disableUser = async (req, res) => {
   try {
-    const id = req.user.user_id; // Obtener el ID del usuario desde el auth
+    const id = req.employer.id; // Obtener el ID del usuario desde params
     
+    const employer = await getEmployerById(id)
+    console.log(employer)
     // Obtener el usuario por ID
-    const user = await UserDAO.getUserById(id);
+    const user = await UserDAO.getUserById(employer.user_id);
     // Validar si el usuario existe
+    console.log(user)
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const data = { is_able: false }; // Actualiza el campo "is_able" a false para desactivar el usuario
-    const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
+    const data = { is_able: 0 }; // Actualiza el campo "is_able" a false para desactivar el usuario
+    const result = await UserDAO.editUser(data, user.id); // Editar el usuario utilizando la función edit de CRUD
     if (result === 0) { // Si el usuario no existe
       res.status(404).json({ message: 'Failed to disable user' });
       return;
@@ -189,19 +193,23 @@ const disableUser = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
-const disableUserById = async (req, res) => {
+
+const disableUserByEmployerId = async (req, res) => {
   try {
-    const id = req.params.user_id; // Obtener el ID del usuario desde el auth
+    const id = req.params.id; // Obtener el ID del usuario desde params
     
+    const employer = await getEmployerById(id)
+    console.log(employer)
     // Obtener el usuario por ID
-    const user = await UserDAO.getUserById(id);
+    const user = await UserDAO.getUserById(employer.user_id);
     // Validar si el usuario existe
+    console.log(user)
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const data = { is_able: false }; // Actualiza el campo "is_able" a false para desactivar el usuario
-    const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
+    const data = { is_able: 0 }; // Actualiza el campo "is_able" a false para desactivar el usuario
+    const result = await UserDAO.editUser(data, user.id); // Editar el usuario utilizando la función edit de CRUD
     if (result === 0) { // Si el usuario no existe
       res.status(404).json({ message: 'Failed to disable user' });
       return;
@@ -217,7 +225,7 @@ const disableUserById = async (req, res) => {
 // const deleteUser = async (req,res) => {
 //   try {
 //     //Por logica empresarial no es correcto eliminar por completo a un usuario de una empresa, debido a que siempre debe quedar registro, pero por normativa tiene que estar el endpoint. 
-//     const id = req.user.user_id; // Obtener el ID del usuario desde el auth
+//     const id = req.employer.user_id; // Obtener el ID del usuario desde el auth
 //     const result = await UserDAO.removeUser(id); // Eliminar el usuario 
 //     if (result === 0) { // Si el usuario no existe
 //       res.status(404).json({ message: 'User not found' });
@@ -248,7 +256,7 @@ const login = async (req, res) => {
       res.status(401).json({ message: "Invalid credentials" });
       return;
     }
-    const token = createToken({id:userDB[0].user_id}); // Crear el token JWT
+    const token = createToken({id:userDB[0].id}); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
     
 
@@ -303,5 +311,6 @@ module.exports = {
   // deleteUser,
   login,
   resetPassword,
+  disableUserByEmployerId
 
 }
