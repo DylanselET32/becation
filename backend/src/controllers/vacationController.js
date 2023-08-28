@@ -78,17 +78,16 @@ const getVacationById = async (req, res) => {
 const addVacation = async (req, res) => {
   try {
     const data = req.body;
-
+    const employee_id = req.employer.id
     const vacationData = {
-      employee: data.employee,
+      employee: employee_id,
       start_date: data.start_date,
       end_date: data.end_date,
       status: data.status,
       note: data.note,
       date_asked: data.date_asked,
       area_manager_authorization: data.area_manager_authorization,
-      to_create: data.to_create,
-      to_update: data.employee,
+      to_update: employee_id,
       to_update_date: Date(),
     }
 
