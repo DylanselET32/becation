@@ -105,7 +105,9 @@ const addVacation = async (req, res) => {
 const editVacation = async (req, res) => {
   try {
     const id = req.body.id_vacation; // Obtener el ID de la vacación
-    if (id === 0 || id == null) { // Si la vacación no existe
+    const idEmployerAdmin = req.employer.id; // ID Empleado token
+    const vacation = await vDAO.getVacationById(id);
+    if (vacation == null) { // Si la vacación no existe
       res.status(404).json({ message: 'Vacation not found' });
       return;
     }
@@ -115,7 +117,19 @@ const editVacation = async (req, res) => {
     for (const prop in req.body) {
       data[prop] = req.body[prop];
     }
-    const edit = await vDAO.editVacation(data, id);
+
+    const vacationData = {
+      employee: data.employee,
+      start_date: data.start_date,
+      end_date: data.end_date,
+      status: data.status,
+      note: data.note,
+      date_asked: data.date_asked,
+      area_manager_authorization: data.area_manager_authorization,
+      to_update: idEmployerAdmin,
+      to_update_date: Date(),
+    }
+    const edit = await vDAO.editVacation(vacationData, id);
     res.status(200).json(edit);
   } catch (error) {
     console.error(error);
