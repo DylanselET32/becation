@@ -28,9 +28,13 @@ const getAllVacationsByArea = async (req, res) => {
 const getAllVacationsByUser = async (req, res) => {
   //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
-    const employer_id = req.user.id;
+    const employer_id = req.employer.id;
     const respuesta = await vDAO.getVacationByColumn("employee", employer_id);
-    res.status(200).json(respuesta);
+    if (respuesta == null) {
+      res.status(404).json({ message: "No se encontró el registro solicitado"});
+    }else{
+      res.status(200).json(respuesta);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -44,7 +48,11 @@ const getAllVacationsBetweenDates = async (req, res) => {
     const fecha1 = data.startDate;
     const fecha2 = data.endDate;
     const respuesta = await vDAO.getVacationsBetweenDates("start_date", fecha1, fecha2);
-    res.status(200).json(respuesta);
+    if (respuesta == null) {
+      res.status(404).json({ message: "No se encontró el registro solicitado"});
+    }else{
+      res.status(200).json(respuesta);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -56,7 +64,11 @@ const getVacationById = async (req, res) => {
   try {
     const id = req.params.id;
     const vacation = await vDAO.getVacationById(id);
-    res.status(200).json(vacation);
+    if (vacation == null) {
+      res.status(404).json({ message: "No se encontró el registro solicitado"}); 
+    }else{
+      res.status(200).json(vacation);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -67,8 +79,21 @@ const addVacation = async (req, res) => {
   try {
     const data = req.body;
 
+    const vacationData = {
+      employee: data.employee,
+      start_date: data.start_date,
+      end_date: data.end_date,
+      status: data.status,
+      note: data.note,
+      date_asked: data.date_asked,
+      area_manager_authorization: data.area_manager_authorization,
+      to_create: data.to_create,
+      to_update: data.employee,
+      to_update_date: Date(),
+    }
+
     // Agregar vacacion
-    const id = await vDAO.addVacation(data);
+    const id = await vDAO.addVacation(vacationData);
     if(!id) throw new Error('Error al agregar la vacación');
     res.status(200).json("La vacación se agregó correctamente");
   } catch (error) {
@@ -80,7 +105,9 @@ const addVacation = async (req, res) => {
 const editVacation = async (req, res) => {
   try {
     const id = req.body.id_vacation; // Obtener el ID de la vacación
-    if (id === 0 || id == null) { // Si la vacación no existe
+    const idEmployerAdmin = req.employer.id; // ID Empleado token
+    const vacation = await vDAO.getVacationById(id);
+    if (vacation == null) { // Si la vacación no existe
       res.status(404).json({ message: 'Vacation not found' });
       return;
     }
@@ -90,7 +117,19 @@ const editVacation = async (req, res) => {
     for (const prop in req.body) {
       data[prop] = req.body[prop];
     }
-    const edit = await vDAO.editVacation(data, id);
+
+    const vacationData = {
+      employee: data.employee,
+      start_date: data.start_date,
+      end_date: data.end_date,
+      status: data.status,
+      note: data.note,
+      date_asked: data.date_asked,
+      area_manager_authorization: data.area_manager_authorization,
+      to_update: idEmployerAdmin,
+      to_update_date: Date(),
+    }
+    const edit = await vDAO.editVacation(vacationData, id);
     res.status(200).json(edit);
   } catch (error) {
     console.error(error);
@@ -106,7 +145,23 @@ const deleteVacation = async (req, res) => {
       res.status(404).json({ message: 'Vacation not found' });
       return;
     }
-    res.status(200).json({}); //confirmo que se eliminó correctamente
+    res.status(200).json({ message: "La vacación se eliminó correctamente."}); //confirmo que se eliminó correctamente
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getAllVacationsByEmployerId = async (req, res) => {
+  //esta funcion solo podria ser ejecutada por un admin o RRHH
+  try {
+    const employer_id = req.params.id;
+    const respuesta = await vDAO.getVacationByColumn("employee", employer_id);
+    if (respuesta == null) {
+      res.status(404).json({ message: "No se encontró el registro solicitado"});
+    }else{
+      res.status(200).json(respuesta);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -117,6 +172,7 @@ module.exports = {
   getAllVacations,
   getAllVacationsByArea,
   getAllVacationsByUser,
+  getAllVacationsByEmployerId,
   getAllVacationsBetweenDates,
   getVacationById,
   addVacation,
