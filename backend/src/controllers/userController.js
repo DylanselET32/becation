@@ -269,25 +269,24 @@ const login = async (req, res) => {
 const resetPassword = async (req, res) => {
   try {
     //aca va a ir la funcion para blanquear una contraseña 
-
-    // const uEmail = req.body.email; // Obtener el nombre de usuario desde el body
-    // const password = req.body.password;
+    const uEmail = req.body.email; // Obtener el usuario desde el body
+    const newPassword = req.body.password;
     
-    // const userDB =  await UserDAO.getUserByColumn("email", uEmail,null,["user_id","password"]);;
+    const userDB =  await UserDAO.getUserByColumn("email", uEmail, null, ["id","password"]);
     
-   
-    // if (!userDB) { res.status(404).json({ message: 'Invalid User' }); return; };
+    if (!userDB) { res.status(404).json({ message: 'User not found' }); return; };
 
-    // const isMatch = await hashCompare(password, userDB[0].password);
-    // if (!isMatch) {
-    //   res.status(401).json({ message: "Invalid credentials" });
-    //   return;
-    // }
-    // const token = createToken({user_id:userDB[0].user_id}); // Crear el token JWT
-    // res.status(200).json({ token }); // Devolver el token en la respuesta
+    let updateData = {
+      password: await encryptText(newPassword)
+    }
+    const updatedUser = await UserDAO.editUser(updateData, userDB[0].id);
 
-    res.status(400).json({});
-
+    const token = createToken({id:updatedUser.id}); // Crear el token JWT
+    if (token != null || token != "") {
+      res.status(200).json({ token }); // Devolver el token en la respuesta
+    }else{
+      res.status(400).json({});
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
