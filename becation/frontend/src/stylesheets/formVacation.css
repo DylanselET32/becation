@@ -56,7 +56,7 @@
 
 .button_form_available{
     transition: .3s;
-    background: #D62246;
+    background: #61D095;
     border: none;
     width: 100%;
     padding: 10px;
@@ -67,7 +67,7 @@
 
 .button_form_available:hover{
     transition: .3s;
-    background: #a51632;
+    background: #32b46f;
     border: none;
     width: 100%;
     padding: 10px;
