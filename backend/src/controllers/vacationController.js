@@ -48,7 +48,11 @@ const getAllVacationsBetweenDates = async (req, res) => {
     const fecha1 = data.startDate;
     const fecha2 = data.endDate;
     const respuesta = await vDAO.getVacationsBetweenDates("start_date", fecha1, fecha2);
-    res.status(200).json(respuesta);
+    if (respuesta == null) {
+      res.status(404).json({ message: "No se encontró el registro solicitado"});
+    }else{
+      res.status(200).json(respuesta);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -75,8 +79,21 @@ const addVacation = async (req, res) => {
   try {
     const data = req.body;
 
+    const vacationData = {
+      employee: data.employee,
+      start_date: data.start_date,
+      end_date: data.end_date,
+      status: data.status,
+      note: data.note,
+      date_asked: data.date_asked,
+      area_manager_authorization: data.area_manager_authorization,
+      to_create: data.to_create,
+      to_update: data.employee,
+      to_update_date: Date(),
+    }
+
     // Agregar vacacion
-    const id = await vDAO.addVacation(data);
+    const id = await vDAO.addVacation(vacationData);
     if(!id) throw new Error('Error al agregar la vacación');
     res.status(200).json("La vacación se agregó correctamente");
   } catch (error) {
