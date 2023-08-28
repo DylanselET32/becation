@@ -28,7 +28,7 @@ const getAllVacationsByArea = async (req, res) => {
 const getAllVacationsByUser = async (req, res) => {
   //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
-    const employer_id = req.user.id;
+    const employer_id = req.employer.id;
     const respuesta = await vDAO.getVacationByColumn("employee", employer_id);
     if (respuesta == null) {
       res.status(404).json({ message: "No se encontró el registro solicitado"});
@@ -121,10 +121,27 @@ const deleteVacation = async (req, res) => {
   }
 };
 
+const getAllVacationsByEmployerId = async (req, res) => {
+  //esta funcion solo podria ser ejecutada por un admin o RRHH
+  try {
+    const employer_id = req.params.id;
+    const respuesta = await vDAO.getVacationByColumn("employee", employer_id);
+    if (respuesta == null) {
+      res.status(404).json({ message: "No se encontró el registro solicitado"});
+    }else{
+      res.status(200).json(respuesta);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getAllVacations,
   getAllVacationsByArea,
   getAllVacationsByUser,
+  getAllVacationsByEmployerId,
   getAllVacationsBetweenDates,
   getVacationById,
   addVacation,

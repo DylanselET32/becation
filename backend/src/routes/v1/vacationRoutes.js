@@ -33,4 +33,7 @@ router.get('/getAllVacationsByUser/:id' ,vacationController.getAllVacationsByUse
 // Get all vacations between dates
 router.get('/getAllVacationsBetweenDates' ,vacationController.getAllVacationsBetweenDates);
 
+// Get all vacations by employer
+router.get('/getAllVacationsByEmployerId/:id' ,vacationController.getAllVacationsByEmployerId);
+
 module.exports = router;
