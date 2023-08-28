@@ -70,6 +70,25 @@ main{
     height: 3rem;
     width: 100%;
     font-weight: bold;
+    transition: .2s;
+    font-weight: 700;
+}
+
+.button_ask_vacation:hover{
+  color: #f3f3f3;
+  background: #00B295;
+}
+
+.button_ask_vacation_called{
+  border-radius: 10px;
+  border: .5px solid #9e9e9e;
+  height: 3rem;
+  width: 100%;
+  font-weight: bold;
+  transition: .2s;
+  font-weight: 700;
+  color: #f3f3f3;
+  background: #00B295;
 }
 
 .calendar_container{

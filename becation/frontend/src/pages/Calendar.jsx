@@ -22,17 +22,44 @@ const events= [
 export default function Calendar(){
 
     const [isAvailableForm, setIsAvailableForm] = useState(false)
+    const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
+
 
     const handleVacationFormRequest = ()=>{
-        setIsAvailableForm(true)
+        setIsAvailableForm(!isAvailableForm)
     }
 
     const handleEventChange = (e)=>{
-        console.log(e.event._instance.range.start)
+        console.log(e.event._instance.range.end.getDate())
+
+        let initalYear= e.event._instance.range.start.getFullYear()
+        let initialMonth= (e.event._instance.range.start.getMonth()+1).toString()
+        let initialDay= (e.event._instance.range.start.getDate()+1).toString()
+        const NEW_INITIAL_DATE= `${initalYear}-${initialMonth.length <= 1 ? `0${initialMonth}` : initialMonth}-${initialDay.length <= 1 ? `0${initialDay}` : initialDay}`
+
+        let finalMonth= (e.event._instance.range.end.getMonth()+1).toString()
+        let finalDay= (e.event._instance.range.end.getDate()+1).toString()
+        const NEW_END_DATE = `${initalYear}-${finalMonth.length <= 1 ? `0${finalMonth}` : finalMonth}-${finalDay.length <= 1 ? `0${finalDay}` : finalDay}`
+
+        setVacationDaysAsked([{
+            title: vacationDaysAsked[0].title,
+            start: NEW_INITIAL_DATE,
+            end: NEW_END_DATE
+        }])
     }
 
     const handleEventClick = (e)=>{
         console.log(e.event._def.title)
+    }
+
+    const handleForm = (state)=>{
+        setVacationDaysAsked([
+            {   
+                title: vacationDaysAsked[0].title,
+                start: state.initialDate,
+                end: state.finalDate
+            }
+        ])
     }
 
     return(
@@ -43,7 +70,7 @@ export default function Calendar(){
                     <FullCalendar
                         plugins={[ dayGridPlugin, interactionPlugin ]}
                         initialView="dayGridMonth"
-                        events={events}
+                        events={vacationDaysAsked}
                         buttonText={{today: "Hoy"}}
                         eventChange={handleEventChange}
                         editable={true}
@@ -68,9 +95,11 @@ export default function Calendar(){
                 
             </section>
             <section className='aside_main'>
-                <button className='button_ask_vacation' onClick={handleVacationFormRequest}>Pedir Vacaciones</button>
+                <button className={isAvailableForm ? "button_ask_vacation_called" : "button_ask_vacation"} onClick={handleVacationFormRequest}>
+                    {isAvailableForm ? "Cancelar" : "Pedir Vacaciones"}
+                </button>
                 <div className='form_vacation_container'>
-                    { isAvailableForm && <FormVacation/>}
+                    <FormVacation isCalled={isAvailableForm} formFather={handleForm}/>
                 </div>
             </section>
             
