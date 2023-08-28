@@ -1,0 +1,77 @@
+.form{
+    /* display: block; */
+  
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: start;
+    /* background: red; */
+    /* transition: .3s; */
+   
+}
+
+.hiddenForm{
+    /* background: red; */
+    display: none;
+    transition: .3s;
+}
+
+.input_container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input_container .date_input{
+    padding: 5px;
+    border-radius: 8px;
+    border: .5px #888;
+    background: #c2c2c2;
+    outline: none;
+}
+
+.button_container{
+    justify-content: center;
+}
+
+/* .button_container input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+} */
+
+.button_form{
+    transition: .3s;
+    background: #a1a1a1;
+    border: none;
+    width: 80%;
+    padding: 10px;
+
+    color: #f1f1f1;
+    border-radius: 10px;
+}
+
+
+.button_form_available{
+    transition: .3s;
+    background: #61D095;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    color: #f1f1f1;
+    border-radius: 10px;
+}
+
+.button_form_available:hover{
+    transition: .3s;
+    background: #32b46f;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    color: #f1f1f1;
+    border-radius: 10px;
+}
