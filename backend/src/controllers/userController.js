@@ -272,13 +272,16 @@ const resetPassword = async (req, res) => {
     const uEmail = req.body.email; // Obtener el usuario desde el body
     const newPassword = req.body.password;
     
-    const userDB =  await UserDAO.getUserByColumn("email", uEmail, null, ["user_id","password"]);
+    const userDB =  await UserDAO.getUserByColumn("email", uEmail, null, ["id","password"]);
     
     if (!userDB) { res.status(404).json({ message: 'User not found' }); return; };
 
-    const updatedUser = await UserDAO.editUser(newPassword, userDB[0].user_id);
+    let updateData = {
+      password: await encryptText(newPassword)
+    }
+    const updatedUser = await UserDAO.editUser(updateData, userDB[0].id);
 
-    const token = createToken({user_id:updatedUser.user_id}); // Crear el token JWT
+    const token = createToken({id:updatedUser.id}); // Crear el token JWT
     if (token != null || token != "") {
       res.status(200).json({ token }); // Devolver el token en la respuesta
     }else{
