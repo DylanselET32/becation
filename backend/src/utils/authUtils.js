@@ -20,8 +20,8 @@ const hashCompare = async (text, hash) => {
 };
 
 //JWT Funtions
-const createToken = (user) => {
-  const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
+const createToken = (employer) => {
+  const token = jwt.sign({ id: employer.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
   return token;
 };
 

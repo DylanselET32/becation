@@ -88,7 +88,7 @@ const { encryptText, createToken } = require('../utils/authUtils');
 //     // Agregar usuario
 //     const id = await UserDAO.addUser(dataE);
 //     if(!id) throw new Error('Error al agregar usuario');
-//     const token = createToken({user_id:id}); // Crear el token JWT
+//     const token = createToken({id}); // Crear el token JWT
 //     res.status(200).json({ token }); // Devolver el token en la respuesta
 //     //sendConfirmEmail(id);
 
@@ -248,7 +248,7 @@ const login = async (req, res) => {
       res.status(401).json({ message: "Invalid credentials" });
       return;
     }
-    const token = createToken({user_id:userDB[0].user_id}); // Crear el token JWT
+    const token = createToken({id:userDB[0].user_id}); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
     
 

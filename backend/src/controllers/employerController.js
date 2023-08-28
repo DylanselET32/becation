@@ -113,7 +113,7 @@ const addEmployer = async (req, res) => {
       
     
     // Agregar usuario
-    const token = createToken({employer_id}); // Crear el token JWT
+    const token = createToken({id:employer_id}); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
     //sendConfirmEmail(id);
 
