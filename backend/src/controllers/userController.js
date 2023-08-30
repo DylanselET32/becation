@@ -4,7 +4,9 @@ const { getAllRoles } = require('../DAO/RoleDAO');
 const UserDAO = require('../DAO/UserDAO');
 const { hashCompare, verifyToken } = require('../utils/authUtils');
 const { encryptText, createToken } = require('../utils/authUtils');
-// const { sendConfirmEmail } = require('../utils/emeilSendUtils');
+const email = require('../utils/emeilSendUtils');
+
+
 
 
 // const getAllUsers = async (req,res) => {
@@ -296,8 +298,8 @@ const confirmEmailResetPassword = async (req, res) => {
 
 const resetPassword = async (req,res) => {
   try {
-    const idToReset = req.params.id;
-    const sendEmail = emailSendUtils.resetPassword(idToReset);
+    const employer_idToReset = req.params.id;
+    const sendEmail = email.resetPassword(employer_idToReset);
     if(!sendEmail){throw new Error("Error to send email")}
     res.status(200).json({}); 
   } catch (error) {

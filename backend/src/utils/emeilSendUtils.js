@@ -1,7 +1,7 @@
 const { sendEmail } = require("../services/emailService");
 const { getCompleteEmployer } = require("../DAO/EmployerDAO");
 const { getVacationById } = require("../DAO/VacationDAO");
-const { createEmailTokenById, formatDateToString, getTime } = require("./utils");
+const { createEmailTokenById } = require("./authUtils");
 
 const linkConfirmEmailByIdUser  = (employer)=>{
   const token = createEmailTokenById(employer.user_id,employer.email)

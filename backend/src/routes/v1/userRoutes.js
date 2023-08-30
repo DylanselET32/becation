@@ -40,8 +40,8 @@ router.patch('/disableUserByEmployerId/:id',authMiddleware, userController.disab
 //Login
 router.post('/login', userController.login); //no necesita estar logueado 
 
-router.patch('/resetPassword/:id', userController.resetPassword); 
-router.patch('/confirmEmailResetPassword/:token', userController.confirmEmailResetPassword); 
+router.post('/resetPassword/:id', userController.resetPassword); 
+router.post('/confirmEmailResetPassword/:token', userController.confirmEmailResetPassword); 
 
 
 module.exports = router;
