@@ -5,7 +5,7 @@ const { createEmailTokenById } = require("./authUtils");
 
 const linkConfirmEmailByIdUser  = (employer)=>{
   const token = createEmailTokenById(employer.user_id,employer.email)
-  return `${process.env.DOMAIN_FRONTEND}confirmEmail/${token.replaceAll(".","*")}`
+  return `${process.env.DOMAIN_FRONTEND}resetPassword/${token.replaceAll(".","*")}`
 }
 
 const resetPassword = async (idEmployer) => {
