@@ -56,7 +56,6 @@ const getEmployer = async (req,res) => {
   //esta funcion va a ser llamada por un usuario y va a devolver su informacion a partir de su token
   try {
     const employer_id = req.employer.id; // Obtener el ID del usuario desde el token en el middleware auth 
-    console.log(employer_id)
     const employer = await EmployerDAO.getCompleteEmployer(employer_id); 
     if (!employer){res.status(404).json({ message: 'Employer not found' });return;};
     res.status(200).json(employer); 

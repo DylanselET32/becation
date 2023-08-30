@@ -1,4 +1,5 @@
 const vDAO = require('../DAO/VacationDAO');
+const { sendEmail } = require('../services/emailService');
 
 const getAllVacations = async (req, res) => {
   //Este método solo podria ser ejecutada por un admin o RRHH

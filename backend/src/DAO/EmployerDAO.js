@@ -26,7 +26,10 @@ const getCompleteEmployer = async(employer_id) =>{
     let params = [employer_id];
 
     const [results] = await pool.promise().query(sql, params);
-    return results;
+    if(results.length >0){
+        return results[0]
+    }
+    return null;
 }
 
 const getAllCompleteEmployer = async() =>{

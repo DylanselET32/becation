@@ -2,7 +2,7 @@
  const { getEmployerById } = require('../DAO/EmployerDAO');
 const { getAllRoles } = require('../DAO/RoleDAO');
 const UserDAO = require('../DAO/UserDAO');
-const { hashCompare } = require('../utils/authUtils');
+const { hashCompare, verifyToken } = require('../utils/authUtils');
 const { encryptText, createToken } = require('../utils/authUtils');
 // const { sendConfirmEmail } = require('../utils/emeilSendUtils');
 
@@ -266,16 +266,17 @@ const login = async (req, res) => {
   }
 }
 
-const resetPassword = async (req, res) => {
+const confirmEmailResetPassword = async (req, res) => {
   try {
     //aca va a ir la funcion para blanquear una contraseña 
-    const uEmail = req.body.email; // Obtener el usuario desde el body
+    const infoToken = verifyToken(req.params.token.replaceAll("*","."));
+    const uEmail = infoToken.email; // Obtener el email desde el token
     const newPassword = req.body.password;
-    
+    if(!infoToken.user_id)throw new Error("invalid or modified token"); 
     const userDB =  await UserDAO.getUserByColumn("email", uEmail, null, ["id","password"]);
-    
     if (!userDB) { res.status(404).json({ message: 'User not found' }); return; };
-
+    if(infoToken.user_id != userDB.id){throw new Error("invalid or modified token")};
+    if(userDB.email != infoToken.email)throw new Error("Invalid email")
     let updateData = {
       password: await encryptText(newPassword)
     }
@@ -293,6 +294,17 @@ const resetPassword = async (req, res) => {
   }
 }
 
+const resetPassword = async (req,res) => {
+  try {
+    const idToReset = req.params.id;
+    const sendEmail = emailSendUtils.resetPassword(idToReset);
+    if(!sendEmail){throw new Error("Error to send email")}
+    res.status(200).json({}); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
 
 
@@ -310,6 +322,7 @@ module.exports = {
   // deleteUser,
   login,
   resetPassword,
+  confirmEmailResetPassword,
   disableUserByEmployerId
 
 }
