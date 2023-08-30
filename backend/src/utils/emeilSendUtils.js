@@ -1,5 +1,6 @@
 const { sendEmail } = require("../services/emailService");
 const { getCompleteEmployer } = require("../DAO/EmployerDAO");
+const { getVacationById } = require("../DAO/VacationDAO");
 const { createEmailTokenById, formatDateToString, getTime } = require("./utils");
 
 const linkConfirmEmailByIdUser  = (user)=>{
@@ -52,16 +53,17 @@ const generateResetPasswordEmail = (employer) => {
   `;
 };
 
-async function sendEventReminder(idUser, event) {
+async function sendVacationUploadConfirmation(idEmployer, idVacation) {
   try {
-    const user = await getUserById(idUser);
-    if (!user) throw new Error("Error al agregar usuarios");
+    const employer = await getCompleteEmployer(idEmployer);
+    if (!employer) throw new Error("Error al encontrar al empleado");
+    const vacacion = await getVacationById(idVacation);
 
-    const subject = 'Recordatorio de Evento';
-    const html = generateEventReminderEmail(user, event);
+    const subject = 'Vacación solicitada de manera exitosa!';
+    const html = generateVacationUploadConfirmationEmail(employer, vacacion);
 
     const data = {
-      to: user.email,
+      to: employer.email,
       subject,
       html
     };
@@ -73,28 +75,25 @@ async function sendEventReminder(idUser, event) {
   }
 }
 
-function generateEventReminderEmail(user, event) {
-  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
-  const styleTitle = "color: white; margin: auto;";
-  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+function generateVacationUploadConfirmationEmail(employer, vacacion) {
+  const styleHeader = "background: #74a1d1;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  const styleTitle = "color: #f8f9fa; margin: auto;";
+  const styleFooter = "background: #333; color: #f8f9fa; width: 100%; padding: 1rem; text-align: center;";
   const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
-  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
-  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
+  const styleBody = "background:#f8f9fa; width: 100%; padding: 1rem; margin:auto;";
 
   return `
     <div style="${styleMain}">
       <div style="${styleHeader}">
-        <h1 style="${styleTitle}">RECORDATORIO DE EVENTO</h1>
+        <h1 style="${styleTitle}">VACACIÓN SOLICITADA CON ÉXITO</h1>
       </div>
       <div style="${styleBody}">
-        <h3>Hola ${user.name}, te recordamos que tienes un evento programado:</h3>
-        <p>Evento: ${event.tittle}</p>
-        <p>Fecha: ${formatDateToString(event.startDateTime)}</p>
-        <p>Hora: ${getTime(event.startDateTime) } - ${getTime(event.endDateTime)}</p>
-        <p>No olvides estar presente y disfrutar del evento.</p>
+        <h3>Hola ${employer.name}, pediste tus vacaciones acorde a los siguientes datos:</h3>
+        <p>Fecha pedida: ${vacacion.date_asked}</p>
+        <p>Desde ${formatDateToString(vacacion.start_date)} hasta: ${formatDateToString(vacacion.end_date)}</p>
       </div>
       <div style="${styleFooter}">
-        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+        <p>© ${new Date().getFullYear()} StreamBe. BeCation es una marca registrada de StreamBe. Todos los derechos reservados</p>
       </div>
     </div>
   `;
@@ -150,6 +149,6 @@ function generateEventModificationEmail(user, event) {
 
 module.exports = {
   resetPassword,
-  sendEventReminder,
+  sendVacationUploadConfirmation,
   sendEventModification,
 };
