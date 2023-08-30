@@ -99,16 +99,17 @@ function generateVacationUploadConfirmationEmail(employer, vacacion) {
   `;
 }
 
-async function sendEventModification(idUser, event) {
+async function sendVacationModification(idEmployer, idVacation) {
   try {
-    const user = await getUserById(idUser);
-    if (!user) throw new Error("Error al agregar usuarios");
+    const employer = await getCompleteEmployer(idEmployer);
+    if (!employer) throw new Error("Error al encontrar al empleado");
+    const vacacion = await getVacationById(idVacation);
 
-    const subject = 'Aviso de Modificación/Cancelación de Evento';
-    const html = generateEventModificationEmail(user, event);
+    const subject = 'Cambio en el estado de tu vacación!';
+    const html = generateVacationModificationEmail(employer, vacacion);
 
     const data = {
-      to: user.email,
+      to: employer.email,
       subject,
       html
     };
@@ -120,28 +121,26 @@ async function sendEventModification(idUser, event) {
   }
 }
 
-function generateEventModificationEmail(user, event) {
-  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
-  conststyleTitle = "color: white; margin: auto;";
-  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+function generateVacationModificationEmail(employer, vacacion) {
+  const styleHeader = "background: #74a1d1;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  const styleTitle = "color: #f8f9fa; margin: auto;";
+  const styleFooter = "background: #333; color: #f8f9fa; width: 100%; padding: 1rem; text-align: center;";
   const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
-  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
-  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
+  const styleBody = "background:#f8f9fa; width: 100%; padding: 1rem; margin:auto;";
 
   return `
     <div style="${styleMain}">
       <div style="${styleHeader}">
-        <h1 style="${styleTitle}">AVISO DE MODIFICACIÓN/CANCELACIÓN DE EVENTO</h1>
+        <h1 style="${styleTitle}">AVISO DE MODIFICACIÓN EN TU SOLICITUD DE VACACIONES</h1>
       </div>
       <div style="${styleBody}">
-        <h3>Hola ${user.name}, te informamos que ha habido una modificación o cancelación en el evento "${event.tittle}" esta es la actualizacion:</h3>
-        <p>Evento: ${event.tittle}</p>
-        <p>Fecha: ${formatDateToString(event.startDateTime)}</p>
-        <p>Hora: ${getTime(event.startDateTime) } - ${getTime(event.endDateTime)}</p>
-        <p>Lamentamos los inconvenientes y te agradecemos tu comprensión.</p>
+        <h3>Hola ${employer.name}, te informamos que ha habido una modificación en tu solicitud de vacaciones pedidas el: "${vacacion.date_asked}". Esta es la actualizacion:</h3>
+        <p>Desde ${formatDateToString(vacacion.start_date)} hasta: ${formatDateToString(vacacion.end_date)}</p>
+        <p>Estado actual: ${vacacion.status}</p>
+        <p>Nota: ${vacacion.note}</p>
       </div>
       <div style="${styleFooter}">
-        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+      <p>© ${new Date().getFullYear()} StreamBe. BeCation es una marca registrada de StreamBe. Todos los derechos reservados</p>
       </div>
     </div>
   `;
@@ -150,5 +149,5 @@ function generateEventModificationEmail(user, event) {
 module.exports = {
   resetPassword,
   sendVacationUploadConfirmation,
-  sendEventModification,
+  sendVacationModification,
 };
