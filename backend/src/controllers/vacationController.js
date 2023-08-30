@@ -133,6 +133,8 @@ const editVacation = async (req, res) => {
       to_update_date: Date(),
     }
     const edit = await vDAO.editVacation(vacationData, id);
+
+    email.sendVacationModification(vacationData.employee, id);
     res.status(200).json(edit);
   } catch (error) {
     console.error(error);
