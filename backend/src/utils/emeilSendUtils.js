@@ -3,8 +3,8 @@ const { getCompleteEmployer } = require("../DAO/EmployerDAO");
 const { getVacationById } = require("../DAO/VacationDAO");
 const { createEmailTokenById, formatDateToString, getTime } = require("./utils");
 
-const linkConfirmEmailByIdUser  = (user)=>{
-  const token = createEmailTokenById(user?.idUser,user?.email)
+const linkConfirmEmailByIdUser  = (employer)=>{
+  const token = createEmailTokenById(employer.user_id,employer.email)
   return `${process.env.DOMAIN_FRONTEND}confirmEmail/${token.replaceAll(".","*")}`
 }
 

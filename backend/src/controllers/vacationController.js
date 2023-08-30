@@ -1,4 +1,5 @@
 const vDAO = require('../DAO/VacationDAO');
+
 const email = require('../utils/emeilSendUtils');
 
 const getAllVacations = async (req, res) => {
