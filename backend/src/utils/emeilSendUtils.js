@@ -2,6 +2,7 @@ const { sendEmail } = require("../services/emailService");
 const { getCompleteEmployer } = require("../DAO/EmployerDAO");
 const { getVacationById } = require("../DAO/VacationDAO");
 const { createEmailTokenById } = require("./authUtils");
+const { formatDateToString } = require("./dateUtils");
 
 const linkConfirmEmailByIdUser  = (employer)=>{
   const token = createEmailTokenById(employer.user_id,employer.email)
@@ -89,7 +90,7 @@ function generateVacationUploadConfirmationEmail(employer, vacacion) {
       </div>
       <div style="${styleBody}">
         <h3>Hola ${employer.name}, pediste tus vacaciones acorde a los siguientes datos:</h3>
-        <p>Fecha pedida: ${vacacion.date_asked}</p>
+        <p>Fecha pedida: ${formatDateToString(vacacion.date_asked)}</p>
         <p>Desde ${formatDateToString(vacacion.start_date)} hasta: ${formatDateToString(vacacion.end_date)}</p>
       </div>
       <div style="${styleFooter}">
@@ -134,7 +135,7 @@ function generateVacationModificationEmail(employer, vacacion) {
         <h1 style="${styleTitle}">AVISO DE MODIFICACIÓN EN TU SOLICITUD DE VACACIONES</h1>
       </div>
       <div style="${styleBody}">
-        <h3>Hola ${employer.name}, te informamos que ha habido una modificación en tu solicitud de vacaciones pedidas el: "${vacacion.date_asked}". Esta es la actualizacion:</h3>
+        <h3>Hola ${employer.name}, te informamos que ha habido una modificación en tu solicitud de vacaciones pedidas el: "${formatDateToString(vacacion.date_asked)}". Esta es la actualizacion:</h3>
         <p>Desde ${formatDateToString(vacacion.start_date)} hasta: ${formatDateToString(vacacion.end_date)}</p>
         <p>Estado actual: ${vacacion.status}</p>
         <p>Nota: ${vacacion.note}</p>
