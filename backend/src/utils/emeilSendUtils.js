@@ -1,5 +1,5 @@
 const { sendEmail } = require("../services/emailService");
-const { getUserById } = require("../services/userService");
+const { getCompleteEmployer } = require("../DAO/EmployerDAO");
 const { createEmailTokenById, formatDateToString, getTime } = require("./utils");
 
 const linkConfirmEmailByIdUser  = (user)=>{
@@ -7,16 +7,23 @@ const linkConfirmEmailByIdUser  = (user)=>{
   return `${process.env.DOMAIN_FRONTEND}confirmEmail/${token.replaceAll(".","*")}`
 }
 
-const resetPassword = async (idUser) => {
+const resetPassword = async (idEmployer) => {
   try {
-    const user = await getUserById(idUser);
-    if (!user) throw new Error("Error al agregar usuarios");
+    const employer = await getCompleteEmployer(idEmployer);
+    if (!employer) throw new Error("Error al conseguir el empleado");
 
-    const subject = 'Recuperar Contraseña DateTy';
+    let auxData = {};
+    for (const prop in employer.user) {
+      auxData[prop] = employer.user[prop];
+    }
+
+    const user = employer.user;
+
+    const subject = 'Recuperar Contraseña BeCation';
     const html = generateResetPasswordEmail(user);
 
     const data = {
-      to: user.email,
+      to: auxData.email,
       subject,
       html
     };
@@ -29,12 +36,12 @@ const resetPassword = async (idUser) => {
 };
 
 const generateResetPasswordEmail = (user) => {
-  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
-  const styleTitle = "color: white; margin: auto;";
-  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+  const styleHeader = "background: #74a1d1;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  const styleTitle = "color: #f8f9fa; margin: auto;";
+  const styleFooter = "background: #333; color: #f8f9fa; width: 100%; padding: 1rem; text-align: center;";
   const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
-  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
-  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
+  const styleButton = "display: block; background-color: #74a1d1; color: #f8f9fa; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
+  const styleBody = "background:#f8f9fa; width: 100%; padding: 1rem; margin:auto;";
 
   return `
     <div style="${styleMain}">
@@ -42,11 +49,11 @@ const generateResetPasswordEmail = (user) => {
         <h1 style="${styleTitle}">RESETEAR CONTRASEÑA</h1>
       </div>
       <div style="${styleBody}">
-        <h3>Hola ${user.name}, parece que has perdido el acceso a tu cuenta de DateTy y solicitaste un cambio de contraseña. Si esto no es así, desestima este mensaje. De lo contrario, haz clic en el siguiente botón:</h3>
+        <h3>Hola ${user.name}, parece que has perdido el acceso a tu cuenta de BeCation y solicitaste un cambio de contraseña. Si esto no es así, desestima este mensaje. De lo contrario, haz clic en el siguiente botón:</h3>
         <a href="https://google.com.ar" style="${styleButton}">Resetear Contraseña</a>
       </div>
       <div style="${styleFooter}">
-        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+        <p>© ${new Date().getFullYear()} StreamBe. BeCation es una marca registrada de StreamBe. Todos los derechos reservados</p>
       </div>
     </div>
   `;
