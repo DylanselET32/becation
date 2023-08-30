@@ -1,5 +1,6 @@
 const vDAO = require('../DAO/VacationDAO');
-const { sendEmail } = require('../services/emailService');
+
+const email = require('../utils/emeilSendUtils');
 
 const getAllVacations = async (req, res) => {
   //Este método solo podria ser ejecutada por un admin o RRHH
@@ -95,6 +96,8 @@ const addVacation = async (req, res) => {
     // Agregar vacacion
     const id = await vDAO.addVacation(vacationData);
     if(!id) throw new Error('Error al agregar la vacación');
+
+    email.sendVacationUploadConfirmation(vacationData.employee, id);
     res.status(200).json("La vacación se agregó correctamente");
   } catch (error) {
     console.error(error);
