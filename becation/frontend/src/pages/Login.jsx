@@ -2,10 +2,12 @@ import "../stylesheets/login.css"
 import "../stylesheets/modalAlert.css"
 import EyeToHide from "../imgs/eye-crossed.svg"
 import EyeHiden from "../imgs/eye.svg"
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import ModalAlert from "../components/ModalAlert"
 import useModalAlert from "../helpers/useModalAlert"
 import { login } from "../services/userServices"
+import { useEffect } from "react"
 
 const styleCard = {
     borderRadius: "1rem",
@@ -16,11 +18,13 @@ const initalForm = {
     password: ""
 }
 
-export default function Login (){
+export default function Login ({auth}){
     
+    const navigate = useNavigate();
     const [passHidden, setPassHidden] = useState(false)
     const [form, setForm] = useState(initalForm)
     const [ handleModalAlert, alert, openModalAlert, modalAlertCalled, msg, setMsg]= useModalAlert();
+    
 
 
     const changePassVisibility = ()=>{
@@ -43,20 +47,43 @@ export default function Login (){
         }
         const [data, status]= await login(form)
         if(status == 401){
-          openModalAviso();
+            openModalAlert();
           setMsg("Contraseña Incorrecta")
         }else if(status == 404){
-          openModalAviso();
+            openModalAlert();
           setMsg("Usuario incorrecto")
         }else if(status == 400){
-          openModalAviso();
+            openModalAlert();
           setMsg("Nombre de usuario en uso")
-        }else if(status ==200){
-            console.log("LOGUEADO...")
-        //   redirec()
-        //   auth.reloaded()
+        }else if(status == 200){
+            console.log("USER...", auth)
+            redirec()
+            auth.reloaded()
         }
     }
+
+    const redirec = ()=>{
+        const previousUrl = document.referrer;
+        console.log(window.location.origin)
+        if (previousUrl === window.location.href || !previousUrl || `${window.location.origin}/login`) {
+          navigate('/calendar');
+        } else {
+          navigate(-1);
+        }
+    }
+
+    const reloaded = async () =>{
+        const authe = await auth.reloaded();
+        console.log(authe)
+        if(authe){
+          redirec();
+        }
+      }
+
+      useEffect(()=>{
+        reloaded()
+      },[])
+      
 
     return (
         <div>

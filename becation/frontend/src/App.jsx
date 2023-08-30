@@ -1,20 +1,33 @@
+import { useEffect } from "react"
 import Header from "./components/Header"
+import useAuth from "./helpers/misc/useAuth"
 import LogoBecation from "./imgs/BeCation_logo.png"
 import Calendar from "./pages/Calendar"
 import Login from "./pages/Login"
 import "./stylesheets/app.css"
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 function App() {
 
+  const auth = useAuth();
+
+  useEffect(()=>{
+    console.log("AUTHEN: ", auth.user)
+  }, [auth])
 
   return (
     <>
-      <div className="app">
-        <Header />
-        <Login />
-        {/* <Calendar /> */}
-      </div>
+    <div className="app">
+     <BrowserRouter>
+        <Header auth={auth}/>
+        <Routes>
     
+            <Route exact path="/login" element={<Login auth={auth} />}/>
+            <Route path="/calendar" element={<Calendar />}/>
+ 
+        </Routes>
+     </BrowserRouter>   
+     </div>
     </>
   )
 }
