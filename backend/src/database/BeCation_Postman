@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7fc82d1c-d1ae-43be-aa17-f851b3a04281",
+		"_postman_id": "f67b9ab1-d8bb-4d6d-aef4-cb88ece40f18",
 		"name": "BeCation",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -78,6 +78,33 @@
 								{
 									"key": "id",
 									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ResetPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/user/resetPassword/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"user",
+								"resetPassword",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
 								}
 							]
 						}
