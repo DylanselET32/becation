@@ -60,6 +60,7 @@ export default function Login (){
     }
 
     return (
+
         <main>
             <div className="contenedor" style={styleContainer}>
                 <form action="" onSubmit={handleSubmit} className="form" >
@@ -83,6 +84,7 @@ export default function Login (){
             </div>
             {alert && <ModalAlert msg={msg} handleModalAlert={handleModalAlert} modalStyle={alert ? modalAlertCalled : "aviso-hidden"}/>}
         </main>
+
     )
 }
     
