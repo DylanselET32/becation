@@ -38,7 +38,7 @@ const addArea = async (req, res) =>{
         // Agregar vacacion
         const id = await AreaDAO.addArea(data);
         if(!id) throw new Error('Error al agregar la vacación');
-        res.status(200).json("El rol se agregó correctamente");
+        res.status(200).json({ message: "El area se agregó correctamente"});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });

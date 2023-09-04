@@ -98,7 +98,7 @@ const addVacation = async (req, res) => {
     if(!id) throw new Error('Error al agregar la vacación');
 
     email.sendVacationUploadConfirmation(vacationData.employee, id);
-    res.status(200).json("La vacación se agregó correctamente");
+    res.status(200).json({ message: "La vacación se agregó correctamente"});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
