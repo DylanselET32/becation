@@ -74,7 +74,7 @@ const addEmployer = async (req, res) => {
     const data = req.body;
     // Verificar si el email ya está registrado
     const emailExists = await UserDAO.getUserByColumn('email', data.email,null,["id", "name", "surname", "password","email", "dni", "is_able", "privileges", "to_create", "sign_up_date", "to_update", "to_update_date"]); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
-    if (emailExists.length) {
+    if (emailExists) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 

@@ -101,7 +101,7 @@ const getByColumn = async (table, column, value, selectFields = ['*'], extraClau
     }
     
     const [results, fields] = await pool.promise().query(sql, params);
-    return results;
+    return results[0];
 };
 
 module.exports = {

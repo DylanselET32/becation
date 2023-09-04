@@ -1,5 +1,5 @@
 
- const { getEmployerById } = require('../DAO/EmployerDAO');
+ const { getEmployerById, getEmployerByColumn } = require('../DAO/EmployerDAO');
 const { getAllRoles } = require('../DAO/RoleDAO');
 const UserDAO = require('../DAO/UserDAO');
 const { hashCompare, verifyToken } = require('../utils/authUtils');
@@ -253,12 +253,15 @@ const login = async (req, res) => {
    
     if (!userDB) { res.status(404).json({ message: 'Invalid User' }); return; };
 
-    const isMatch = await hashCompare(password, userDB[0].password);
+    const isMatch = await hashCompare(password, userDB.password);
     if (!isMatch) {
       res.status(401).json({ message: "Invalid credentials" });
       return;
     }
-    const token = createToken({id:userDB[0].id}); // Crear el token JWT
+    const employee = await getEmployerByColumn("user_id",userDB.id)
+    console.log(employee)
+    const token = createToken({id:employee.id}); // Crear el token JWT
+    console.log(employee.id)
     res.status(200).json({ token }); // Devolver el token en la respuesta
     
 
@@ -282,9 +285,10 @@ const confirmEmailResetPassword = async (req, res) => {
     let updateData = {
       password: await encryptText(newPassword)
     }
-    const updatedUser = await UserDAO.editUser(updateData, userDB[0].id);
-
-    const token = createToken({id:updatedUser.id}); // Crear el token JWT
+    const updatedUser = await UserDAO.editUser(updateData, userDB.id);
+    if(updatedUser){throw new Error("Error trying to modify the token")}
+    const employee = await getEmployerByColumn("user_id",userDB.id)
+    const token = createToken({id:employee.id}); // Crear el token JWT
     if (token != null || token != "") {
       res.status(200).json({ token }); // Devolver el token en la respuesta
     }else{
