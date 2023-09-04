@@ -17,7 +17,7 @@ router.get('/getVacationById/:id', vacationController.getVacationById);
 router.post('/addVacation', vacationController.addVacation);
 
 // Edit an existing vacation
-router.patch('/editVacation', vacationController.editVacation);
+router.patch('/editVacation/:id', vacationController.editVacation);
 
 // Delete an existing vacation
 router.delete('/deleteVacation/:id', vacationController.deleteVacation); 

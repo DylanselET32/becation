@@ -1,3 +1,5 @@
+const { getAreaById } = require('../DAO/AreaDAO');
+const { getEmployerByColumn, getEmployerById, getCompleteEmployer } = require('../DAO/EmployerDAO');
 const vDAO = require('../DAO/VacationDAO');
 
 const email = require('../utils/emeilSendUtils');
@@ -107,7 +109,7 @@ const addVacation = async (req, res) => {
 
 const editVacation = async (req, res) => {
   try {
-    const id = req.body.id_vacation; // Obtener el ID de la vacación
+    const id = req.params.id; // Obtener el id de parametros
     const idEmployerAdmin = req.employer.id; // ID Empleado token
     const vacation = await vDAO.getVacationById(id);
     if (vacation == null) { // Si la vacación no existe
@@ -120,22 +122,30 @@ const editVacation = async (req, res) => {
     for (const prop in req.body) {
       data[prop] = req.body[prop];
     }
+    
+    const employer = await getCompleteEmployer(vacation.employee)
+    const employerAdmin = await getCompleteEmployer(idEmployerAdmin)
 
-    const vacationData = {
-      employee: data.employee,
-      start_date: data.start_date,
-      end_date: data.end_date,
-      status: data.status,
-      note: data.note,
-      date_asked: data.date_asked,
-      area_manager_authorization: data.area_manager_authorization,
+    const areaData = await  getAreaById(employer.area_id)
+    const AreaManagerEmployer = await getEmployerByColumn("user_id",areaData.area_manager) ;
+    
+    if(AreaManagerEmployer.id == idEmployerAdmin || employerAdmin.privileges >= 3){
+      
+      const vacationData = {
+      ...data,
       to_update: idEmployerAdmin,
       to_update_date: Date(),
-    }
-    const edit = await vDAO.editVacation(vacationData, id);
+      }
 
-    email.sendVacationModification(vacationData.employee, id);
-    res.status(200).json(edit);
+      const edit = await vDAO.editVacation(vacationData, id);
+      if(!edit){res.status(404).json({ message: 'error to update vacation' });}
+     
+      email.sendVacationModification(vacation.employee, id);
+      res.status(200).json({});
+    }else{
+      res.status(404).json({ message: 'Unauthorized' });
+    }
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
