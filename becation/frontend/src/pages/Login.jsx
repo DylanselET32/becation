@@ -63,7 +63,7 @@ export default function Login (){
 
         <main>
             <div className="contenedor" style={styleContainer}>
-                <form action="" onSubmit={handleSubmit} className="form" >
+                <form action="" onSubmit={handleSubmit} className="form-login" >
                     <h2 className="form__title">Iniciá Sesión</h2>
                     <div className="form__container">
                         <div className="form__group">
