@@ -136,7 +136,6 @@ const editEmployer = async (req,res) => {
       return res.status(404).json({ message: 'Employer not found' });
     }
     const previousUser = await UserDAO.getUserById(previousEmployer.employer_id)
-   
 
     const fieldsUser = ['name','surname','dni','privileges','sign_up_date','password'];
     const fieldsEmployer = ['available_days','total_days','is_cumulative','role_id','area_id','to_update'];
@@ -196,7 +195,6 @@ const editEmployerById = async (req,res) => {
       return res.status(404).json({ message: 'Employer not found' });
     }
     const previousUser = await UserDAO.getUserById(previousEmployer.user_id)
-   
 
     const fieldsUser = ['name','surname','dni','privileges','sign_up_date','password'];
     const fieldsEmployer = ['available_days','total_days','is_cumulative','role_id','area_id','to_update'];
@@ -234,7 +232,6 @@ const editEmployerById = async (req,res) => {
           return;
         } 
     }
-   
 
     res.status(200).json({}); //devuelve satus 200 en caso de haber editado todo exitosamente 
 

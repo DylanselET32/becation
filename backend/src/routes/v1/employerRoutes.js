@@ -8,7 +8,7 @@ This file only contains routing, the code and logic behind each query is in the 
 */
 
 // Get all employers
- router.get('/getAllEmployers',authMiddleware ,employerController.getAllEmployers);
+router.get('/getAllEmployers',authMiddleware ,employerController.getAllEmployers);
 
 // Get all employers by area
 router.get('/getAllEmployersByArea/:id',authMiddleware ,employerController.getAllEmployersByArea);

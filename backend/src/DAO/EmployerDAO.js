@@ -22,7 +22,7 @@ const removeEmployer = async (id) => await CRUD.remove('employer', id);
 
 
 const getCompleteEmployer = async(employer_id) =>{
-    let sql = `SELECT u.*, a.area, e.*, r.role_name FROM (((user u inner join employer e on u.id = e.user_id) inner join area a on e.area_id = a.id) inner join role r on e.role_id = r.id) WHERE e.id = ?`;
+    let sql = `SELECT u.id, u.name, u.surname, u.email, u.dni, u.is_able, u.privileges, u.to_create, u.sign_up_date, u.to_update, u.to_update_date, a.area, e.*, r.role_name FROM (((user u inner join employer e on u.id = e.user_id) inner join area a on e.area_id = a.id) inner join role r on e.role_id = r.id) WHERE e.id = ?`;
     let params = [employer_id];
 
     const [results] = await pool.promise().query(sql, params);
@@ -33,7 +33,7 @@ const getCompleteEmployer = async(employer_id) =>{
 }
 
 const getAllCompleteEmployer = async() =>{
-    let sql = `SELECT u.*, a.area, e.*, r.role_name FROM (((user u inner join employer e on u.id = e.user_id) inner join area a on e.area_id = a.id) inner join role r on e.role_id = r.id)`;
+    let sql = `SELECT u.id, u.name, u.surname, u.email, u.dni, u.is_able, u.privileges, u.to_create, u.sign_up_date, u.to_update, u.to_update_date, a.area, e.*, r.role_name FROM (((user u inner join employer e on u.id = e.user_id) inner join area a on e.area_id = a.id) inner join role r on e.role_id = r.id)`;
     let params = [];
 
     const [results] = await pool.promise().query(sql, params);
@@ -41,7 +41,7 @@ const getAllCompleteEmployer = async() =>{
 }
 
 const getAllCompleteEmployerByArea = async(area_id) =>{
-    let sql = `SELECT u.*, a.area, e.*, r.role_name FROM (((user u inner join employer e on u.id = e.user_id) inner join area a on e.area_id = a.id) inner join role r on e.role_id = r.id) WHERE a.id = ?`;
+    let sql = `SELECT u.id, u.name, u.surname, u.email, u.dni, u.is_able, u.privileges, u.to_create, u.sign_up_date, u.to_update, u.to_update_date, a.area, e.*, r.role_name FROM (((user u inner join employer e on u.id = e.user_id) inner join area a on e.area_id = a.id) inner join role r on e.role_id = r.id) WHERE a.id = ?`;
     let params = [area_id];
     
     const [results] = await pool.promise().query(sql, params);
