@@ -19,9 +19,9 @@ router.get('/getAreaByColumn/:name', areaController.getAreaByColumn);
 router.post('/addArea', areaController.addArea);
 
 // Edit an existing area
-router.patch('/editArea', areaController.editArea);
+router.patch('/editArea/:id', areaController.editArea);
 
 // Delete an existing area
-router.delete('/deleteArea', areaController.deleteArea); 
+router.delete('/deleteArea/:id', areaController.deleteArea); 
 
 module.exports = router;

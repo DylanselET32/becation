@@ -19,9 +19,9 @@ router.get('/getRoleByName/:name', roleController.getRoleByName);
 router.post('/addRole', roleController.addRole);
 
 // Edit an existing role
-router.patch('/editRole', roleController.editRole);
+router.patch('/editRole/:id', roleController.editRole);
 
 // Delete an existing role
-router.delete('/deleteRole', roleController.deleteRole); 
+router.delete('/deleteRole/:id', roleController.deleteRole); 
 
 module.exports = router;

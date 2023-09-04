@@ -47,7 +47,7 @@ const addArea = async (req, res) =>{
 
 const editArea = async (req, res) => {
     try {
-        const id = req.body.area_id; // Obtener el ID de la vacación
+        const id = req.params.id; // Obtener el ID de la vacación
         if (id === 0 || id == null) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });
             return;
