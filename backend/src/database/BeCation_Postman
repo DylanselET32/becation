@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f67b9ab1-d8bb-4d6d-aef4-cb88ece40f18",
+		"_postman_id": "7360fd40-452e-4526-a93e-7559c4fbf482",
 		"name": "BeCation",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27614966"
 	},
 	"item": [
 		{
@@ -78,33 +79,6 @@
 								{
 									"key": "id",
 									"value": "3"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ResetPassword",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/v1/user/resetPassword/:id",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"v1",
-								"user",
-								"resetPassword",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "2"
 								}
 							]
 						}
@@ -217,7 +191,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"name\": \"maria\",\r\n    \"surname\": \"gonzalez\",\r\n    \"password\":\"mariag123\",\r\n    \"email\": \"mariag@streambe.com\",\r\n    \"dni\": 12342786,\r\n    \"privileges\":2,\r\n    \"role_id\": 1,\r\n    \"area_id\":1,\r\n    \"available_days\": 6,\r\n    \"total_days\":7,\r\n    \"is_cumulative\":1,\r\n    \"contrat_day\": \"2022-08-17\",\r\n    \"sign_up_date\":\"2023-08-20\"\r\n}",
+							"raw": " {\r\n    \"name\": \"maria\",\r\n    \"surname\": \"gonzalez\",\r\n    \"password\":\"mariag123\",\r\n    \"email\": \"mariag@streambe.com\",\r\n    \"dni\": 12342786,\r\n    \"privileges\":2,\r\n    \"role_id\": 1,\r\n    \"area_id\":2,\r\n    \"available_days\": 6,\r\n    \"total_days\":7,\r\n    \"is_cumulative\":1,\r\n    \"contrat_day\": \"2022-08-17\",\r\n    \"sign_up_date\":\"2023-08-20\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -282,7 +256,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"surname\": \"admin\",\r\n    \"available_days\":60\r\n   \r\n}",
+							"raw": " {\r\n    \"privileges\":2\r\n   \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -290,44 +264,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/v1/user/editUser",
+							"raw": "localhost:3000/v1/employer/editEmployer",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"v1",
-								"user",
-								"editUser"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": " {\r\n    \"email\": \"juanp@gmail.com\",\r\n    \"password\":\"juanp123\"\r\n    \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/v1/user/login",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"v1",
-								"user",
-								"login"
+								"employer",
+								"editEmployer"
 							]
 						}
 					},
@@ -498,7 +443,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"employee\": 1,\r\n    \"start_date\": \"2023-08-29T19:59:11.000Z\",\r\n    \"end_date\": \"2023-08-31T19:59:11.000Z\",\r\n    \"status\": \"denied\",\r\n    \"note\": \"No sos la bestia\",\r\n    \"date_asked\": \"2023-08-25T00:59:11.000Z\",\r\n    \"area_manager_authorization\": 0,\r\n    \"to_create\": \"2023-08-23T20:00:40.000Z\",\r\n    \"to_update\": 1,\r\n    \"to_update_date\": \"2023-08-24T00:59:11.000Z\"\r\n}",
+							"raw": " {\r\n    \"employee\": 2,\r\n    \"start_date\": \"2023-08-29T19:59:11.000Z\",\r\n    \"end_date\": \"2023-08-31T19:59:11.000Z\",\r\n    \"status\": \"null\",\r\n    \"note\": \"\",\r\n    \"date_asked\": \"2023-08-25T00:59:11.000Z\",\r\n    \"area_manager_authorization\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -515,6 +460,42 @@
 								"v1",
 								"vacation",
 								"addVacation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editVacation",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {  \r\n    \"area_manager_authorization\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/v1/vacation/editVacation/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"vacation",
+								"editVacation",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "4"
+								}
 							]
 						}
 					},
@@ -553,7 +534,7 @@
 			"name": "Area",
 			"item": [
 				{
-					"name": "getAllAreas",
+					"name": "getAllAreas Copy",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -571,6 +552,190 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "addArea",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"area\":\"RRHH\",\r\n    \"area_manager\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/v1/area/addArea",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"area",
+								"addArea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editArea",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/role/editRole",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"role",
+								"editRole"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteArea",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/area/deleteArea/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"area",
+								"deleteArea",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "getAllRoles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/role/getAllRoles",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"role",
+								"getAllRoles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addRole",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role_name\":\"Administrador\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/v1/role/addRole",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"role",
+								"addRole"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editRole",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/role/editRole/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"role",
+								"editRole",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRole",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/v1/role/deleteRole/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"role",
+								"deleteRole",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -580,7 +745,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjkzMjI3NTE5LCJleHAiOjE2OTU4MTk1MTl9.dmYYX88LQGeslpCJxSSgugQS4mby-SAMUw8XtD_j76g",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjkzODQ3MDg3LCJleHAiOjE2OTY0MzkwODd9.x-GsSetLuKr9BCQisMKuG7HbOrMqQP60C6XUwxQxh5M",
 				"type": "string"
 			}
 		]
