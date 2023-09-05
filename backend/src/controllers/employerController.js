@@ -3,6 +3,7 @@ const UserDAO = require('../DAO/UserDAO');
 const EmployerDAO = require('../DAO/EmployerDAO');
 const AreaDAO = require('../DAO/AreaDAO');
 const { encryptText, createToken } = require('../utils/authUtils');
+const { formatFullDateTime } = require('../utils/dateUtils');
 // const { sendConfirmEmail } = require('../utils/emeilSendUtils');
 
 
@@ -89,7 +90,7 @@ const addEmployer = async (req, res) => {
         sign_up_date:data.sign_up_date,
         password: await encryptText(data.password),
         to_update:employerAdmin_id,
-        to_update_date: Date(),
+        to_update_date: formatFullDateTime(Date()),
     }
     
     const user_id = await UserDAO.addUser(dataUser);
@@ -103,7 +104,7 @@ const addEmployer = async (req, res) => {
       role_id:data.role_id,
       area_id:data.area_id,
       to_update:employerAdmin_id,
-      to_update_date: Date(),
+      to_update_date: formatFullDateTime(Date()),
     }
     let employer_id;
     try { //hago otro try catch para que el error sql no salte directo al catch general, sino que primero elimine el usuario creado
@@ -152,9 +153,9 @@ const editEmployer = async (req,res) => {
       dataUser.password = await encryptText(dataUser.password);
     }
 
-    if (dataUser.length>0){
+    if (Object.keys(dataUser).length>0){
       dataUser  = {...dataUser,
-        to_update_date:Date(),
+        to_update_date:formatFullDateTime(Date()),
         to_update:employer_id,}
         const result = await UserDAO.editUser(dataUser, previousUser.id); // Editar el usuario utilizando la función edit de CRUD
         if (result === 0) { //si no se pudo editar 
@@ -162,9 +163,9 @@ const editEmployer = async (req,res) => {
           return;
         } 
     }
-    if (dataEmployer.length>0){
+    if (Object.keys(dataEmployer).length>0){
       dataEmployer  = {...dataEmployer,
-        to_update_date:Date(),
+        to_update_date:formatFullDateTime(Date()),
         to_update:employer_id,}
         const result = await EmployerDAO.editEmployer(dataEmployer, employer_id); // Editar el usuario utilizando la función edit de CRUD
         if (result === 0) { //si no se pudo editar 
@@ -213,7 +214,7 @@ const editEmployerById = async (req,res) => {
 
     if (Object.keys(dataUser).length>0){
       dataUser  = {...dataUser,
-        to_update_date:Date(),
+        to_update_date:formatFullDateTime(Date()),
         to_update:employerAdmin_id,}
         const result = await UserDAO.editUser(dataUser, previousUser.id); // Editar el usuario utilizando la función edit de CRUD
         if (result === 0) { //si no se pudo editar 
@@ -223,7 +224,7 @@ const editEmployerById = async (req,res) => {
     }
     if (Object.keys(dataEmployer).length>0){
       dataEmployer  = {...dataEmployer,
-        to_update_date:Date(),
+        to_update_date:formatFullDateTime(Date()),
         to_update:employerAdmin_id,}
         const result = await EmployerDAO.editEmployer(dataEmployer, employer_id); // Editar el usuario utilizando la función edit de CRUD
         if (result === 0) { //si no se pudo editar 

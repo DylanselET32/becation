@@ -1,6 +1,7 @@
 const { getAreaById } = require('../DAO/AreaDAO');
 const { getEmployerByColumn, getEmployerById, getCompleteEmployer } = require('../DAO/EmployerDAO');
 const vDAO = require('../DAO/VacationDAO');
+const { formatFullDateTime } = require('../utils/dateUtils');
 
 const email = require('../utils/emeilSendUtils');
 
@@ -92,7 +93,7 @@ const addVacation = async (req, res) => {
       date_asked: data.date_asked,
       area_manager_authorization: data.area_manager_authorization,
       to_update: employee_id,
-      to_update_date: Date(),
+      to_update_date: formatFullDateTime(Date()),
     }
 
     // Agregar vacacion
@@ -134,7 +135,7 @@ const editVacation = async (req, res) => {
       const vacationData = {
       ...data,
       to_update: idEmployerAdmin,
-      to_update_date: Date(),
+      to_update_date: formatFullDateTime(Date()),
       }
 
       const edit = await vDAO.editVacation(vacationData, id);

@@ -35,10 +35,16 @@ function formatDateToString(date, format = 'YYYY-MM-DD') {
     return new Date(date.getTime() + minutes * 60000); //en milisegundos lo transformamos a minutos multiplicando
   }
 
+
+  const formatFullDateTime = (date)=>{
+    return `${formatDateToString(date)}T${getTime(date)}`
+  }
+
   module.exports = {
     formatDateToString,
     formatDateTime,
     getTime,
     operateDate,
     operateDateTime,
+    formatFullDateTime
   };

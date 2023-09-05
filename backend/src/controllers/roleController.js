@@ -1,4 +1,5 @@
 const RoleDAO = require('../DAO/RoleDAO');
+const { formatFullDateTime } = require('../utils/dateUtils');
 
 const getAllRoles = async (req, res)=>{
     try {
@@ -48,6 +49,7 @@ const addRole = async (req, res) =>{
 
 const editRole = async (req, res) => {
     try {
+        const employerAdmin_id = req.employer.id;
         const id = req.params.id; // Obtener el ID de la vacación
         if (id === 0 || id == null) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });
@@ -58,8 +60,15 @@ const editRole = async (req, res) => {
         for (const prop in req.body) {
             data[prop] = req.body[prop];
         }
+        if (Object.keys(data).length>0){
+            data  = {...data,
+              to_update_date:formatFullDateTime(Date()),
+              to_update:employerAdmin_id,
+            }
+        }
         const edit = await RoleDAO.editRole(data, id);
-        res.status(200).json(edit);
+        if(!edit){throw new Error("Error to edit area")}
+        res.status(200).json({});
         } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
@@ -68,7 +77,7 @@ const editRole = async (req, res) => {
 
 const deleteRole = async (req, res) => {
     try {
-        const id = req.body.role_id; // Obtener el ID de la vacación
+        const id = req.params.id; // Obtener el ID de la vacación
         const result = RoleDAO.removeRole(id);
         if (result === 0) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });

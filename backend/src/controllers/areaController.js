@@ -1,4 +1,5 @@
 const AreaDAO = require('../DAO/AreaDAO');
+const { formatDateToString, formatFullDateTime } = require('../utils/dateUtils');
 
 const getAllAreas = async (req, res)=>{
     try {
@@ -47,6 +48,7 @@ const addArea = async (req, res) =>{
 
 const editArea = async (req, res) => {
     try {
+        const employerAdmin_id = req.employer.id;
         const id = req.params.id; // Obtener el ID de la vacación
         if (id === 0 || id == null) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });
@@ -57,8 +59,17 @@ const editArea = async (req, res) => {
         for (const prop in req.body) {
             data[prop] = req.body[prop];
         }
+        if (Object.keys(data).length >0){
+            data  = {...data,
+              to_update_date: formatFullDateTime(Date()),
+              to_update:employerAdmin_id,
+            }
+        }
+        console.log(Object.keys(data).length)
+        console.log(data)
         const edit = await AreaDAO.editArea(data, id);
-        res.status(200).json(edit);
+        if(!edit){throw new Error("Error to edit area")}
+        res.status(200).json({});
         } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
@@ -67,7 +78,7 @@ const editArea = async (req, res) => {
 
 const deleteArea = async (req, res) => {
     try {
-        const id = req.body.area_id; // Obtener el ID de la vacación
+        const id = req.params.id; // Obtener el ID de la vacación
         const result = AreaDAO.removeArea(id);
         if (result === 0) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });

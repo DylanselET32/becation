@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "7360fd40-452e-4526-a93e-7559c4fbf482",
+		"_postman_id": "62faca05-f48c-4a9f-ba11-4372fe6b83ca",
 		"name": "BeCation",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27614966"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -534,7 +533,7 @@
 			"name": "Area",
 			"item": [
 				{
-					"name": "getAllAreas Copy",
+					"name": "getAllAreas",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -587,16 +586,32 @@
 					"request": {
 						"method": "PATCH",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"area\":\"RRHH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:3000/v1/role/editRole",
+							"raw": "localhost:3000/v1/area/editArea/:id",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"v1",
-								"role",
-								"editRole"
+								"area",
+								"editArea",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -622,7 +637,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "2"
 								}
 							]
 						}
@@ -661,7 +676,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"role_name\":\"Administrador\"\r\n}\r\n",
+							"raw": "{\r\n    \"role_name\":\"Empleado\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -688,6 +703,15 @@
 					"request": {
 						"method": "PATCH",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role_name\":\"Empleados\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "localhost:3000/v1/role/editRole/:id",
 							"host": [
@@ -703,7 +727,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "2"
 								}
 							]
 						}
