@@ -90,7 +90,7 @@ const addVacation = async (req, res) => {
       end_date: data.end_date,
       status: data.status,
       note: data.note,
-      date_asked: data.date_asked,
+      date_asked: formatFullDateTime(Date()),
       area_manager_authorization: data.area_manager_authorization,
       to_update: employee_id,
       to_update_date: formatFullDateTime(Date()),
@@ -128,8 +128,7 @@ const editVacation = async (req, res) => {
     const employerAdmin = await getCompleteEmployer(idEmployerAdmin)
 
     const areaData = await  getAreaById(employer.area_id)
-    const AreaManagerEmployer = await getEmployerByColumn("user_id",areaData.area_manager) ;
-    
+    const AreaManagerEmployer = await getEmployerById(areaData.area_manager) ;
     if(AreaManagerEmployer.id == idEmployerAdmin || employerAdmin.privileges >= 3){
       
       const vacationData = {
