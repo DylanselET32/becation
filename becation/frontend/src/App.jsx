@@ -1,7 +1,7 @@
 import Header from "./components/Header"
 import LogoBecation from "./imgs/BeCation_logo.png"
 import Calendar from "./pages/Calendar"
-import Login from "./pages/Login"
+// import Login from "./pages/Login"
 import "./stylesheets/app.css"
 
 function App() {
@@ -11,7 +11,9 @@ function App() {
     <>
       <div className="app">
         <Header />
-        <Login />
+
+        {/* <Login /> */}
+
 
         {/* <Calendar /> */}
 

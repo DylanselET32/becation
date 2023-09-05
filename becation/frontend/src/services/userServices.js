@@ -1,5 +1,7 @@
 import { setAuthToken, getAuthToken } from "../helpers/misc/authUtils";
 const apiUrl = import.meta.env.VITE_API_URL;
+const apiVersion = import.meta.env.VITE_API_VERSION;
+
 
 export async function addUser(user) {
   try {
@@ -79,7 +81,8 @@ export async function deleteUser() {
 
 export async function login(user) {
   try {
-    const response = await fetch(`${apiUrl}/user/login`, {
+    console.log(apiVersion)
+    const response = await fetch(`${apiUrl}/${apiVersion}/user/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),

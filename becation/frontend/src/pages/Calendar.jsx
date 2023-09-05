@@ -1,44 +1,56 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import "../stylesheets/calendar.css"
 import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation'
+import { addVacation, getAllVacations } from '../services/vacationService'
+import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
 
-const events= [
-    { title: "Evento 3 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 4 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 5 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 6 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 7 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 8 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 9 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 10 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 11 ", start: "2023-08-23", end: "2023-08-30", },
-    { title: "Evento 12 ", start: "2023-08-23", end: "2023-08-30", }, { title: "Evento 5 ", start: "2023-08-23", end: "2023-08-30", },
-]
+
 
 export default function Calendar(){
 
     const [isAvailableForm, setIsAvailableForm] = useState(false)
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
 
+    const fecth = async ()=>{
+        const vacations = await getAllVacations();
+
+        let temporalVacations = []
+        vacations.data.map((event)=>{
+            console.log(event.end_date)
+            const vacation = {allDay: true, start: event.start_date, end: formatDateToString(operateDate(new Date(event.end_date), 1)), title: "Vacations"  }
+            temporalVacations.push(vacation)
+        })
+
+        console.log(temporalVacations)
+
+        setVacationDaysAsked(temporalVacations)
+    }
 
     const handleVacationFormRequest = ()=>{
         setIsAvailableForm(!isAvailableForm)
     }
+
+    useEffect(()=>{
+        fecth()
+    }, [])
 
     const handleEventChange = (e)=>{
         console.log(e.event._instance.range.end.getDate())
 
         let initalYear= e.event._instance.range.start.getFullYear()
         let initialMonth= (e.event._instance.range.start.getMonth()+1).toString()
-        let initialDay= (e.event._instance.range.start.getDate()+1).toString()
+        let initialDay= operateDate(e.event._instance.range.start , 1).getDate()
         const NEW_INITIAL_DATE= `${initalYear}-${initialMonth.length <= 1 ? `0${initialMonth}` : initialMonth}-${initialDay.length <= 1 ? `0${initialDay}` : initialDay}`
 
         let finalMonth= (e.event._instance.range.end.getMonth()+1).toString()
-        let finalDay= (e.event._instance.range.end.getDate()+1).toString()
+        let finalDay= operateDate(e.event._instance.range.end , 1).getDate()
+
+        console.log("PPP",finalDay)
+
         const NEW_END_DATE = `${initalYear}-${finalMonth.length <= 1 ? `0${finalMonth}` : finalMonth}-${finalDay.length <= 1 ? `0${finalDay}` : finalDay}`
 
         setVacationDaysAsked([{
@@ -60,6 +72,21 @@ export default function Calendar(){
                 end: state.finalDate
             }
         ])
+    }
+
+    const handleSubmit = async ()=>{
+        let vacationToSend = vacationDaysAsked[0]
+        vacationToSend = {
+            start_date : new Date(vacationToSend.start),
+            end_date:  new Date(vacationToSend.end),
+            status: null,
+            note: null,
+            date_asked: new Date(),
+            area_manager_authorization: null,
+        }
+
+        await addVacation(vacationToSend)
+        
     }
 
     return(
@@ -99,7 +126,7 @@ export default function Calendar(){
                     {isAvailableForm ? "Cancelar" : "Pedir Vacaciones"}
                 </button>
                 <div className='form_vacation_container'>
-                    <FormVacation isCalled={isAvailableForm} formFather={handleForm}/>
+                    <FormVacation isCalled={isAvailableForm} formFather={handleForm} handleSubmit={handleSubmit}/>
                 </div>
             </section>
             
