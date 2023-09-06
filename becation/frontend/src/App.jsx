@@ -5,8 +5,7 @@ import LogoBecation from "./imgs/BeCation_logo.png"
 import Calendar from "./pages/Calendar"
 import ConfigProfile from "./pages/ConfigProfile"
 import Login from "./pages/Login"
-
-
+import Register from "./pages/Register"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
@@ -20,8 +19,6 @@ function App() {
 
   return (
     <>
-
-//         <ConfigProfile/>
 
     <div className="app">
      <BrowserRouter>
