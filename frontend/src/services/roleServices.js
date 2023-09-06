@@ -3,9 +3,9 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const apiVersion = import.meta.env.VITE_API_VERSION;
 
 /* MÉTODOS GET */
-export async function getAreaById(id) {
+export async function getRoleById(id) {
     try {
-        const response = await fetch(`${apiUrl}/${apiVersion}/area/getAreaById/${id}`, {
+        const response = await fetch(`${apiUrl}/${apiVersion}/role/getRoleById/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -14,17 +14,17 @@ export async function getAreaById(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir el area'); 
+        if (status == 500) throw new Error('Error al conseguir el Role'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el area");
+        throw new Error("Error al solicitar el rol");
     }
 }
 
-export async function getAreaByColumn(nombreArea){
+export async function getRoleByName(nombreRol){
     try {
-        const response = await fetch(`${apiUrl}/${apiVersion}/area/getAreaByColumn/${nombreArea}`, {
+        const response = await fetch(`${apiUrl}/${apiVersion}/role/getRoleByName/${nombreRol}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -33,17 +33,17 @@ export async function getAreaByColumn(nombreArea){
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir el area'); 
+        if (status == 500) throw new Error('Error al conseguir el Role'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el area");
+        throw new Error("Error al solicitar el rol");
     }
 }
 
-export async function getAllAreas() {
+export async function getAllRoles() {
     try {
-        const response = await fetch(`${apiUrl}/${apiVersion}/area/getAllAreas`, {
+        const response = await fetch(`${apiUrl}/${apiVersion}/role/getAllRoles`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -52,60 +52,60 @@ export async function getAllAreas() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir las areas'); 
+        if (status == 500) throw new Error('Error al conseguir los roles'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar las area");
+        throw new Error("Error al solicitar el rol");
     }
 }
 
 /* MÉTODO ADD */
-export async function addArea(area) {
+export async function addRole(role) {
     try {
-        const response = await fetch(`${apiUrl}/${apiVersion}/area/addArea`, {
+        const response = await fetch(`${apiUrl}/${apiVersion}/role/addRole`, {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getAuthToken()}`,
             },
-            body: JSON.stringify(area),
+            body: JSON.stringify(role),
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al agregar el area'); 
+        if (status == 500) throw new Error('Error al agregar el Role'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al agregar el area");
+        throw new Error("Error al agregar el rol");
     }
 }
 
 /* MÉTODO PATCH */
-export async function editArea(id, area) {
+export async function editRole(id, role) {
     try {
-        const response = await fetch(`${apiUrl}/${apiVersion}/area/editArea/${id}`, {
+        const response = await fetch(`${apiUrl}/${apiVersion}/role/editRole/${id}`, {
             method: "PATCH",
             headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getAuthToken()}`,
             },
-            body: JSON.stringify(area),
+            body: JSON.stringify(role),
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al modificar el area'); 
+        if (status == 500) throw new Error('Error al modificar el Role'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al editar el area");
+        throw new Error("Error al modificar el rol");
     }
 }
 
 /* MÉTODO DELETE */
-export async function deleteArea(id) {
+export async function deleteRole(id) {
     try {
-        const response = await fetch(`${apiUrl}/area/deleteArea/${id}`, {
+        const response = await fetch(`${apiUrl}/role/deleteRole/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -114,10 +114,10 @@ export async function deleteArea(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al eliminar el area'); 
+        if (status == 500) throw new Error('Error al eliminar el Role'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al eliminar el area");
+        throw new Error("Error al eliminar rol");
     }
 }
