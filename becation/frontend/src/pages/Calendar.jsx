@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import { useNavigate } from 'react-router-dom'
 import "../stylesheets/calendar.css"
 import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation'
@@ -11,6 +12,8 @@ import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
 
 
 export default function Calendar(){
+
+    const navigate = useNavigate();
 
     const [isAvailableForm, setIsAvailableForm] = useState(false)
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
@@ -34,9 +37,7 @@ export default function Calendar(){
         setIsAvailableForm(!isAvailableForm)
     }
 
-    useEffect(()=>{
-        fecth()
-    }, [])
+
 
     const handleEventChange = (e)=>{
         console.log(e.event._instance.range.end.getDate())
@@ -103,7 +104,7 @@ export default function Calendar(){
                         editable={true}
                         eventClick={handleEventClick}
                         dayMaxEventRows={true}
-                        height="700px"
+                        height="400px"
                         views= {{
                             timeGridMonth: {
                               dayMaxEventRows: 2 // adjust to 6 only for timeGridWeek/timeGridDay
