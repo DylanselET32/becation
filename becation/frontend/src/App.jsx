@@ -3,7 +3,10 @@ import Header from "./components/Header"
 import useAuth from "./helpers/misc/useAuth"
 import LogoBecation from "./imgs/BeCation_logo.png"
 import Calendar from "./pages/Calendar"
-// import Login from "./pages/Login"
+import ConfigProfile from "./pages/ConfigProfile"
+import Login from "./pages/Login"
+
+
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
@@ -18,13 +21,14 @@ function App() {
   return (
     <>
 
+//         <ConfigProfile/>
+
     <div className="app">
      <BrowserRouter>
         <Header auth={auth}/>
         <Routes>
           
-
-    
+   
             <Route exact path="/login" element={<Login auth={auth} />}/>
             <Route path="/calendar" element={<Calendar />}/>
            
