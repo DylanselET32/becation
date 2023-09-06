@@ -18,6 +18,7 @@ Este repositorio contiene el proyecto web de la aplicación BeCation, desarrolla
 **Team FrontEnd:**
 - Diego Sánchez
 - Emilio Pereira
+- Luis Meza
 
 **Team BackEnd:**
 - Dylan Seltzer
