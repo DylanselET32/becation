@@ -9,6 +9,7 @@ const getAllVacations = async () => await CRUD.getAll('vacation', ["id", "employ
 const getVacationById = async (id) => await CRUD.getById('vacation', id, ["id", "employee", "start_date", "end_date", "status", "note", "date_asked", "area_manager_authorization", "to_create", "to_update", "to_update_date"]);
 
 // ID DE USUARIO (SI ASÍ SE DESEA) o cualquier columna
+const getAllVacationByColumn = async (column, value, fields = ["id", "employee", "start_date", "end_date", "status", "note", "date_asked", "area_manager_authorization", "to_create", "to_update", "to_update_date"]) => await CRUD.getAllByColumn('vacation', column, value, fields);
 const getVacationByColumn = async (column, value, fields = ["id", "employee", "start_date", "end_date", "status", "note", "date_asked", "area_manager_authorization", "to_create", "to_update", "to_update_date"]) => await CRUD.getByColumn('vacation', column, value, fields);
 
 // GetAll entre fechas (la columna a comparar puede ser la fecha de inicio o la de fin)
@@ -36,6 +37,7 @@ const getVacationsByArea = async (area_id) => {
 module.exports = {
     getAllVacations,
     getVacationById,
+    getAllVacationByColumn,
     getVacationByColumn,
     getVacationsBetweenDates,
     getVacationsByArea,

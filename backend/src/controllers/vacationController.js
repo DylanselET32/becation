@@ -16,6 +16,19 @@ const getAllVacations = async (req, res) => {
   }
 };
 
+
+const getVacations = async (req, res) => {
+  //Este método solo podria ser ejecutada por un admin o RRHH
+  try {
+    const employer_id = req.employer.id;
+    const respuesta = await vDAO.getAllVacationByColumn("employee",employer_id) ;
+    res.status(200).json(respuesta);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const getAllVacationsByArea = async (req, res) => {
   //esta funcion solo podria ser ejecutada por un admin o RRHH
   try {
@@ -136,7 +149,7 @@ const editVacation = async (req, res) => {
       to_update: idEmployerAdmin,
       to_update_date: formatFullDateTime(Date()),
       }
-
+      
       const edit = await vDAO.editVacation(vacationData, id);
       if(!edit){res.status(404).json({ message: 'error to update vacation' });}
      
@@ -185,6 +198,7 @@ const getAllVacationsByEmployerId = async (req, res) => {
 
 module.exports = {
   getAllVacations,
+  getVacations,
   getAllVacationsByArea,
   getAllVacationsByUser,
   getAllVacationsByEmployerId,

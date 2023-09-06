@@ -9,7 +9,8 @@ This file only contains routing, the code and logic behind each query is in the 
 
 // Get all vacations
 router.get('/getAllVacations' ,vacationController.getAllVacations);
-
+// Get all vacations
+router.get('/getVacations' ,vacationController.getVacations);
 // Get a vacation by ID
 router.get('/getVacationById/:id', vacationController.getVacationById);
 
