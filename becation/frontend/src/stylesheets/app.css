@@ -1,4 +1,5 @@
 .app{
-    height: 100vh;
-    overflow-y: hidden;
+    /* height: 100vh;
+    overflow-y: hidden; */
+    font-family: 'Inter', sans-serif;
 }

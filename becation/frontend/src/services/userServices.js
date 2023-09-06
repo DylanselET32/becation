@@ -1,5 +1,6 @@
 import { setAuthToken, getAuthToken } from "../helpers/misc/authUtils";
 const apiUrl = import.meta.env.VITE_API_URL;
+const apiVersion = import.meta.env.VITE_API_VERSION;
 
 export async function addUser(user) {
   try {
@@ -43,7 +44,7 @@ export async function editUser(user) {
 
 export async function getUser() {
   try {
-    const response = await fetch(`${apiUrl}/user/getUser`, {
+    const response = await fetch(`${apiUrl}/${apiVersion}/Employer/getEmployer`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +80,7 @@ export async function deleteUser() {
 
 export async function login(user) {
   try {
-    const response = await fetch(`${apiUrl}/user/login`, {
+    const response = await fetch(`${apiUrl}/${apiVersion}/user/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
@@ -94,17 +95,3 @@ export async function login(user) {
   }
 }
 
-// export async function confirmEmailByToken(token) {
-//   try {
-//     const response = await fetch(`${apiUrl}/user/confirmEmail/${token}`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//     });
-//     const data = await response.json();
-//     const status = response.status;
-//     return {data, status};
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error("Error al iniciar sesion");
-//   }
-// }

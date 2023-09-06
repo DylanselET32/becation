@@ -1,6 +1,7 @@
 .form{
     /* display: block; */
-  
+    min-width: 12rem ;
+    margin-right: 10px;
     height: 60%;
     display: flex;
     flex-direction: column;
@@ -8,8 +9,9 @@
     align-items: start;
     /* background: red; */
     /* transition: .3s; */
-   
 }
+
+
 
 .hiddenForm{
     /* background: red; */
@@ -25,12 +27,14 @@
 }
 
 .input_container .date_input{
-    padding: 5px;
+    padding: 10px;
     border-radius: 8px;
     border: .5px #888;
     background: #c2c2c2;
     outline: none;
 }
+
+
 
 .button_container{
     justify-content: center;
@@ -74,4 +78,20 @@
     font-weight: bold;
     color: #f1f1f1;
     border-radius: 10px;
+}
+
+@media screen and (max-width: 1132px) {
+    .form{
+        width: 10rem ;
+        font-size: .9rem;
+    }
+}
+
+@media screen and (max-width: 730px) {
+
+  
+    .form{
+        width: 8rem ;
+        font-size: .8rem;
+    }
 }
