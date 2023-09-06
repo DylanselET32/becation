@@ -5,8 +5,8 @@ import EyeToHide from "../imgs/eye-crossed.svg"
 import EyeHiden from "../imgs/eye.svg"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import ModalAlert from "../components/ModalAlert"
-import useModalAlert from "../helpers/useModalAlert"
+// import ModalAlert from "../components/ModalAlert"
+// import useModalAlert from "../helpers/useModalAlert"
 import { login } from "../services/userServices"
 import { useEffect } from "react"
 
@@ -26,7 +26,7 @@ export default function Login ({auth}){
     const navigate = useNavigate();
     const [passHidden, setPassHidden] = useState(false)
     const [form, setForm] = useState(initalForm)
-    const [ handleModalAlert, alert, openModalAlert, modalAlertCalled, msg, setMsg]= useModalAlert();
+
     
 
 
@@ -44,19 +44,19 @@ export default function Login ({auth}){
     const handleSubmit= async(e)=>{
         e.preventDefault();
         if(!form.email || !form.password){
-          openModalAlert();
+        
           setMsg("Complete los datos")
           return
         }
         const [data, status]= await login(form)
         if(status == 401){
-            openModalAlert();
+          
           setMsg("Contraseña Incorrecta")
         }else if(status == 404){
-            openModalAlert();
+          
           setMsg("Usuario incorrecto")
         }else if(status == 400){
-            openModalAlert();
+         
           setMsg("Nombre de usuario en uso")
         }else if(status == 200){
             console.log("USER...", auth)
@@ -112,7 +112,7 @@ export default function Login ({auth}){
                     <button className="btn-login">Continuar</button>
                 </form>
             </div>
-            {alert && <ModalAlert msg={msg} handleModalAlert={handleModalAlert} modalStyle={alert ? modalAlertCalled : "aviso-hidden"}/>}
+            {/* {alert && <ModalAlert msg={msg} handleModalAlert={handleModalAlert} modalStyle={alert ? modalAlertCalled : "aviso-hidden"}/>} */}
         </main>
 
 

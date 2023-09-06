@@ -1,4 +1,5 @@
-import "../stylesheets/configprofilex.css"
+import "../stylesheets/configprofile.css"
+import { useState } from "react";
 
 export default function ConfigProfile(){
 
