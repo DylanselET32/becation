@@ -77,7 +77,11 @@ const editRole = async (req, res) => {
 
 const deleteRole = async (req, res) => {
     try {
-        const id = req.params.id; // Obtener el ID de la vacación
+        const id = req.params.id; // Obtener el ID del rol
+        const secure = await EmployerDAO.getEmployerByColumn("area_id", id);
+        if (secure) {
+            throw new Error("El registro está en uso");
+        }
         const result = RoleDAO.removeRole(id);
         if (result === 0) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });

@@ -1,4 +1,5 @@
 const AreaDAO = require('../DAO/AreaDAO');
+const EmployerDAO = require('../DAO/EmployerDAO');
 const { formatDateToString, formatFullDateTime } = require('../utils/dateUtils');
 
 const getAllAreas = async (req, res)=>{
@@ -78,7 +79,11 @@ const editArea = async (req, res) => {
 
 const deleteArea = async (req, res) => {
     try {
-        const id = req.params.id; // Obtener el ID de la vacación
+        const id = req.params.id; // Obtener el ID del area
+        const secure = await EmployerDAO.getEmployerByColumn("area_id", id);
+        if (secure) {
+            throw new Error("El registro está en uso");
+        }
         const result = AreaDAO.removeArea(id);
         if (result === 0) { // Si la vacación no existe
             res.status(404).json({ message: 'Vacation not found' });
