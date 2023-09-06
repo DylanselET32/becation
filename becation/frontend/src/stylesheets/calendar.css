@@ -115,11 +115,20 @@ main{
     width: 70%;
     /* background: red; */
     transform: translateY(-5rem);
+    background: blue;
+    height: 200px;
+    padding: none;
   }
+
+  /* .form_vacation_container{
+    background: yellow;
+    width: 100% !important;
+    justify-content: space-between;
+  } */
 
   .calendar_section{
     /* background: rgb(202, 200, 74); */
-    height: 75vh;
+    height: 60vh;
     width: 100vw;
 }
 
