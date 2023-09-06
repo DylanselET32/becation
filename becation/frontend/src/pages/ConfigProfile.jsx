@@ -11,6 +11,11 @@ export default function ConfigProfile(){
         privileges: '',
         role_id: '',
         area_id: '',
+        avaible_days: '',
+        total_days: '',
+        is_acumulative: '',
+        contrat_day: '',
+        sign_up_date: '',
 
 
         // Otros campos de perfil
@@ -31,6 +36,7 @@ export default function ConfigProfile(){
 
     
     return (<>
+    
         
     </>)
 }   
