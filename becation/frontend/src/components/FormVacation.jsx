@@ -6,7 +6,7 @@ const  initialForm = {
     finalDate:""
 }
 
-export default function FormVacation({isCalled, formFather}){
+export default function FormVacation({isCalled, formFather, handleSubmit}){
 
     const [form, setForm] = useState(initialForm)
 
@@ -25,7 +25,7 @@ export default function FormVacation({isCalled, formFather}){
     }
 
     return(
-        <form action="" className={isCalled ? "form" : "hiddenForm"}>
+        <form action="" className={isCalled ? "form" : "hiddenForm"} onSubmit={handleSubmit}>
             <div className="input_container">
                 <label htmlFor="start_date">Fecha de Inicio: </label>
                 <input type="date" id="start_date" name="initialDate" value={form.initialDate} onChange={handleChange} className="date_input" />

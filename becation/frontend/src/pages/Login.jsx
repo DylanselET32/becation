@@ -1,3 +1,4 @@
+
 import "../stylesheets/login.css"
 import "../stylesheets/modalAlert.css"
 import EyeToHide from "../imgs/eye-crossed.svg"
@@ -9,8 +10,10 @@ import useModalAlert from "../helpers/useModalAlert"
 import { login } from "../services/userServices"
 import { useEffect } from "react"
 
-const styleCard = {
+
+const styleContainer = {
     borderRadius: "1rem",
+    background: "#2e2e2e"
 }
 
 const initalForm = {
@@ -72,6 +75,7 @@ export default function Login ({auth}){
         }
     }
 
+
     const reloaded = async () =>{
         const authe = await auth.reloaded();
         console.log(authe)
@@ -86,43 +90,32 @@ export default function Login ({auth}){
       
 
     return (
-        <div>
-               <section className="gradient-custom section_login">
-            <div className="container py-5 ">
-                <div className="row d-flex justify-content-center align-items-center h-80 ">
-                    <div className="col-12 col-md-8 col-lg-6 col-xl-5 ">
-                        <form onSubmit={handleSubmit} className="card bg-dark text-white " style={styleCard}>
-                            <div className="card-body p-5 text-center">
-                                <div className="mb-md-5 mt-md-4 pb-5">
-                                    <h2 className="fw-bold mb-2 ">Iniciar Sesión</h2>
-                                    <div className="form-outline form-white mb-4 input_container">
-                                        <label className="form-label" htmlFor="typeEmail">Email</label>
-                                        <div className="input_login">
-                                            <input type="email" id="typeEmail" name="email" value={form.email} onChange={handleForm}/>
-                                            
-                                        </div>
-                                    </div>
-                                    <div className="form-outline form-white mb-4 input_container">
-                                        <label className="form-label" htmlFor="typeContraseña">Contraseña</label>
-                                        <div className="input_login">
-                                            <input type={passHidden ? "text" : "password"} id="password" name="password" value={form.password} onChange={handleForm}/>
-                                            <img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/>
-                                        </div>
-                                    </div>
-                                    <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Olvidé mi Contraseña</a></p>
-                                    <button className="btn btn-outline-light btn-lg px-5 button_login" type="submit">Continuar</button>
-                                </div>
-                            </div>
-                        </form>
+
+        <main>
+            <div className="contenedor" style={styleContainer}>
+                <form action="" onSubmit={handleSubmit} className="form-login" >
+                    <h2 className="form__title">Iniciá Sesión</h2>
+                    <div className="form__container">
+                        <div className="form__group">
+                            <label className="form__label" htmlFor="typeEmail">Email</label>
+                            <input type="email" className="form__input" name="email" value={form.email} onChange={handleForm}/>
+                        </div>
+                        <div className="form__group">
+                            <label className="form__label" htmlFor="typeContraseña">Contraseña</label>
+                            <input type={passHidden ? "text" : "password"} className="form__input" name="password" id="password" value={form.password} onChange={handleForm}/>
+                            <span className="form__span"><img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span>                  
+                        </div>
                     </div>
-                </div>
+                    <div className="register-link">
+                        <a href="#">Olvidé mi contraseña</a>
+                    </div>
+                    <button className="btn-login">Continuar</button>
+                </form>
             </div>
-            {/* <img src={EyeToHide} alt="" /> */}
-        </section>
-        {alert && <ModalAlert msg={msg} handleModalAlert={handleModalAlert} modalStyle={alert ? modalAlertCalled : "aviso-hidden"}/>}
-        </div>
-     
+            {alert && <ModalAlert msg={msg} handleModalAlert={handleModalAlert} modalStyle={alert ? modalAlertCalled : "aviso-hidden"}/>}
+        </main>
+
 
     )
-}
+            }
     
