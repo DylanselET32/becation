@@ -32,3 +32,247 @@ router.delete('/deleteEmployer',authMiddleware, employerController.deleteEmploye
 //especific routes
 
 module.exports = router;
+
+//__________________ SWAGGER DOCUMENTATION ________________________________
+
+// Get all employers
+/**
+ * @swagger
+ * /v1/employer/getAllEmployers:
+ *   get:
+ *     summary: Get all employers
+ *     tags: [Employer]
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: array 
+ *                   items: 
+ *                     type: object
+ */
+
+// Get all employers by area
+/**
+ * @swagger
+ * /v1/employer/getAllEmployersByArea/{id}:
+ *   get:
+ *     summary: Get all employers by area
+ *     tags: [Employer]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        description: All employers getted
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: array 
+ *                   items: 
+ *                     type: object
+ */
+
+// Get a employer by ID
+/**
+ * @swagger
+ * /v1/employer/getEmployerById/{id}:
+ *   get:
+ *     summary: Get all employers by id
+ *     tags: [Employer]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        description: Employer getted
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: array 
+ *                   items: 
+ *                     type: object
+ */
+
+// Get a current employer
+/**
+ * @swagger
+ * /v1/employer/getEmployer:
+ *   get:
+ *     summary: Get employer
+ *     tags: [Employer]
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: array 
+ *                   items: 
+ *                     type: object
+ */
+
+//Employer component
+/** 
+ * @swagger
+ * components:
+ *  schemas:
+ *    Employer:
+ *      type: object
+ *      properties:
+ *        user_id:
+ *          type: integer
+ *          description: User ID
+ *        available_days:
+ *          type: integer
+ *          description: Available days
+ *        total_days:
+ *          type: integer
+ *          description: Total days
+ *        is_cumulative:
+ *          type: integer
+ *          description: Is cumulative
+ *        area_id:
+ *          type: integer
+ *          description: Area ID
+ *        role_id:
+ *          type: integer
+ *          description: Role ID
+ *        to_create:
+ *          type: timestamp
+ *          description: To create
+ *        to_update:
+ *          type: integer
+ *          description: To update
+ *        to_update_date:
+ *          type: datetime 
+ *          description: To update date
+ *      required:
+ *        - user_id
+ *        - area_id
+ *        - role_id
+ *      example:
+ *        user_id: 2
+ *        area_id: 1
+ *        role_id: 1
+ */
+
+// Add a new employer
+/**
+ * @swagger
+ * /v1/employer/addEmployer:
+ *  post:
+ *    summary: Add employer
+ *    tags: [Employer]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Employer'
+ *    responses:
+ *      200:
+ *        description: The employer has been created!
+ *      409:
+ *        description: Conflict
+ *      400: 
+ *        description: Bad request
+ */
+
+// Edit an existing employer
+/**
+ * @swagger
+ * /v1/employer/editEmployer:
+ *  patch:
+ *    summary: Edit employer
+ *    tags: [Employer]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        description: Employer edited
+ *    responses:
+ *      204:
+ *        description: The employer has been edited!
+ *      409:
+ *        description: Conflict
+ *      400: 
+ *        description: Bad request
+ */
+
+// Edit an existing employer by id
+/**
+ * @swagger
+ * /v1/employer/editEmployerById/{id}:
+ *  patch:
+ *    summary: Edit employer by id
+ *    tags: [Employer]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        description: Employer edited
+ *    responses:
+ *      204:
+ *        description: The employer has been edited!
+ *      409:
+ *        description: Conflict
+ *      400: 
+ *        description: Bad request
+ */
+
+// Delete an existing employer
+/**
+ * @swagger
+ * /v1/employer/deleteEmployer:
+ *  delete:
+ *    summary: Delete employer
+ *    tags: [Employer]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        description: Employer deleted
+ *    responses:
+ *      204:
+ *        description: The employer has been deleted!
+ *      409:
+ *        description: Conflict
+ *      400: 
+ *        description: Bad request
+ */
