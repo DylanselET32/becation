@@ -8,12 +8,24 @@ import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation'
 import { addVacation, getAllVacations } from '../services/vacationService'
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
+import useAuth from '../helpers/misc/useAuth'
 
 
 
 export default function Calendar(){
 
     const navigate = useNavigate();
+    const auth = useAuth()
+
+    useEffect(()=>{
+        const e = location.pathname != "/login";
+        console.log(e)
+        if(!auth.user && e){
+          console.log("YENDO A LOGIN")
+          navigate("/login");
+        }
+      }, [])
+
 
     const [isAvailableForm, setIsAvailableForm] = useState(false)
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
@@ -36,8 +48,6 @@ export default function Calendar(){
     const handleVacationFormRequest = ()=>{
         setIsAvailableForm(!isAvailableForm)
     }
-
-
 
     const handleEventChange = (e)=>{
         console.log(e.event._instance.range.end.getDate())
