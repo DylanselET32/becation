@@ -104,7 +104,7 @@ export default function Calendar(){
                         editable={true}
                         eventClick={handleEventClick}
                         dayMaxEventRows={true}
-                        height="400px"
+                        height="700px"
                         views= {{
                             timeGridMonth: {
                               dayMaxEventRows: 2 // adjust to 6 only for timeGridWeek/timeGridDay

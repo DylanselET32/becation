@@ -105,15 +105,22 @@
         justify-content: space-around;
         align-items: center;
         animation: menu .3s;
+        z-index: 1000;
     }
 
     .header .menu_responsive .routes_links_container_responsive li{
         list-style: none;
+        width: 100%;
+        text-align: center;
     }
 
     .header .menu_responsive .routes_links_container_responsive li a{
      color: #f2f2f2;
      text-decoration: none;
+    }
+
+    .header .menu_responsive .routes_links_container_responsive li:hover{
+        /* background: red; */
     }
 
     .logo_burger{

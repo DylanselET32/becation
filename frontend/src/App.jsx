@@ -26,7 +26,7 @@ function App() {
         <Routes>
           
    
-            {/* <Route exact path="/" element={<Login auth={auth} />}/> */}
+            <Route exact path="/" element={<Login auth={auth} />}/> 
             <Route exact path="/login" element={<Login auth={auth} />}/>
             <Route path="/calendar" element={<Calendar />}/>
             <Route path="/register" element={<Register />}/>
