@@ -1,6 +1,6 @@
 /* Aquí los métodos para conseguir los datos de las vacaciones en la BDD */
 const pool = require('../database/connection');
-const CRUD = require('./crud');
+const CRUD = require('./CRUD');
 
 /* GETS */
 const getAllVacations = async () => await CRUD.getAll('vacation', ["id", "employee", "start_date", "end_date", "status", "note", "date_asked", "area_manager_authorization", "to_create", "to_update", "to_update_date"]);

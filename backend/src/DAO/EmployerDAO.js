@@ -1,6 +1,6 @@
 /* Aquí los métodos para conseguir los datos de los empleados en la BDD */
 const pool = require('../database/connection');
-const CRUD = require('./crud');
+const CRUD = require('./CRUD');
 
 /* ORDEN: TABLA, DATOS A PEDIR, EXTRAS*/
 
