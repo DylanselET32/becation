@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const cors = require("cors");
 const { authMiddleware } = require('./middleware/authMiddleware');
 require('dotenv').config()
-
+const { swaggerDocs: V1SwaggerDocs } = require('./swagger.js')
 
 const app = express();
 
@@ -27,6 +27,9 @@ app.get('/', (req, res) => {
 
 
 app.use('/v1', require('./routes/v1/indexV1')); //esta es la version 1 de la api
+
+//Serve Swagger documentation
+V1SwaggerDocs(app, app.get('port'));
 
 //en caso de que no entre en ninguna ruta anterior, va a tirar la siguiente
 app.use(function(req, res, next) {
