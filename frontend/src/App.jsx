@@ -9,6 +9,7 @@ import Register from "./pages/Register"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import VacationAdministration from "./pages/VacationAdministration"
+import CalendarAdministration from "./pages/CalendarAdministration"
 
 function App() {
 
@@ -23,7 +24,8 @@ function App() {
 
     <div className="app">
       <Header auth={auth}/> 
-      <VacationAdministration />
+      {/* <VacationAdministration /> */}
+      <CalendarAdministration />
      {/* <BrowserRouter>
         
         <Routes>

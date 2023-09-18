@@ -4,13 +4,14 @@
     
 }
 
-table{
+.table{
     background: #1f1f1f;
     border-radius: 12px;
     color: #f1f1f1;
+    width: 90vw;
 }
 
-thead tr th{
+.thead tr th{
     background: rgb(20, 20, 20) !important;
     color: rgb(126, 126, 126) !important;
 }

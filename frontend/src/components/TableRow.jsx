@@ -3,7 +3,7 @@ import "../stylesheets/tableRow.css"
 import CheckIcon from "../imgs/check.svg"
 import CrossIcon from "../imgs/cross.svg"
 import QuestionIcon from "../imgs/question-square.svg"
-import TrashIcon from "../imgs/trash.svg"
+import ViewEye from "../imgs/eye.svg"
 
 export default function TableRow({index, userName, startDate, endDate}){
  
@@ -18,7 +18,7 @@ export default function TableRow({index, userName, startDate, endDate}){
                 <button className="button_table"><img src={CheckIcon} alt="" /></button>
                 <button className="button_table"><img src={CrossIcon} alt="" /></button>
                 <button className="button_table"><img src={QuestionIcon} alt="" /></button>
-                <button className="button_table"><img src={TrashIcon} alt="" /></button>
+                <button className="button_table"><img src={ViewEye} alt="" /></button>
             </th>
         </tr>
         
