@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom'
 import "../stylesheets/calendar.css"
 import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation'
-import { addVacation, getAllVacations } from '../services/vacationService'
+import { addVacation, getAllVacations, getVacations } from '../services/vacationService'
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
 
 
 
-export default function Calendar({auth}){
+export default function RequestVacationCalendar({auth}){
 
     const navigate = useNavigate();
     
@@ -28,19 +28,19 @@ export default function Calendar({auth}){
 
     const [isAvailableForm, setIsAvailableForm] = useState(false)
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
+    const [fetchData, setFetchData] = useState([{start: "", end: "", title: "Vacaciones"}])
 
     const fecth = async ()=>{
-        const vacations = await getAllVacations();
-
+        const vacations = await getVacations();
+        console.log(vacations)
         let temporalVacations = []
         vacations.data.map((event)=>{
             console.log(event.end_date)
-            const vacation = {allDay: true, start: event.start_date, end: formatDateToString(operateDate(new Date(event.end_date), 1)), title: "Vacations"  }
+            const vacation = {allDay: true, editable:false ,start: event.start_date, end: formatDateToString(operateDate(new Date(event.end_date), 1)), title: "Vacations"  }
             temporalVacations.push(vacation)
         })
 
-        console.log(temporalVacations)
-
+        setFetchData(temporalVacations)
         setVacationDaysAsked(temporalVacations)
     }
 
@@ -63,11 +63,13 @@ export default function Calendar({auth}){
 
         const NEW_END_DATE = `${initalYear}-${finalMonth.length <= 1 ? `0${finalMonth}` : finalMonth}-${finalDay.length <= 1 ? `0${finalDay}` : finalDay}`
 
-        setVacationDaysAsked([{
+        setVacationDaysAsked([...fetchData,
+            {
             title: vacationDaysAsked[0].title,
             start: NEW_INITIAL_DATE,
-            end: NEW_END_DATE
-        }])
+            end:  formatDateToString(operateDate(new Date(NEW_END_DATE), 1)),
+            }
+        ])
     }
 
     const handleEventClick = (e)=>{
@@ -75,30 +77,33 @@ export default function Calendar({auth}){
     }
 
     const handleForm = (state)=>{
-        setVacationDaysAsked([
+        setVacationDaysAsked([...fetchData,
             {   
                 title: vacationDaysAsked[0].title,
                 start: state.initialDate,
-                end: state.finalDate
+                end: formatDateToString(operateDate(new Date(state.finalDate), 2))
             }
         ])
     }
 
-    const handleSubmit = async ()=>{
-        let vacationToSend = vacationDaysAsked[0]
+    const handleSubmit = async e=>{
+        e.preventDefault()
+        let vacationToSend = vacationDaysAsked[vacationDaysAsked.length -1]
         vacationToSend = {
             start_date : new Date(vacationToSend.start),
-            end_date:  new Date(vacationToSend.end),
+            end_date:  operateDate(new Date(vacationToSend.end), -1),
             status: null,
             note: null,
             date_asked: new Date(),
             area_manager_authorization: null,
         }
-
-        await addVacation(vacationToSend)
-        
+         await addVacation(vacationToSend)
+        alert("SE CREO LA VACACION")
     }
 
+    useEffect(()=>{
+        fecth()
+    },[])
     return(
         <main>
             <section className='calendar_section'>
