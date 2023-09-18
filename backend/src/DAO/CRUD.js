@@ -104,6 +104,22 @@ const getByColumn = async (table, column, value, selectFields = ['*'], extraClau
     return results[0];
 };
 
+const getAllByColumn = async (table, column, value, selectFields = ['*'], extraClauses = null) => {
+    let sql = `SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`;
+    let params = [table, column, value];
+
+    if (extraClauses) {
+        if (extraClauses.includes('WHERE')) {
+            sql += ` AND ${extraClauses.replace('WHERE', '')}`;
+        }else {
+            sql += ` ${extraClauses}`;
+        }
+    }
+    
+    const [results, fields] = await pool.promise().query(sql, params);
+    return results;
+};
+
 module.exports = {
     getAll,
     getById,
@@ -111,5 +127,6 @@ module.exports = {
     edit,
     remove,
     getByColumn,
+    getAllByColumn,
     getAllBetweenDates
 };
