@@ -63,40 +63,44 @@ export default function Register (){
 */
     return (
 
-    <main>
-        <div className="contenedor" style={styleContainer}>
-            <form action="" className="form-register">
-                <h2 className="form__title">Registrar Usuario</h2>
-                <div className="form__container">
-                    <h2 className="form__subtitle">Información Personal</h2>
-                    
-                    <div className="form__group">
-                        <label htmlFor="typeName">Nombre</label>
-                        <input type="text" className="form__input" name="nombre" onChange={handleForm}/>
+    <div className="main_register-container">
+        <div className="container_register" style={styleContainer}>
+            <form action="">
+                <h2 className="form__register-title">Registrar Usuario</h2>
+                <div className="form__register-container">
+                    <h2 className="form__register-subtitle">Información Personal</h2>
+                    <div className="form__register-group">
+                        <label className="form__register-label" htmlFor="typeName">Nombre</label>
+                        <input type="text" className="form__register-input" name="nombre" onChange={handleForm}/>
                     </div>
-                    <div className="form__group">
-                        <label htmlFor="typeSurname">Apellido</label>
-                        <input type="text" className="form__input" name="apellido" onChange={handleForm}/>
+                    <div className="form__register-group">
+                        <label className="form__register-label" htmlFor="typeSurname">Apellido</label>
+                        <input type="text" className="form__register-input" name="apellido" onChange={handleForm}/>
                     </div>
-                    <div className="form__group">
-                        <label htmlFor="typeDNI">DNI</label>
-                        <input type="number" className="form__input" name="dni" onChange={handleForm}/>
+                    <div className="form__register-group">
+                        <label className="form__register-label" htmlFor="typeDNI">DNI</label>
+                        <input type="number" className="form__register-input" name="dni" onChange={handleForm}/>
                     </div>
-                    <h2 className="form__subtitle">Información de la Cuenta</h2>
-                    <div className="form__group">
-                        <label className="form__label" htmlFor="typeEmail">Email</label>
-                        <input type="email" className="form__input" name="email" value={form.email} onChange={handleForm}/>
+                    <h2 className="form__register-subtitle">Información de la Cuenta</h2>
+                    <div className="form__register-group">
+                        <label className="form__register-label" htmlFor="typeEmail">Email</label>
+                        <input type="email" className="form__register-input" name="email" value={form.email} onChange={handleForm}/>
                     </div>
-                    <div className="form__group">
-                        <label className="form__label" htmlFor="typeContraseña">Contraseña</label>
-                        <input type={passHidden ? "text" : "password"} className="form__input" name="password" id="password" value={form.password} onChange={handleForm}/>
-                        <span className="form__span"><img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span>                  
+                    <div className="form__register-group">
+                        <label className="form__register-label" htmlFor="typeContraseña">Contraseña</label>
+                        <input type={passHidden ? "text" : "password"} className="form__register-input" name="password" id="password" value={form.password} onChange={handleForm}/>
+                        <span className="form__register-span"><img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span>                  
+                    </div>
+                    <h2 className="form__register-subtitle">Información de Contrato</h2>
+                    <div className="form__register-group">
+                        <label className="form__register-label" htmlFor="typeName">Nombre</label>
+                        <input type="text" className="form__register-input" name="nombre" onChange={handleForm}/>
                     </div>
                     
                 </div>
             </form>
         </div>
-    </main>
+    </div>
 
     )
 }
