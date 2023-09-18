@@ -42,12 +42,14 @@
 
 .header .nav_container ul li a{
     text-decoration: none;
-    color: #f2f2f2;
+    color: #f2f2f2 !important;
     font-weight: 400;
     font-size: 1.2rem;
     position: relative;
 }
-
+.header .nav_container ul li a:hover{
+    cursor: pointer;
+}
 .header .nav_container ul li a::before{
     content: "";
     position: absolute;
@@ -59,6 +61,7 @@
     transform: scale(0);
     transition: .3s;
 }
+
 
 .header .nav_container ul li a:hover:before{
     transform: scale(1.1);

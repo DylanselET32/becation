@@ -12,14 +12,14 @@ import useAuth from '../helpers/misc/useAuth'
 
 
 
-export default function Calendar(){
+export default function Calendar({auth}){
 
     const navigate = useNavigate();
-    const auth = useAuth()
-
+    
     useEffect(()=>{
         const e = location.pathname != "/login";
         console.log(e)
+        console.log(!auth.user)
         if(!auth.user && e){
           console.log("YENDO A LOGIN")
           navigate("/login");

@@ -1,39 +1,41 @@
-import React, {useState} from "react"
-import "../stylesheets/modalAlert.css"
-import X from "../imgs/circle-xmark.svg"
+import React from "react";
 
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 
-const topSectionStyle= {
-  display: "flex",
-  justifyContent: "end",
-  padding: "0 .6rem",
-  color: "#888"
-}
-  
-const mainSectionStyle= {
-  padding: "0 1rem",
-  display: "flex",
-  justifyContent: "center"
-}
+export default function ModalAlert({modalConfig}) {
+  const {isOpen, onOpen, onOpenChange} = modalConfig ;
 
-const buttonClose= {
-  border: "none",
-  background: "transparent",
-  color: "#fafafa"
-}
-
-export default function ModalAlert({msg, handleModalAviso,modalStyle}) {
-
-  return(
-    <div style={modalStyle} className="modal_aviso">
-      <div className="top_section" style={topSectionStyle}>
-        <button onClick={handleModalAviso} style={buttonClose} value={"X"}>
-          <img src={X} width="20px"></img>
-        </button>
-      </div>
-      <div className="main_section" style={mainSectionStyle}>
-        <p>{msg}</p>
-      </div>
-    </div>
-  )
+  return (
+    <>
+      <Modal 
+        backdrop="opaque" 
+        isOpen={isOpen} 
+        onOpenChange={onOpenChange}
+        classNames={{
+          backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+        }}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Cerrar Sesion</ModalHeader>
+              <ModalBody>
+                <p> 
+                  ¿Estas seguro que deseas cerrar sesion?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Cerrar
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  Cerrar Sesion
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
+  );
 }
