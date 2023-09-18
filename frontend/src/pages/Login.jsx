@@ -68,7 +68,7 @@ export default function Login ({auth}){
     const redirec = ()=>{
         const previousUrl = document.referrer;
         console.log(window.location.origin)
-        if (previousUrl === window.location.href || !previousUrl || `${window.location.origin}/login`) {
+        if (previousUrl === window.location.href || !previousUrl) {
           navigate('/calendar');
         } else {
           navigate(-1);

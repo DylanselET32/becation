@@ -2,7 +2,8 @@
     /* background-color: #333; */
     border-radius: 5px;
     padding: 0 2rem;
-    color: rgb(61, 61, 61);
+    /* color: rgb(167, 47, 47); */
+    font-size: 1rem;
   }
   
   
@@ -44,6 +45,7 @@
 .calendar_section{
     width: 70vw;
     padding: 2rem 2rem 4rem 2rem;
+    height: 700px !important;
 }
 
 main{
@@ -96,14 +98,6 @@ main{
     width: 100%;
 }
 
-.custom-event{
-    background: rgb(179, 86, 197);
-    padding: 2px;
-    border-radius: 10px;
-    font-size: 1rem;
-    
-}
-
 
 @media screen and (max-width: 730px) {
   main{
@@ -116,9 +110,14 @@ main{
     width: 70%;
     /* background: red; */
     transform: translateY(-5rem);
-    background: blue;
+    /* background: blue; */
     height: 200px;
     padding: none;
+    margin: 150px 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
   }
 
   /* .form_vacation_container{
@@ -137,6 +136,29 @@ main{
     /* background: #D62246; */
     width: 100%;
     height: 400px;
+  }
+
+  .fc-toolbar-title{
+    /* background: red; */
+    font-size: .8rem !important;
+  }
+
+  /* .fc-toolbar-chunk{
+    width: 100px;
+    background: #00B295;
+  } */
+
+
+  .fc-button-primary{
+    /* background: red !important; */
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    padding: none !important;
+  }
+
+  .fc-icon-chevron-right{
+    justify-content: center;
   }
 
 }

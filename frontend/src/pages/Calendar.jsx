@@ -11,9 +11,20 @@ import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
 
 
 
-export default function Calendar(){
+export default function Calendar({auth}){
 
     const navigate = useNavigate();
+    
+    useEffect(()=>{
+        const e = location.pathname != "/login";
+        console.log("diferente de login?:",e)
+        console.log("USER:",!auth.user)
+        if(!auth.user && e){
+          console.log("YENDO A LOGIN")
+          navigate("/login");
+        }
+      }, [])
+
 
     const [isAvailableForm, setIsAvailableForm] = useState(false)
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
@@ -36,8 +47,6 @@ export default function Calendar(){
     const handleVacationFormRequest = ()=>{
         setIsAvailableForm(!isAvailableForm)
     }
-
-
 
     const handleEventChange = (e)=>{
         console.log(e.event._instance.range.end.getDate())
@@ -104,7 +113,7 @@ export default function Calendar(){
                         editable={true}
                         eventClick={handleEventClick}
                         dayMaxEventRows={true}
-                        height="400px"
+                        height="700px"
                         views= {{
                             timeGridMonth: {
                               dayMaxEventRows: 2 // adjust to 6 only for timeGridWeek/timeGridDay
