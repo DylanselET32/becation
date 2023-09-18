@@ -8,6 +8,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
+import VacationAdministration from "./pages/VacationAdministration"
 
 function App() {
 
@@ -21,20 +22,22 @@ function App() {
     <>
 
     <div className="app">
-     <BrowserRouter>
-        <Header auth={auth}/>
+      <Header auth={auth}/> 
+      <VacationAdministration />
+     {/* <BrowserRouter>
+        
         <Routes>
           
    
-            {/* <Route exact path="/" element={<Login auth={auth} />}/> */}
+            
             <Route exact path="/login" element={<Login auth={auth} />}/>
             <Route path="/calendar" element={<Calendar />}/>
             <Route path="/register" element={<Register />}/>
             <Route path="/configProfile" element={<ConfigProfile />}/>
-            {/* <Route path="*" element={<NotFound />}/> */}
+   
            
         </Routes>
-     </BrowserRouter>   
+     </BrowserRouter>    */}
      </div>
     </>
   )
