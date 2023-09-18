@@ -8,7 +8,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation'
 import { addVacation, getAllVacations } from '../services/vacationService'
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
-import useAuth from '../helpers/misc/useAuth'
 
 
 
@@ -18,8 +17,8 @@ export default function Calendar({auth}){
     
     useEffect(()=>{
         const e = location.pathname != "/login";
-        console.log(e)
-        console.log(!auth.user)
+        console.log("diferente de login?:",e)
+        console.log("USER:",!auth.user)
         if(!auth.user && e){
           console.log("YENDO A LOGIN")
           navigate("/login");

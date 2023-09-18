@@ -1,6 +1,5 @@
 import { useEffect, useNa } from "react"
 import Header from "./components/Header"
-import useAuth from "./helpers/misc/useAuth"
 import LogoBecation from "./imgs/BeCation_logo.png"
 import Calendar from "./pages/Calendar"
 import ConfigProfile from "./pages/ConfigProfile"
@@ -9,6 +8,7 @@ import Register from "./pages/Register"
 import { useNavigate } from "react-router-dom"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
+import useAuth from "./hooks/useAuth"
 
 function App() {
 

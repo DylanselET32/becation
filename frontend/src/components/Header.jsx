@@ -1,22 +1,27 @@
 import React from 'react'
 import LogoBecation from "../imgs/BeCation_logo.png"
 import "../stylesheets/header.css"
-import {useDisclosure} from "@nextui-org/react";
-import ModalAlert from './ModalAlert';
+import ModalAlert from './ConfirmationModal';
+import ConfirmationModal from './ConfirmationModal';
+import useConfirmation from '../hooks/useConfirmation';
 const Header = ({auth}) => {
-
+  
   const user = auth ? auth.user : null;
-  const modalConfig = useDisclosure()
+  const { showModal, handleShowModal, handleCloseModal, handleConfirm } = useConfirmation();
 
   const singOut = () => {
-    modalConfig.onOpen()
-    //auth.logOut()
-
-    
+   handleShowModal(auth.logOut)
   }
 
   return (<>
-  <ModalAlert modalConfig={modalConfig} />
+      <ConfirmationModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        handleConfirm={handleConfirm}
+        title='Cerrar Sesion'
+        message="¿Está seguro que sesea cerrar sesion?"
+      />
+
     <header className='header'>
         <div className='img_container'>
             <img src={LogoBecation} alt="" />

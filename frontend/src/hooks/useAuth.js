@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getUser } from "../../services/userServices";
-import { getAuthToken,deleteAuthToken } from "./authUtils";
+import { getUser } from "../services/userServices";
+import { getAuthToken,deleteAuthToken } from "../helpers/misc/authUtils";
 
 const useAuth= ()=>{
     const [user,setUser] = useState(null);
@@ -24,6 +24,7 @@ const useAuth= ()=>{
     const logOut = ()=>{
         deleteAuthToken()
         setUser(null);
+        location.reload();
     }
     
     useEffect(()=>{
