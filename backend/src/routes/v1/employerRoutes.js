@@ -151,6 +151,27 @@ module.exports = router;
  *    Employer:
  *      type: object
  *      properties:
+ *        id:
+ *          type: integer
+ *          description: ID
+ *        name:
+ *          type: string
+ *          description: Name
+ *        surname:
+ *          type: string
+ *          description: Surname
+ *        email:
+ *          type: string
+ *          description: Email
+ *        password:
+ *          type: string
+ *          description: Password
+ *        dni:
+ *          type: bigint
+ *          description: DNI
+ *        privileges:
+ *          type: integer
+ *          description: Privileges
  *        user_id:
  *          type: integer
  *          description: User ID
@@ -163,6 +184,9 @@ module.exports = router;
  *        is_cumulative:
  *          type: integer
  *          description: Is cumulative
+ *        sign_up_date:
+ *          type: datetime
+ *          description: Sign up date
  *        area_id:
  *          type: integer
  *          description: Area ID
@@ -179,13 +203,31 @@ module.exports = router;
  *          type: datetime 
  *          description: To update date
  *      required:
- *        - user_id
- *        - area_id
+ *        - name
+ *        - surname
+ *        - email
+ *        - password
+ *        - dni
+ *        - privileges
  *        - role_id
+ *        - area_id
+ *        - available_days
+ *        - total_days
+ *        - is_comulative
+ *        - sign_up_date
  *      example:
- *        user_id: 2
- *        area_id: 1
+ *        name: Maria
+ *        surname: Castillo
+ *        email: mariac@streambe.com
+ *        password: mariac123
+ *        dni: 12345678
+ *        privileges: 2
  *        role_id: 1
+ *        area_id: 2
+ *        available_days: 5
+ *        total_days: 7
+ *        is_cumulative: 1
+ *        sign_up_date: 2023-08-20
  */
 
 // Add a new employer
@@ -224,6 +266,13 @@ module.exports = router;
  *        schema:
  *          type: integer
  *        description: Employer edited
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Employer'
  *    responses:
  *      204:
  *        description: The employer has been edited!
@@ -246,6 +295,13 @@ module.exports = router;
  *        schema:
  *          type: integer
  *        description: Employer edited
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Employer'
  *    responses:
  *      204:
  *        description: The employer has been edited!

@@ -271,6 +271,7 @@ module.exports = router;
  *        - start_date
  *        - end_date
  *        - status
+ *        - note
  *        - date_asked
  *        - area_manager_authorization
  *      example:
@@ -278,6 +279,7 @@ module.exports = router;
  *        start_date: 2023-08-29
  *        end_date: 2023-08-31
  *        status: null
+ *        note: 
  *        date_asked: 2023-08-25
  *        area_manager_authorization: 0
  */
@@ -318,6 +320,13 @@ module.exports = router;
  *        schema:
  *          type: integer
  *        description: Vacation edited
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Vacation'
  *    responses:
  *      204:
  *        description: The vacation has been edited!

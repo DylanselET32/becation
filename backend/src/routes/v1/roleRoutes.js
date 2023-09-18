@@ -112,6 +112,9 @@ module.exports = router;
  *    Role:
  *      type: object
  *      properties:
+ *        id:
+ *          type: integer
+ *          description: ID
  *        role_name:
  *          type: string
  *          description: Role name
@@ -166,6 +169,13 @@ module.exports = router;
  *        schema:
  *          type: integer
  *        description: Role edited
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Role'
  *    responses:
  *      204:
  *        description: The role has been edited!
