@@ -49,8 +49,8 @@ export async function login(email, pass) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                body: JSON.stringify(obj),
             },
+            body: JSON.stringify(obj),
         });
         const data = await response.json();
         const status = response.status;
@@ -87,8 +87,8 @@ export async function confirmEmailResetPassword(newPass, token) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                body: JSON.stringify(obj),
             },
+            body: JSON.stringify(obj),
         });
         const data = await response.json();
         const status = response.status;
@@ -175,5 +175,87 @@ export async function getEmployerById(id) {
     } catch (error) {
         console.error(error);
         throw new Error("Error al solicitar el empleado");
+    }
+}
+
+/* MÉTODO POST */
+export async function addEmployer(employer) {
+    try {
+        const response = await fetch(`${apiUrl}/${apiVersion}/employer/addEmployer`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify(employer),
+        });
+        const data = await response.json();
+        const status = response.status;
+        if (status == 500) throw new Error('Error al agregar el empleado'); 
+        return {data, status};
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al agregar el empleado");
+    }
+}
+
+/* MÉTODOS PATCH */
+export async function editEmployer(employer) {
+    try {
+        const response = await fetch(`${apiUrl}/${apiVersion}/employer/editEmployer`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify(employer),
+        });
+        const data = await response.json();
+        const status = response.status;
+        if (status == 500) throw new Error('Error al editar el empleado'); 
+        return {data, status};
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al editar el empleado");
+    }
+}
+
+export async function editEmployerById(employer, id) {
+    try {
+        const response = await fetch(`${apiUrl}/${apiVersion}/employer/editEmployerById/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify(employer),
+        });
+        const data = await response.json();
+        const status = response.status;
+        if (status == 500) throw new Error('Error al editar el empleado'); 
+        return {data, status};
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al editar el empleado");
+    }
+}
+
+/* MÉTODO DELETE */
+export async function deleteEmployer(id) {
+    try {
+        const response = await fetch(`${apiUrl}/vacation/deleteEmployer/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${getAuthToken()}`,
+            },
+        });
+        const data = await response.json();
+        const status = response.status;
+        if (status == 500) throw new Error('Error al eliminar el empleado'); 
+        return {data, status};
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al eliminar el empleado");
     }
 }
