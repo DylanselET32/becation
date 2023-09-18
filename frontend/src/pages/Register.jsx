@@ -69,30 +69,28 @@ export default function Register (){
                 <h2 className="form__title">Registrar Usuario</h2>
                 <div className="form__container">
                     <h2 className="form__subtitle">Información Personal</h2>
-                    <div className="personal-info">
-                        <div className="form__group">
-                            <label htmlFor="typeName">Nombre</label>
-                            <input type="text" className="form__input" name="nombre" onChange={handleForm}/>
-                        </div>
-                        <div className="form__group">
-                            <label htmlFor="typeSurname">Apellido</label>
-                            <input type="text" className="form__input" name="apellido" onChange={handleForm}/>
-                        </div>
-                        <div className="form__group">
-                            <label htmlFor="typeDNI">DNI</label>
-                            <input type="number" className="form__input" name="dni" onChange={handleForm}/>
-                        </div>
+                    
+                    <div className="form__group">
+                        <label htmlFor="typeName">Nombre</label>
+                        <input type="text" className="form__input" name="nombre" onChange={handleForm}/>
                     </div>
-                    <div className="account-info">
-                        <div className="form__group">
-                            <label className="form__label" htmlFor="typeEmail">Email</label>
-                            <input type="email" className="form__input" name="email" value={form.email} onChange={handleForm}/>
-                        </div>
-                        <div className="form__group">
-                            <label className="form__label" htmlFor="typeContraseña">Contraseña</label>
-                            <input type={passHidden ? "text" : "password"} className="form__input" name="password" id="password" value={form.password} onChange={handleForm}/>
-                            <span className="form__span"><img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span>                  
-                        </div>
+                    <div className="form__group">
+                        <label htmlFor="typeSurname">Apellido</label>
+                        <input type="text" className="form__input" name="apellido" onChange={handleForm}/>
+                    </div>
+                    <div className="form__group">
+                        <label htmlFor="typeDNI">DNI</label>
+                        <input type="number" className="form__input" name="dni" onChange={handleForm}/>
+                    </div>
+                    <h2 className="form__subtitle">Información de la Cuenta</h2>
+                    <div className="form__group">
+                        <label className="form__label" htmlFor="typeEmail">Email</label>
+                        <input type="email" className="form__input" name="email" value={form.email} onChange={handleForm}/>
+                    </div>
+                    <div className="form__group">
+                        <label className="form__label" htmlFor="typeContraseña">Contraseña</label>
+                        <input type={passHidden ? "text" : "password"} className="form__input" name="password" id="password" value={form.password} onChange={handleForm}/>
+                        <span className="form__span"><img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span>                  
                     </div>
                     
                 </div>

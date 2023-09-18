@@ -1,0 +1,29 @@
+.contenedor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 700px;
+    padding: 4.5em 3em;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form__title {
+    font-size: 2rem;
+    margin-bottom: .5em;
+    color: #f2f2f2;
+}
+
+.form__container {
+    margin-top: 3em;
+    display: grid;
+    gap: 2.5em;
+}
+
+.form__group {
+    position: relative;
+    color: #f2f2f2;
+}

@@ -23,7 +23,6 @@ function App() {
     <div className="app">
      <BrowserRouter>
         <Header auth={auth}/>
-        <Register/>
         <Routes>
           
    
