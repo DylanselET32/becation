@@ -99,3 +99,81 @@ export async function confirmEmailResetPassword(newPass, token) {
         throw new Error("Error al solicitar el reseteo de contraseña");
     }
 }
+
+/* EMPLOYEE SERVICES */
+/* MÉTODOS GET */
+export async function getAllEmployers() {
+    try {
+        const response = await fetch(`${apiUrl}/${apiVersion}/employer/getAllEmployers`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAuthToken()}`,
+        },
+        });
+        const data = await response.json();
+        const status = response.status;
+        if (status == 500) throw new Error('Error al conseguir los empleados.'); 
+        return {data, status};
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al solicitar los empleados");
+    }
+}
+
+export async function getEmployer() {
+    try {
+        const response = await fetch(`${apiUrl}/${apiVersion}/employer/getEmployer`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAuthToken()}`,
+        },
+        });
+        const data = await response.json();
+        const status = response.status;
+        if (status == 500) throw new Error('Error al conseguir el empleado.'); 
+        return {data, status};
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al solicitar el empleado");
+    }
+}
+
+export async function getAllEmployersByArea(id) {
+    try {
+        const response = await fetch(`${apiUrl}/${apiVersion}/employer/getAllEmployersByArea/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAuthToken()}`,
+            },
+        });
+        const data = await response.json();
+        const status = response.status;
+        if (status == 500) throw new Error('Error al conseguir los empleados.'); 
+        return {data, status};
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al solicitar los empleados");
+    }
+}
+
+export async function getEmployerById(id) {
+    try {
+        const response = await fetch(`${apiUrl}/${apiVersion}/employer/getEmployerById/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${getAuthToken()}`,
+            },
+        });
+        const data = await response.json();
+        const status = response.status;
+        if (status == 500) throw new Error('Error al conseguir el empleado.'); 
+        return {data, status};
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al solicitar el empleado");
+    }
+}
