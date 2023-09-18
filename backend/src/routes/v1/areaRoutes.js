@@ -120,6 +120,9 @@ module.exports = router;
  *    Area:
  *      type: object
  *      properties:
+ *        id:
+ *          type: integer
+ *          description: ID
  *        area:
  *          type: string
  *          description: Area
@@ -179,6 +182,13 @@ module.exports = router;
  *        schema:
  *          type: integer
  *        description: Area edited
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Area'
  *    responses:
  *      204:
  *        description: The area has been edited!
