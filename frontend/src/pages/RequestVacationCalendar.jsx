@@ -92,12 +92,12 @@ export default function RequestVacationCalendar({auth}){
         vacationToSend = {
             start_date : new Date(vacationToSend.start),
             end_date:  operateDate(new Date(vacationToSend.end), -1),
-            status: null,
+            status: "null",
             note: null,
             date_asked: new Date(),
-            area_manager_authorization: null,
+            area_manager_authorization: 0,
         }
-         await addVacation(vacationToSend)
+        await addVacation(vacationToSend)
         alert("SE CREO LA VACACION")
     }
 
