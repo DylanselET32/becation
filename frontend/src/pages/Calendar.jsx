@@ -13,8 +13,6 @@ import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
 
 export default function Calendar(){
 
-    const navigate = useNavigate();
-
     const [isAvailableForm, setIsAvailableForm] = useState(false)
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
 
@@ -29,7 +27,6 @@ export default function Calendar(){
         })
 
         console.log(temporalVacations)
-
         setVacationDaysAsked(temporalVacations)
     }
 
@@ -49,8 +46,6 @@ export default function Calendar(){
 
         let finalMonth= (e.event._instance.range.end.getMonth()+1).toString()
         let finalDay= operateDate(e.event._instance.range.end , 1).getDate()
-
-        console.log("PPP",finalDay)
 
         const NEW_END_DATE = `${initalYear}-${finalMonth.length <= 1 ? `0${finalMonth}` : finalMonth}-${finalDay.length <= 1 ? `0${finalDay}` : finalDay}`
 

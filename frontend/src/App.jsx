@@ -24,9 +24,7 @@ function App() {
 
     <div className="app">
       <Header auth={auth}/> 
-      {/* <VacationAdministration /> */}
-      <CalendarAdministration />
-     {/* <BrowserRouter>
+     <BrowserRouter>
         
         <Routes>
           
@@ -36,10 +34,12 @@ function App() {
             <Route path="/calendar" element={<Calendar />}/>
             <Route path="/register" element={<Register />}/>
             <Route path="/configProfile" element={<ConfigProfile />}/>
-   
+            <Route path="/vacationAdmin" element={<VacationAdministration />}/>
+            <Route path="/calendarAdmin" element={<CalendarAdministration />}/>
+      
            
         </Routes>
-     </BrowserRouter>     */}
+     </BrowserRouter>    
      </div>
     </>
   )
