@@ -11,7 +11,7 @@ import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
 
 
 
-export default function RequestVacationCalendar({auth}){
+export default function RequestVacationCalendar({auth,alertModal}){
 
     const navigate = useNavigate();
     
@@ -36,7 +36,7 @@ export default function RequestVacationCalendar({auth}){
         let temporalVacations = [...vacationDaysAsked]
         vacations.data.map((event)=>{
             console.log(event.end_date)
-            const vacation = {allDay: true, editable:false ,start: event.start_date, end: formatDateToString(operateDate(new Date(event.end_date), 1)), title: "Vacations"  }
+            const vacation = {allDay: true, color:"grey" ,editable:false ,start: event.start_date, end: formatDateToString(operateDate(new Date(event.end_date), 1)), title: "Vacations"  }
             temporalVacations.push(vacation)
         })
 
@@ -137,7 +137,7 @@ export default function RequestVacationCalendar({auth}){
                 
             </section>
             <section className='aside_main'>
-                <button className={isAvailableForm ? "button_ask_vacation_called" : "button_ask_vacation"} onClick={handleVacationFormRequest}>
+                <button  className={isAvailableForm ? "button_ask_vacation_called" : "button_ask_vacation"} onClick={handleVacationFormRequest}>
                     {isAvailableForm ? "Cancelar" : "Pedir Vacaciones"}
                 </button>
                 <div className='form_vacation_container'>
