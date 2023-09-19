@@ -8,18 +8,13 @@
 
 .container_register {
     width: 90%;
-    max-width: 600px;
+    max-width: 1000px;
     padding: 4.5em 3em;
     box-shadow: 0 0 30px rgba(0, 0, 0, .5);
     text-align: center;
     font-family: 'Poppins', sans-serif;
-}
-
-.form__register-container {
-    margin-top: 3em;
-    display: flex;
-    flex-direction: column;
-    gap: 2.5em;
+    border-radius: 1rem;
+    background: #2e2e2e;
 }
 
 .form__register-title {
@@ -28,18 +23,52 @@
     color: #f2f2f2;
 }
 
+/* .form__register-container {
+    margin-top: 3em;
+    display: flex;
+    gap: 2.5em;
+} */
+
+/* .form__register-container {
+    margin-top: 3em;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+} */
+
 .form__register-subtitle {
     color: #bdbdbd;
     font-size: 1.5rem;
     display: flex;
     justify-content: flex-start;
+    margin-top: 2em;
 }
+
+.form__personal-info {
+    display: flex;
+    gap: 2.5em;
+    margin-top: 3em;
+}
+
+.form__account-info {
+    display: flex;
+    gap: 2.5em;
+    margin-top: 3em;
+}
+
+.form__inputs-info {
+    display: flex;
+    gap: 2.5em;
+    margin-top: 3em;
+}
+
 
 
 
 .form__register-group {
     position: relative;
     color: #f2f2f2;
+    width: 100%;
 }
 
 
