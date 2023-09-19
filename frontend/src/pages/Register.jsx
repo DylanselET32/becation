@@ -109,10 +109,10 @@ export default function Register (){
                         <div className="form__register-group">
                             <label className="form__register-label" htmlFor="typeArea">Área</label>
                             
-                            <select name="area" id="area">
-                                <option selected disabled>Elige un área</option>
-                                <option value="#">opción 1</option>
-                                <option value="#">opción 1</option>
+                            <select className="form__register-select" name="area" id="area">
+                                <option className="form__register-option" selected disabled>Elige un área</option>
+                                <option className="form__register-option" value="#">opción 1</option>
+                                <option className="form__register-option" value="#">opción 1</option>
                             </select>
                         </div>
                     </div>
@@ -130,6 +130,14 @@ export default function Register (){
                             <input type="date" className="form__register-input" name="signUpDay" onChange={handleForm}/>
                         </div>
                     </div>
+                    <div className="form__register-check-submit">
+                        <div className="form__register-checkbox">
+                                <input type="checkbox" className="form__register-checkbox" name="isAvailable" onChange={handleForm}/>
+                                <label className="form__register-label-check" htmlFor="typeIsAvailable">Está Disponible</label>
+                        </div>
+                        <input type="submit" />
+                    </div>
+                    
                 </div>
                 
             </form>

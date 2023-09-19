@@ -93,3 +93,36 @@
 .form__register-span img:hover {
     opacity: 0.6;
 }
+
+.form__register-select {
+    border: none;
+    appearance: none;
+    border-bottom: 1px solid #f2f2f2;
+    background: #2e2e2e;
+    width: 100%;
+    height: 80%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #f2f2f2;
+}
+
+.form__register-select:hover {
+    opacity: .9;
+}
+
+.form__register-option {
+    background: #2e2e2e;
+    height: 100px;
+}
+
+.form__register-check-submit {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2em;
+}
+
+.form__container-checkbox {
+
+}
