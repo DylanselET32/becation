@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction';
 import "../stylesheets/calendarAdministration.css"
 import { getAllVacations } from "../services/vacationService";
+import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 
 export default function CalendarAdministration(){
 
@@ -13,13 +14,16 @@ export default function CalendarAdministration(){
         const callVacation = async ()=>{
             const request = await getAllVacations();
             const vacations = await request.data
+            const status = await request
+
+            
 
             const newVacations = []
             vacations.map(vacation =>{
                 let newVacation = {
                     title: "Vacation Request",
                     start: vacation.start_date.substring(0, 10),
-                    end: vacation.end_date.substring(0, 10)
+                    end: formatDateToString(operateDate(new Date(vacation.end_date), 1))
                 }
                 newVacations.push(newVacation)
             })
@@ -42,14 +46,14 @@ export default function CalendarAdministration(){
                         initialView="dayGridMonth"
                         events={vacationsAsked}
                         buttonText={{today: "Hoy"}}
-                        // eventChange={handleEventChange}
-                        editable={true}
-                        // eventClick={handleEventClick}
+                       
+                        eventColor="gray"
+                    
                         dayMaxEventRows={true}
                         height="700px"
                         views= {{
                             timeGridMonth: {
-                            dayMaxEventRows: 2 // adjust to 6 only for timeGridWeek/timeGridDay
+                            dayMaxEventRows: 1
                             }
                         }}
                         eventResize={ function(info) {
