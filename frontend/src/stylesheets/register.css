@@ -44,18 +44,6 @@
     margin-top: 2em;
 }
 
-.form__personal-info {
-    display: flex;
-    gap: 2.5em;
-    margin-top: 3em;
-}
-
-.form__account-info {
-    display: flex;
-    gap: 2.5em;
-    margin-top: 3em;
-}
-
 .form__inputs-info {
     display: flex;
     gap: 2.5em;
