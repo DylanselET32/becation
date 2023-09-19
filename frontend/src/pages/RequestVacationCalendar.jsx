@@ -28,12 +28,12 @@ export default function RequestVacationCalendar({auth}){
 
     const [isAvailableForm, setIsAvailableForm] = useState(false)
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
-    const [fetchData, setFetchData] = useState([{start: "", end: "", title: "Vacaciones"}])
+    const [fetchData, setFetchData] = useState([])
 
     const fecth = async ()=>{
         const vacations = await getVacations();
         console.log(vacations)
-        let temporalVacations = []
+        let temporalVacations = [...vacationDaysAsked]
         vacations.data.map((event)=>{
             console.log(event.end_date)
             const vacation = {allDay: true, editable:false ,start: event.start_date, end: formatDateToString(operateDate(new Date(event.end_date), 1)), title: "Vacations"  }
