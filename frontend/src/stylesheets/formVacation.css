@@ -9,6 +9,7 @@
     align-items: start;
     /* background: red; */
     /* transition: .3s; */
+    /* background: green; */
 }
 
 
@@ -93,5 +94,10 @@
     .form{
         width: 8rem ;
         font-size: .8rem;
+        height: 100%;
+        /* background: red; */
+        margin-top: 20px;
+        display: flex;
+        
     }
 }

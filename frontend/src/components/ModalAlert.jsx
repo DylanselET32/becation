@@ -1,39 +1,38 @@
-import React, {useState} from "react"
-import "../stylesheets/modalAlert.css"
-import X from "../imgs/circle-xmark.svg"
+import React from 'react';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import { useAlert } from '../contexts/AlertContext';
 
+function ModalAlert() {
+  const { alertConfig, setAlertConfig } = useAlert();
 
-const topSectionStyle= {
-  display: "flex",
-  justifyContent: "end",
-  padding: "0 .6rem",
-  color: "#888"
-}
-  
-const mainSectionStyle= {
-  padding: "0 1rem",
-  display: "flex",
-  justifyContent: "center"
-}
-
-const buttonClose= {
-  border: "none",
-  background: "transparent",
-  color: "#fafafa"
-}
-
-export default function ModalAlert({msg, handleModalAviso,modalStyle}) {
-
-  return(
-    <div style={modalStyle} className="modal_aviso">
-      <div className="top_section" style={topSectionStyle}>
-        <button onClick={handleModalAviso} style={buttonClose} value={"X"}>
-          <img src={X} width="20px"></img>
-        </button>
+  return (
+    <Alert
+      show={alertConfig.show}
+      variant={alertConfig.status}
+      style={{
+        position: 'fixed',
+        top: 10,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 9999,
+        maxWidth: '400px', // Ajusta el ancho máximo según tu preferencia
+        width: '100%',
+      }}
+    >
+      <Alert.Heading>{alertConfig.title}</Alert.Heading>
+      <p>{alertConfig.message}</p>
+      <hr />
+      <div className="d-flex justify-content-end">
+        <Button
+          onClick={() => setAlertConfig({ show: false })}
+          variant={alertConfig.status === 'success' ? 'outline-success' : 'outline-danger'}
+        >
+          Aceptar
+        </Button>
       </div>
-      <div className="main_section" style={mainSectionStyle}>
-        <p>{msg}</p>
-      </div>
-    </div>
-  )
+    </Alert>
+  );
 }
+
+export default ModalAlert;

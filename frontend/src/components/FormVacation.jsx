@@ -35,7 +35,7 @@ export default function FormVacation({isCalled, formFather, handleSubmit}){
                 <input type="date" id="final_date" name="finalDate" value={form.finalDate} onChange={handleChange} className="date_input" />
             </div>
             <div className= "input_container button_container">
-                <input type="submit" className={form.initialDate.length > 1 && form.finalDate.length > 1 ? "button_form_available" : "button_form "} />
+                <input type="submit" disabled={form.initialDate.length < 1 && form.finalDate.length < 1} className={form.initialDate.length > 1 && form.finalDate.length > 1 ? "button_form_available" : "button_form "} />
             </div>
             
         </form>

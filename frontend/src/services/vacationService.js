@@ -146,8 +146,8 @@ export async function getAllVacationsBetweenDates(start_date, end_date) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getAuthToken()}`,
-        body: JSON.stringify(obj),
       },
+      body: JSON.stringify(obj),
     });
     const data = await response.json();
     const status = response.status;
@@ -166,6 +166,7 @@ export async function addVacation(vacation) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
       },
       body: JSON.stringify(vacation),
     });
@@ -186,6 +187,7 @@ export async function editVacation(vacation, id) {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
       },
       body: JSON.stringify(vacation),
     });
@@ -200,7 +202,7 @@ export async function editVacation(vacation, id) {
 }
 
 /* MÉTODO DELETE */
-export async function deleteRole(id) {
+export async function deleteVacation(id) {
   try {
       const response = await fetch(`${apiUrl}/vacation/deleteVacation/${id}`, {
           method: "DELETE",
