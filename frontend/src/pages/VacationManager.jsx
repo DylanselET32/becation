@@ -6,7 +6,7 @@ import { getAllVacations } from "../services/vacationService";
 import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 
 
-export default function VacationAdministration(){
+export default function VacationManager(){
 
     // const vacations= [
     //     {

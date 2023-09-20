@@ -12,7 +12,7 @@ import { useAlert } from '../contexts/AlertContext'// Importa el contexto
 
 
 
-export default function RequestVacationCalendar({auth}){
+export default function Home({auth}){
 
     const navigate = useNavigate();
     const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
@@ -168,13 +168,3 @@ export default function RequestVacationCalendar({auth}){
    
     
 }
-// function renderEventContent(eventInfo) {
-//     return (
-//       <div className='custom-event'>
-//         <p className='event-title'>{eventInfo.event.title}</p>
-//       </div>
-//     );
-//   }
-
-
-// eventContent={true ? renderEventContent : null} para mas adelante por si sobre tiempo, callback para custom css

@@ -1,3 +1,13 @@
+import React from "react";
+
+export default function VacationManagerCalendar(){
+
+    return(
+        <h1>VacationManagerCalendar </h1>
+    )
+}
+
+/*
 import React, { useEffect, useState } from "react";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -71,3 +81,4 @@ export default function CalendarAdministration(){
         </>
     )
 }
+*/

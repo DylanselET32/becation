@@ -72,7 +72,7 @@ export default function Login ({auth}){
         console.log(window.location.href)
 
         if (previousUrl === window.location.href || !previousUrl ) {
-          navigate('/calendar');
+          navigate('/');
         } else {
           navigate(-1);
         }

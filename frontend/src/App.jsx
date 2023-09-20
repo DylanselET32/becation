@@ -4,7 +4,8 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
 import AdminArea from "./pages/AdminArea"
-import VacationManager from "./pages/VacationManager"
+
+import VacationManager from "./pages/vacationManager"
 import VacationManagerCalendar from "./pages/VacationManagerCalendar"
 import ProfileManager from "./pages/ProfileManager"
 import ProfileConfig from "./pages/ProfileConfig"
@@ -18,7 +19,6 @@ import VacationAdministration from "./pages/VacationAdministration"
 import CalendarAdministration from "./pages/CalendarAdministration"
 
 import useAuth from "./hooks/useAuth"
-import RequestVacationCalendar from "./pages/RequestVacationCalendar"
 import { AlertProvider } from "./contexts/AlertContext"
 import ModalAlert from "./components/ModalAlert"
 
@@ -27,7 +27,7 @@ function App() {
 
   const auth = useAuth();
   
-
+  
   return (
     <div className="app">
 
