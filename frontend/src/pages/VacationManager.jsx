@@ -13,19 +13,6 @@ export default function VacationManager(){
     //         name: "Dylan",
     //         startDate: "17-5-23",
     //         endDate: "19-5-23",
-    //     },  {
-    //         name: "Diego",
-    //         startDate: "17-5-23",
-    //         endDate: "19-5-23",
-    //     },  {
-    //         name: "Gonza",
-    //         startDate: "23-5-23",
-    //         endDate: "28-5-23",
-    //     },  {
-    //         name: "Dimitrije",
-    //         startDate: "19-5-23",
-    //         endDate: "28-5-23",
-    //     },
     // ]
 
     const [vacationsAsked, setVacationsAsked] = useState([])
@@ -40,9 +27,9 @@ export default function VacationManager(){
             const newVacations = []
             vacations.map(vacation =>{
                 let newVacation = {
-                    title: "Vacation Request",
-                    start: vacation.start_date.substring(0, 10),
-                    end: formatDateToString(operateDate(new Date(vacation.end_date), 1))
+                    name: "Vacation Request",
+                    startDate: vacation.start_date.substring(0, 10),
+                    endDate: formatDateToString(operateDate(new Date(vacation.end_date), 1))
                 }
                 newVacations.push(newVacation)
             })
@@ -57,23 +44,34 @@ export default function VacationManager(){
 
     return(
         <div className="administration_container">
-            <table className="table">
-                    <thead className="thead">
-                
-                    <tr>
-                        <th>N°</th>
-                        <th>Name</th>
-                        <th>Start Date</th>
-                        <th>Final Date</th>
-                        <th>Actions</th>
-                    </tr>
-                 </thead>
-                 {vacationsAsked.map((reserve, index)=>(
-                    <TableRow index={index + 1} userName={reserve.name} startDate={reserve.startDate} endDate={reserve.endDate}/>
-                 ))}
-                {/* <TableRow /> */}
-            </table>
-            
+            <div className="manager_container">
+
+                <div className="select_container">
+                    <label htmlFor="filter">Filter</label><select name="" id="filter">
+                        <option value="1">All</option>
+                        <option value="2">Aprobed</option>
+                        <option value="3">Rejected</option>
+                        <option value="4">In Revision</option>
+                    </select>
+                </div>
+           
+                <table className="table">
+                        <thead className="thead">
+                    
+                        <tr>
+                            <th>N°</th>
+                            <th>Name</th>
+                            <th>Start Date</th>
+                            <th>Final Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    {vacationsAsked.map((reserve, index)=>(
+                        <TableRow key={index} index={index + 1} userName={reserve.name} startDate={reserve.startDate} endDate={reserve.endDate}/>
+                    ))}
+                    {/* <TableRow /> */}
+                </table>
+            </div>
         </div>
     )
 }

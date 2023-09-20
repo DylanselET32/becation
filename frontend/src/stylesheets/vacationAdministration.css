@@ -1,14 +1,22 @@
 .administration_container{
-
     padding: 4rem;
     
+}
+
+.manager_container{
+    
+    width: 90vw;
+}
+
+.select_container{
+    margin: 0 0 4rem 0;
 }
 
 .table{
     background: #1f1f1f;
     border-radius: 12px;
     color: #f1f1f1;
-    width: 90vw;
+    /* width: 90vw; */
 }
 
 .thead tr th{
