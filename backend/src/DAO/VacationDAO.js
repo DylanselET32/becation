@@ -26,7 +26,7 @@ const removeVacation = async (id) => await CRUD.remove('vacation', id);
 
 /* MÉTODOS ESPECÍFICOS */
 const getVacationsByArea = async (area_id) => {
-    let sql = `SELECT v.*, a.area from ((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) WHERE a.id = ?`;
+    let sql = `SELECT v.*, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE a.id = ?`;
     let params = [area_id];
 
     const [results] = await pool.promise().query(sql, params);
