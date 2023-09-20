@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import { useNavigate } from 'react-router-dom'
 import "../stylesheets/calendar.css"
 import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation'
-import { addVacation, getAllVacations, getVacations } from '../services/vacationService'
+import { addVacation, getVacations } from '../services/vacationService'
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
+import { useAlert } from '../contexts/AlertContext'// Importa el contexto
 
 
 
-export default function RequestVacationCalendar({auth,alertModal}){
+
+export default function RequestVacationCalendar({auth}){
 
     const navigate = useNavigate();
-    
+    const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
+
     useEffect(()=>{
         const e = location.pathname != "/login";
         console.log("diferente de login?:",e)
@@ -97,8 +99,25 @@ export default function RequestVacationCalendar({auth,alertModal}){
             date_asked: new Date(),
             area_manager_authorization: 0,
         }
-        await addVacation(vacationToSend)
-        alert("SE CREO LA VACACION")
+        try {
+            await addVacation(vacationToSend)
+            setAlertConfig({
+            show:true,
+            status: 'success',
+            title: 'Guardado',
+            message: 'Se creó la vacación exitosamente',
+            });
+            setTimeout(() =>navigate("/"),alertConfig.timeOff+500)
+        } catch (error) {
+            console.error(error.message)
+            setAlertConfig({
+                show:true,
+                status: 'danger',
+                title: 'Error',
+                message: `No se pudo registrar la fecha, intentelo nuevamente mas tarde (${error.message})`,
+            });
+        }
+        
     }
 
     useEffect(()=>{
