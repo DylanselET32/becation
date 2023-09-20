@@ -1,7 +1,5 @@
 import Header from "./components/Header"
-import ConfigProfile from "./pages/ConfigProfile"
 import Login from "./pages/Login"
-import Register from "./pages/Register"
 import Home from "./pages/Home"
 import AdminArea from "./pages/AdminArea"
 
@@ -15,8 +13,6 @@ import NotFound from "./pages/NotFound"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
-import VacationAdministration from "./pages/VacationAdministration"
-import CalendarAdministration from "./pages/CalendarAdministration"
 
 import useAuth from "./hooks/useAuth"
 import { AlertProvider } from "./contexts/AlertContext"
