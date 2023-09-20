@@ -61,8 +61,6 @@ export default function RequestVacationCalendar({auth}){
         let finalMonth= (e.event._instance.range.end.getMonth()+1).toString()
         let finalDay= operateDate(e.event._instance.range.end , 1).getDate()
 
-        console.log("PPP",finalDay)
-
         const NEW_END_DATE = `${initalYear}-${finalMonth.length <= 1 ? `0${finalMonth}` : finalMonth}-${finalDay.length <= 1 ? `0${finalDay}` : finalDay}`
 
         setVacationDaysAsked([...fetchData,

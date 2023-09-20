@@ -1,0 +1,10 @@
+.calendar_admin_section{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar_admin_container{
+    width: 90vw;
+}

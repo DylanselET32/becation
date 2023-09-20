@@ -4,10 +4,15 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
+
+import VacationAdministration from "./pages/VacationAdministration"
+import CalendarAdministration from "./pages/CalendarAdministration"
+
 import useAuth from "./hooks/useAuth"
 import RequestVacationCalendar from "./pages/RequestVacationCalendar"
 import { AlertProvider } from "./contexts/AlertContext"
 import ModalAlert from "./components/ModalAlert"
+
 
 function App() {
 
@@ -16,6 +21,7 @@ function App() {
 
   return (
     <div className="app">
+
       <BrowserRouter>
         <AlertProvider>
           <ModalAlert/>
@@ -31,6 +37,7 @@ function App() {
         </AlertProvider>
       </BrowserRouter>
     </div>
+
   )
 }
 
