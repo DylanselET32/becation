@@ -1,19 +1,34 @@
 import "../stylesheets/register.css"
 import "../stylesheets/modalAlert.css"
-
 import EyeToHide from "../imgs/eye-crossed.svg"
 import EyeHiden from "../imgs/eye.svg"
 import { useState } from "react"
 //import ModalAlert from "../components/ModalAlert"
 //import useModalAlert from "../helpers/useModalAlert"
-
 //import { login } from "../services/userServices"
 
-
-
 const initalForm = {
-  email: "",
-  password: ""
+    nombre: "",
+    apellido: "",
+    dni: "",
+    email: "",
+    password: "",
+    privilegios: "",
+    rol: "",
+    area: "",
+    availableDays: "",
+    totalDays: "",
+    signUpDay: "",
+    isAvailable: false,
+}
+
+function FormGroup({ label, name, type, value, onChange }) {
+    return (
+        <div className="form__register-group">
+            <label className="form__register-label" htmlFor={name}>{label}</label>
+            <input type={type} className="form__register-input" name={name} value={value} onChange={onChange}/>
+        </div>
+    );
 }
 
 export default function Register (){
@@ -59,91 +74,52 @@ export default function Register (){
       }
 */
     return (
-
-    <div className="main_register-container">
-        <div className="container_register">
-            <form action="">
-                <h1 className="form__register-title">Registrar Usuario</h1>
-
-                <h2 className="form__register-subtitle">Información Personal</h2>
-                {/* <div className="form__register-container"> */}
-                <div className="form__inputs-info">
-                    <div className="form__register-group">
-                        <label className="form__register-label" htmlFor="typeName">Nombre</label>
-                        <input type="text" className="form__register-input" name="nombre" onChange={handleForm}/>
-                    </div>
-                    <div className="form__register-group">
-                        <label className="form__register-label" htmlFor="typeApellido">Apellido</label>
-                        <input type="text" className="form__register-input" name="apellido" onChange={handleForm}/>
-                    </div>
-                    <div className="form__register-group">
-                        <label className="form__register-label" htmlFor="typeDNI">DNI</label>
-                        <input type="text" className="form__register-input" name="dni" onChange={handleForm}/>
-                    </div>
-                </div>
-                
-                <h2 className="form__register-subtitle">Información de la Cuenta</h2>
-                <div className="form__inputs-info">
-                    <div className="form__register-group">
-                        <label className="form__register-label" htmlFor="typeEmail">Email</label>
-                        <input type="email" className="form__register-input" name="email" value={form.email} onChange={handleForm}/>
-                    </div>
-                    <div className="form__register-group">
-                        <label className="form__register-label" htmlFor="typeContraseña">Contraseña</label>
-                        <input type={passHidden ? "text" : "password"} className="form__register-input" name="password" id="password" value={form.password} onChange={handleForm}/>
-                        <span className="form__register-span"><img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span>                  
-                    </div>
-                </div>
-                
-                <h2 className="form__register-subtitle">Información del Contrato</h2>
-                <div className="form__container-contrat-info">
+        <div className="main_register-container">
+            <div className="container_register">
+                <form action="">
+                    <h1 className="form__register-title">Registrar Usuario</h1>
+                    <h2 className="form__register-subtitle">Información Personal</h2>
                     <div className="form__inputs-info">
-                        <div className="form__register-group">
-                            <label className="form__register-label" htmlFor="typePrivilegios">Privilegios</label>
-                            <input type="email" className="form__register-input" name="privilegios" onChange={handleForm}/>
-                        </div>
-                        <div className="form__register-group">
-                            <label className="form__register-label" htmlFor="typeRol">Rol</label>
-                            <input type="email" className="form__register-input" name="rol" onChange={handleForm}/>
-                        </div>
-                        <div className="form__register-group">
-                            <label className="form__register-label" htmlFor="typeArea">Área</label>
-                            
-                            <select className="form__register-select" name="area" id="area">
-                                <option className="form__register-option" selected disabled>Elige un área</option>
-                                <option className="form__register-option" value="#">opción 1</option>
-                                <option className="form__register-option" value="#">opción 1</option>
-                            </select>
-                        </div>
+                        <FormGroup label="Nombre" name="nombre" type="text" value={form.nombre} onChange={handleForm}/>
+                        <FormGroup label="Apellido" name="apellido" type="text" value={form.apellido} onChange={handleForm}/>
+                        <FormGroup label="DNI" name="dni" type="text" value={form.dni} onChange={handleForm}/>
                     </div>
+                    <h2 className="form__register-subtitle">Información de la Cuenta</h2>
                     <div className="form__inputs-info">
-                        <div className="form__register-group">
-                            <label className="form__register-label" htmlFor="typeAvailableDays">Días Disponibles</label>
-                            <input type="number" className="form__register-input" name="availableDays" onChange={handleForm}/>
+                        <FormGroup label="Email" name="email" type="email" value={form.email} onChange={handleForm}/>
+                        <FormGroup label="Contraseña" name="password" type={passHidden ? "text" : "password"} value={form.password} onChange={handleForm}/>
+                        {/* <FormGroup label="Contraseña" name="password" type={passHidden ? "text" : "password"} value={form.password} onChange={handleForm}/> */}
+                        {/* <span className="form__register-span"><img src={passHidden ? EyeClosed : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span> */}
+                    </div>
+                    <h2 className="form__register-subtitle">Información del Contrato</h2>
+                    <div className="form__container-contrat-info">
+                        <div className="form__inputs-info">
+                        <FormGroup label="Privilegios" name="privilegios" type="text" value={form.privilegios} onChange={handleForm}/>
+                        <FormGroup label="Rol" name="rol" type="text" value={form.rol} onChange={handleForm}/>
+                            <div className="form__register-group">
+                                <label className="form__register-label" htmlFor="typeArea">Área</label>
+                                <select className="form__register-select" name="area" id="area" value={form.area} onChange={handleForm}>
+                                    <option className="form__register-option" value="" disabled>Elige un área</option>
+                                    <option className="form__register-option" value="opcion1">Opción 1</option>
+                                    <option className="form__register-option" value="opcion2">Opción 2</option>
+                                </select>
+                            </div>
                         </div>
-                        <div className="form__register-group">
-                            <label className="form__register-label" htmlFor="typeTotalDays">Total de Días</label>
-                            <input type="number" className="form__register-input" name="totalDays" onChange={handleForm}/>
-                        </div>
-                        <div className="form__register-group">
-                            <label className="form__register-label" htmlFor="typeSignUpDay">Día de Alta</label>
-                            <input type="date" className="form__register-input" name="signUpDay" onChange={handleForm}/>
+                        <div className="form__inputs-info">
+                        <FormGroup label="Días Disponibles" name="availableDays" type="number" value={form.availableDays} onChange={handleForm}/>
+                        <FormGroup label="Total de Días" name="totalDays" type="number" value={form.totalDays} onChange={handleForm}/>
+                        <FormGroup label="Día de Alta" name="signUpDay" type="date" value={form.signUpDay} onChange={handleForm}/>
                         </div>
                     </div>
                     <div className="form__register-check-submit">
-                        <div className="form__register-checkbox">
-                                <input type="checkbox" className="form__register-checkbox" name="isAvailable" onChange={handleForm}/>
-                                <label className="form__register-label-check" htmlFor="typeIsAvailable">Está Disponible</label>
+                        <div className="form__container-checkbox">
+                            <input type="checkbox" className="form__register-checkbox" name="isAvailable" checked={form.isAvailable} onChange={() => { setForm({ ...form, isAvailable: !form.isAvailable, }); }}/>
+                            <label className="form__register-label-check" htmlFor="typeIsAvailable">Está Disponible</label>
                         </div>
-                        <input type="submit" />
+                        <button className="btn-register">Registrarse</button>
                     </div>
-                    
-                </div>
-                
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
-
-    )
+    );
 }
-    
