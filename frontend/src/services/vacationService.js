@@ -81,9 +81,9 @@ export async function getVacations() {
   }
 }
 
-export async function getAllVacationsByArea() {
+export async function getAllVacationsByArea(idArea) {
   try {
-    const response = await fetch(`${apiUrl}/${apiVersion}/vacation/getAllVacationsByArea`, {
+    const response = await fetch(`${apiUrl}/${apiVersion}/vacation/getAllVacationsByArea/${idArea}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -218,3 +218,103 @@ export async function deleteRole(id) {
       throw new Error("Error al eliminar la vacacion");
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
