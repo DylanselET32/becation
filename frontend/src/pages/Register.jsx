@@ -35,8 +35,6 @@ export default function Register (){
     
     const [passHidden, setPassHidden] = useState(false)
     const [form, setForm] = useState(initalForm)
-    //const [ handleModalAlert, alert, openModalAlert, modalAlertCalled, msg, setMsg]= useModalAlert();
-
 
     const changePassVisibility = ()=>{
         setPassHidden(!passHidden)
@@ -48,31 +46,6 @@ export default function Register (){
             [e.target.name]: e.target.value
         })
     }
-/*
-    const handleSubmit= async(e)=>{
-        e.preventDefault();
-        if(!form.email || !form.password){
-          openModalAlert();
-          setMsg("Complete los datos")
-          return
-        }
-        const [data, status]= await login(form)
-        if(status == 401){
-          openModalAviso();
-          setMsg("Contraseña Incorrecta")
-        }else if(status == 404){
-          openModalAviso();
-          setMsg("Usuario incorrecto")
-        }else if(status == 400){
-          openModalAviso();
-          setMsg("Nombre de usuario en uso")
-        }else if(status ==200){
-            console.log("LOGUEADO...")
-        //   redirec()
-        //   auth.reloaded()
-        }
-      }
-*/
     return (
         <div className="main_register-container">
             <div className="container_register">
@@ -88,8 +61,7 @@ export default function Register (){
                     <div className="form__inputs-info">
                         <FormGroup label="Email" name="email" type="email" value={form.email} onChange={handleForm}/>
                         <FormGroup label="Contraseña" name="password" type={passHidden ? "text" : "password"} value={form.password} onChange={handleForm}/>
-                        {/* <FormGroup label="Contraseña" name="password" type={passHidden ? "text" : "password"} value={form.password} onChange={handleForm}/> */}
-                        {/* <span className="form__register-span"><img src={passHidden ? EyeClosed : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span> */}
+                        <div className="password"><img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility} className="ayeIcon"/></div>
                     </div>
                     <h2 className="form__register-subtitle">Información del Contrato</h2>
                     <div className="form__container-contrat-info">
@@ -106,15 +78,15 @@ export default function Register (){
                             </div>
                         </div>
                         <div className="form__inputs-info">
-                        <FormGroup label="Días Disponibles" name="availableDays" type="number" value={form.availableDays} onChange={handleForm}/>
-                        <FormGroup label="Total de Días" name="totalDays" type="number" value={form.totalDays} onChange={handleForm}/>
-                        <FormGroup label="Día de Alta" name="signUpDay" type="date" value={form.signUpDay} onChange={handleForm}/>
+                            <FormGroup label="Días Disponibles" name="availableDays" type="number" value={form.availableDays} onChange={handleForm}/>
+                            <FormGroup label="Total de Días" name="totalDays" type="number" value={form.totalDays} onChange={handleForm}/>
+                            <FormGroup label="Día de Alta" name="signUpDay" type="date" value={form.signUpDay} onChange={handleForm}/>
                         </div>
                     </div>
                     <div className="form__register-check-submit">
                         <div className="form__container-checkbox">
                             <input type="checkbox" className="form__register-checkbox" name="isAvailable" checked={form.isAvailable} onChange={() => { setForm({ ...form, isAvailable: !form.isAvailable, }); }}/>
-                            <label className="form__register-label-check" htmlFor="typeIsAvailable">Está Disponible</label>
+                            <label htmlFor="typeIsAvailable">Está Disponible</label>
                         </div>
                         <button className="btn-register">Registrarse</button>
                     </div>
