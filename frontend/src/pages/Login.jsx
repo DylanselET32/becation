@@ -59,16 +59,19 @@ export default function Login ({auth}){
          
           setMsg("Nombre de usuario en uso")
         }else if(status == 200){
-            console.log("USER...", auth)
-            redirec()
-            auth.reloaded()
+          await auth.reloaded()
+          console.log("USER...", auth)
+          redirec()
         }
     }
 
     const redirec = ()=>{
         const previousUrl = document.referrer;
-        console.log(window.location.origin)
-        if (previousUrl === window.location.href || !previousUrl) {
+        console.log("SON IGUALES: ",previousUrl == window.location.href )
+        console.log(previousUrl)
+        console.log(window.location.href)
+
+        if (previousUrl === window.location.href || !previousUrl ) {
           navigate('/calendar');
         } else {
           navigate(-1);

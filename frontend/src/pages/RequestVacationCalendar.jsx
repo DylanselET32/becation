@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import { useNavigate } from 'react-router-dom'
 import "../stylesheets/calendar.css"
 import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation'
-import { addVacation, getAllVacations } from '../services/vacationService'
+import { addVacation, getVacations } from '../services/vacationService'
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils'
+import { useAlert } from '../contexts/AlertContext'// Importa el contexto
 
 
 
-export default function Calendar({auth}){
+
+export default function RequestVacationCalendar({auth}){
 
     const navigate = useNavigate();
-    
+    const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
+
     useEffect(()=>{
         const e = location.pathname != "/login";
         console.log("diferente de login?:",e)
@@ -28,19 +30,19 @@ export default function Calendar({auth}){
 
     const [isAvailableForm, setIsAvailableForm] = useState(false)
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}])
+    const [fetchData, setFetchData] = useState([])
 
     const fecth = async ()=>{
-        const vacations = await getAllVacations();
-
-        let temporalVacations = []
+        const vacations = await getVacations();
+        console.log(vacations)
+        let temporalVacations = [...vacationDaysAsked]
         vacations.data.map((event)=>{
             console.log(event.end_date)
-            const vacation = {allDay: true, start: event.start_date, end: formatDateToString(operateDate(new Date(event.end_date), 1)), title: "Vacations"  }
+            const vacation = {allDay: true, color:"grey" ,editable:false ,start: event.start_date, end: formatDateToString(operateDate(new Date(event.end_date), 1)), title: "Vacations"  }
             temporalVacations.push(vacation)
         })
 
-        console.log(temporalVacations)
-
+        setFetchData(temporalVacations)
         setVacationDaysAsked(temporalVacations)
     }
 
@@ -63,11 +65,13 @@ export default function Calendar({auth}){
 
         const NEW_END_DATE = `${initalYear}-${finalMonth.length <= 1 ? `0${finalMonth}` : finalMonth}-${finalDay.length <= 1 ? `0${finalDay}` : finalDay}`
 
-        setVacationDaysAsked([{
+        setVacationDaysAsked([...fetchData,
+            {
             title: vacationDaysAsked[0].title,
             start: NEW_INITIAL_DATE,
-            end: NEW_END_DATE
-        }])
+            end:  formatDateToString(operateDate(new Date(NEW_END_DATE), 1)),
+            }
+        ])
     }
 
     const handleEventClick = (e)=>{
@@ -75,30 +79,50 @@ export default function Calendar({auth}){
     }
 
     const handleForm = (state)=>{
-        setVacationDaysAsked([
+        setVacationDaysAsked([...fetchData,
             {   
                 title: vacationDaysAsked[0].title,
                 start: state.initialDate,
-                end: state.finalDate
+                end: formatDateToString(operateDate(new Date(state.finalDate), 2))
             }
         ])
     }
 
-    const handleSubmit = async ()=>{
-        let vacationToSend = vacationDaysAsked[0]
+    const handleSubmit = async e=>{
+        e.preventDefault()
+        let vacationToSend = vacationDaysAsked[vacationDaysAsked.length -1]
         vacationToSend = {
             start_date : new Date(vacationToSend.start),
-            end_date:  new Date(vacationToSend.end),
-            status: null,
+            end_date:  operateDate(new Date(vacationToSend.end), -1),
+            status: "null",
             note: null,
             date_asked: new Date(),
-            area_manager_authorization: null,
+            area_manager_authorization: 0,
         }
-
-        await addVacation(vacationToSend)
+        try {
+            await addVacation(vacationToSend)
+            setAlertConfig({
+            show:true,
+            status: 'success',
+            title: 'Guardado',
+            message: 'Se creó la vacación exitosamente',
+            });
+            setTimeout(() =>navigate("/"),alertConfig.timeOff+500)
+        } catch (error) {
+            console.error(error.message)
+            setAlertConfig({
+                show:true,
+                status: 'danger',
+                title: 'Error',
+                message: `No se pudo registrar la fecha, intentelo nuevamente mas tarde (${error.message})`,
+            });
+        }
         
     }
 
+    useEffect(()=>{
+        fecth()
+    },[])
     return(
         <main>
             <section className='calendar_section'>
@@ -132,7 +156,7 @@ export default function Calendar({auth}){
                 
             </section>
             <section className='aside_main'>
-                <button className={isAvailableForm ? "button_ask_vacation_called" : "button_ask_vacation"} onClick={handleVacationFormRequest}>
+                <button  className={isAvailableForm ? "button_ask_vacation_called" : "button_ask_vacation"} onClick={handleVacationFormRequest}>
                     {isAvailableForm ? "Cancelar" : "Pedir Vacaciones"}
                 </button>
                 <div className='form_vacation_container'>
