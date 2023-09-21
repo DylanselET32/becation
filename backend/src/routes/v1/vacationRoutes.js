@@ -310,7 +310,7 @@ module.exports = router;
 // Edit an existing vacation
 /**
  * @swagger
- * /v1/vacation/editVacation:
+ * /v1/vacation/editVacation/{id}:
  *  patch:
  *    summary: Edit vacation
  *    tags: [Vacation]
