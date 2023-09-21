@@ -1,7 +1,7 @@
 import React from "react";
 import TableRow from "./TableRow";
 
-export default function TableVacation({ vacations, fields, children, filter }) {
+export default function CustomTable({ rows, fields, children, setSelectItem }) {
   const tableStyle = {
     background: "#1f1f1f",
     borderRadius: "12px",
@@ -26,6 +26,10 @@ export default function TableVacation({ vacations, fields, children, filter }) {
     borderTopRightRadius: "12px",
   };
 
+  const setAccionItem = (item) => {
+    setSelectItem(item)
+  }
+
   return (
     <div className="table-responsive">
       <table  style={tableStyle} className="col-12">
@@ -43,11 +47,11 @@ export default function TableVacation({ vacations, fields, children, filter }) {
           </tr>
         </thead>
         <tbody>
-          {vacations.map((vacation, index) => (
+          {rows.map((row, index) => (
             <tr className="rowTable" key={index}>
               <td>{index + 1}</td>
               {fields.map((field) => (
-                <td key={field[0]}>{vacation[field[0]]}</td>
+                <td key={field[0]} onClick={()=>setAccionItem(row)}>{row[field[0]]}</td>
               ))}
               {(React.Children.count(children)>=2)?
               <td className="action-field">
@@ -55,7 +59,7 @@ export default function TableVacation({ vacations, fields, children, filter }) {
                     <i className="bi bi-three-dots-vertical"></i>
                   </button>
                   <ul className="dropdown-menu">
-                    {React.Children.map(children,(child,i) => <><li className="text-center btn dropdown-item p-0 " key={i}>{child}</li><li><hr className="dropdown-divider"/></li></>)}
+                    {React.Children.map(children,(child,i) => <><li className="text-center btn dropdown-item p-0 " key={i} onClick={()=>setAccionItem(row)}>{child}</li><li><hr className="dropdown-divider"/></li></>)}
                   </ul>
               </td>
               :
