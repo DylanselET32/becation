@@ -206,4 +206,8 @@
         margin-top: 20px;
         width: 100%;
     }
+
+    .form__register-select {
+        position: relative;
+    }
 }
