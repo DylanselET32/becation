@@ -44,6 +44,7 @@
 
 .calendar_section{
     width: 70vw;
+    display: block;
     padding: 2rem 2rem 4rem 2rem;
     height: 700px !important;
 }
