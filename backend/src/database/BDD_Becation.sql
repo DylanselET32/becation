@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `becation_db`.`vacation` (
     `status` ENUM("aproved", "denied", "revision", "null") NULL DEFAULT 'null' COMMENT 'aprobado rechazado observado',
     `note` TEXT(500) NULL DEFAULT 'null',
     `date_asked` DATETIME NOT NULL COMMENT 'fecha que el eempleado pidio las vacaciones',
-    `area_manager_authorization` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'el jefe del area autoriza o no al empleado',
+    `area_manager_authorization` TINYINT(1)  DEFAULT 0 COMMENT 'el jefe del area autoriza o no al empleado',
     `to_create` TIMESTAMP NOT NULL COMMENT 'marca temporal automatica de cuando se crea este registro en le DB\ndato predeterminado: CURRENT_TIMESTAMP    ',
     `to_update` INT NOT NULL COMMENT 'quien fue el de rrhh que modifico estas vacaciones por ultima vez\nID del ultimo usuario que realizo modificaciones en los datos',
     `to_update_date` DATETIME NOT NULL COMMENT 'fecha de la ultima modificacion',
