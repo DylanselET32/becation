@@ -9,12 +9,6 @@ import { useState } from "react"
 import { login } from "../services/userServices"
 import { useEffect } from "react"
 
-
-const styleContainer = {
-    borderRadius: "1rem",
-    background: "#2e2e2e"
-}
-
 const initalForm = {
     email: "",
     password: ""
@@ -91,7 +85,7 @@ export default function Login ({auth}){
     return (
 
         <div className="main_login-container">
-            <div className="container_login" style={styleContainer}>
+            <div className="container_login">
                 <form action="" onSubmit={handleSubmit}>
                     <h2 className="form__login-title">Iniciá Sesión</h2>
                     <div className="form__login-container">
