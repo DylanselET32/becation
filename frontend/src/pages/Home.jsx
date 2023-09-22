@@ -259,6 +259,7 @@ export default function Home({auth}){
                             setSelectItem={setSelectItem}
                             msgNotRows="No hay vacaciones pendientes"
                             isDisabledCondition={isDisabledCondition}
+                            maxHeight="500px"
                         > 
                             <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
                             <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
