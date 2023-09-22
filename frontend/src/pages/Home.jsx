@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import "../stylesheets/calendar.css";
 import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation';
-import { addVacation, getVacations } from '../services/vacationService';
+import { addVacation, deleteVacation, getVacations } from '../services/vacationService';
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
 import CustomTable from '../components/CustomTable';
@@ -189,8 +189,11 @@ export default function Home({auth}){
     };
 
     // Función para manejar la eliminación de una vacación
-    const hanleDeleteVacation = (item) => {
+    const hanleDeleteVacation = async (item) => {
         console.log("se esta Eliminando",item);
+        const response = await deleteVacation(item.id)
+        fetch()
+        console.log(response);
     };
 
     // Función para manejar la visualización de detalles de una vacación
@@ -249,6 +252,7 @@ export default function Home({auth}){
                                 ["status","Estado"],
                             ]}
                             setSelectItem={setSelectItem}
+                            msgNotRows="No hay vacaciones pendientes"
                         > 
                             <button className="btn p-0 btn_table w-100" onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
                             <button className="btn p-0 btn_table w-100" onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
