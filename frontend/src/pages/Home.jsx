@@ -159,12 +159,17 @@ export default function Home({auth}){
         }
     };
 
-    // Función para manejar las acciones
+    // Función para manejar las acciones de la tabla
     const handleAction = (e) => {
         switch (e.type) {}
         useEffect(() => {},handleAction,)
         name
     };
+    // Función que se llama en la tabla para condicional las acciones
+    const isDisabledCondition = (row,child) =>{
+        // row es la fila a analisar y child es el boton de accion que estan abajo
+        return(row['area_manager_authorization'] !== null && child.props.name != 'seeDetails')
+    }
 
     // Efecto para realizar una acción según el botón presionado
     useEffect((e) => {
@@ -253,10 +258,11 @@ export default function Home({auth}){
                             ]}
                             setSelectItem={setSelectItem}
                             msgNotRows="No hay vacaciones pendientes"
+                            isDisabledCondition={isDisabledCondition}
                         > 
-                            <button className="btn p-0 btn_table w-100" onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
-                            <button className="btn p-0 btn_table w-100" onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
-                            <button className="btn p-0 btn_table w-100" onClick={()=>{setActionButton("seeDetails")}}>Ver Detalles <i className="bi bi-eye"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='seeDetails' onClick={()=>{setActionButton("seeDetails")}}>Ver Detalles <i className="bi bi-eye"></i></button>
                         </CustomTable>
                     </div>  
                 </section>

@@ -1,7 +1,7 @@
 import React from "react";
 import TableRow from "./TableRow";
 
-export default function CustomTable({ rows, fields, children, setSelectItem,msgNotRows }) {
+export default function CustomTable({ rows, fields, children, setSelectItem,msgNotRows,isDisabledCondition }) {
   const tableStyle = {
     background: "#1f1f1f",
     borderRadius: "12px",
@@ -30,6 +30,9 @@ export default function CustomTable({ rows, fields, children, setSelectItem,msgN
     setSelectItem(item)
   }
 
+  const isDisabled = (row, child) => {
+    return isDisabledCondition ? isDisabledCondition(row, child) : false;
+  };
   return (
     <div className="table-responsive">
       <table  style={tableStyle} className="col-12">
@@ -62,7 +65,7 @@ export default function CustomTable({ rows, fields, children, setSelectItem,msgN
                     <i className="bi bi-three-dots-vertical"></i>
                   </button>
                   <ul className="dropdown-menu">
-                    {React.Children.map(children,(child,i) => <><li className="text-center btn dropdown-item p-0 " key={i} onClick={()=>setAccionItem(row)}>{child}</li><li><hr className="dropdown-divider"/></li></>)}
+                    {React.Children.map(children,(child,i) => <><li className={`text-center btn dropdown-item p-0 ${isDisabled(row,child)?'disabled':''}`} key={i} onClick={()=>setAccionItem(row)}>{child}</li><li><hr className="dropdown-divider"/></li></>)}
                   </ul>
               </td>
               :
