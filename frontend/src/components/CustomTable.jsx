@@ -1,7 +1,7 @@
 import React from "react";
 import TableRow from "./TableRow";
 
-export default function CustomTable({ rows, fields, children, setSelectItem }) {
+export default function CustomTable({ rows, fields, children, setSelectItem,msgNotRows }) {
   const tableStyle = {
     background: "#1f1f1f",
     borderRadius: "12px",
@@ -47,6 +47,9 @@ export default function CustomTable({ rows, fields, children, setSelectItem }) {
           </tr>
         </thead>
         <tbody>
+          {(!rows || rows.length == 0)&& <>
+          <tr><td colSpan='900'>{msgNotRows}</td></tr>
+          </> }
           {rows.map((row, index) => (
             <tr className="rowTable" key={index}>
               <td>{index + 1}</td>
