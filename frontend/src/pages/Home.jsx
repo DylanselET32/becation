@@ -30,6 +30,7 @@ export default function Home({auth}){
 
     const [isAvailableForm, setIsAvailableForm] = useState(false); // Estado que controla si el formulario de vacaciones está disponible
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}]); // Estado que almacena los días de vacaciones solicitados
+    const [fetchDataToCalendar, setFetchDataToCalendara] = useState([]); // Estado que guarda los datos de vacaciones obtenidos del servidor
     const [fetchData, setFetchData] = useState([]); // Estado que guarda los datos de vacaciones obtenidos del servidor
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
@@ -54,6 +55,7 @@ export default function Home({auth}){
 
             setFetchData(vacations.data);
             setVacationDaysAsked(temporalVacations);
+            setFetchDataToCalendara(temporalVacations)
         } catch (error) {
             setAlertConfig({
                 show: true,
@@ -66,7 +68,11 @@ export default function Home({auth}){
 
     // Función para manejar el evento de solicitud de formulario de vacaciones
     const handleVacationFormRequest = () => {
+        if(isAvailableForm){
+            setVacationDaysAsked(fetchDataToCalendar)
+        }
         setIsAvailableForm(!isAvailableForm);
+        
     };
 
     // Función para manejar el cambio en el evento del calendario
@@ -81,7 +87,7 @@ export default function Home({auth}){
 
         const NEW_END_DATE = `${initalYear}-${finalMonth.length <= 1 ? `0${finalMonth}` : finalMonth}-${finalDay.length <= 1 ? `0${finalDay}` : finalDay}`;
 
-        setVacationDaysAsked([...fetchData,
+        setVacationDaysAsked([...fetchDataToCalendar,
             {
                 title: vacationDaysAsked[0].title,
                 start: NEW_INITIAL_DATE,
@@ -125,9 +131,10 @@ export default function Home({auth}){
 
     // Función para manejar el envío del formulario de vacaciones
     const handleForm = (state) => {
-        setVacationDaysAsked([...fetchData,
+        console.log(fetchData)
+        setVacationDaysAsked([...fetchDataToCalendar,
             {
-                title: vacationDaysAsked[0].title,
+                title: 'Vacacion',
                 start: state.initialDate,
                 end: formatDateToString(operateDate(new Date(state.finalDate), 2))
             }

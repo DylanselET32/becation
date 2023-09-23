@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "../stylesheets/formVacation.css"
 
 const  initialForm = {
@@ -23,6 +23,9 @@ export default function FormVacation({isCalled, formFather, handleSubmit}){
 
         console.log(typeof form.finalDate)
     }
+    useEffect(()=>{
+        setForm(initialForm)
+    },[isCalled])
 
     return(
         <form action="" className={isCalled ? "form" : "hiddenForm"} onSubmit={handleSubmit} >
