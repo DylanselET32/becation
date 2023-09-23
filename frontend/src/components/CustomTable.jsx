@@ -30,7 +30,7 @@ export default function CustomTable({ rows, fields, children, setSelectItem, msg
   return (
     <div className="table-responsive mt-3" style={{ maxHeight: maxHeight }}>
       <table className="table table-dark w-100" style={tableStyle}>
-        <thead className="sticky-top">
+        <thead className="">
           <tr>
             <th className="p-2" style={thStyle}>N°</th>
             {fields.map((field) => (

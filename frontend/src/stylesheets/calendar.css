@@ -40,6 +40,9 @@
     border-radius: 5px;
     border: none;
   }
+  .fc-daygrid-day-top{
+    font-size: 0.8rem;
+  }
 
 .calendar_section{
     width: 70vw;

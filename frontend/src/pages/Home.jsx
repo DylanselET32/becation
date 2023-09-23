@@ -13,6 +13,7 @@ import CheckIcon from "../imgs/check.svg";
 import CrossIcon from "../imgs/cross.svg";
 import QuestionIcon from "../imgs/question-square.svg";
 import ViewEye from "../imgs/eye.svg";
+import ModalEditVacation from '../components/vacationsModal/ModalSeeVacationDetaills';
 
 export default function Home({auth}){
 
@@ -32,7 +33,7 @@ export default function Home({auth}){
     const [fetchData, setFetchData] = useState([]); // Estado que guarda los datos de vacaciones obtenidos del servidor
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
-
+    const [showModalSeeDetails,setShowModalSeeDetails] = useState(false); // Estado que controla al modal 
     // Función para obtener las vacaciones del servidor
     const fetchVacations = async () => {
         try {
@@ -98,18 +99,24 @@ export default function Home({auth}){
             revision: "En Evaluación",
             null: "Pendiente"
         };
-        vacations.map((event)=>{
+    
+        // Ordena las vacaciones por la fecha de inicio más próxima
+        vacations.sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
+        
+        vacations.forEach((event) => {
             const vacation = {
                 ...event,
-                start_date: formatDateToString(new Date(event.start_date),"DD/MM/YYYY"),
-                end_date: formatDateToString(new Date(event.end_date),"DD/MM/YYYY"),
-                date_asked: formatDateToString(new Date(event.date_asked),"DD/MM/YYYY hh:mm:ss"),
+                start_date: formatDateToString(new Date(event.start_date), "DD/MM/YYYY"),
+                end_date: formatDateToString(new Date(event.end_date), "DD/MM/YYYY"),
+                date_asked: formatDateToString(new Date(event.date_asked), "DD/MM/YYYY hh:mm:ss"),
                 status: status[event.status]
             };
             temporalVacations.push(vacation);
         });
+    
         return temporalVacations;
     };
+    
 
     // Función para manejar el evento de clic en un evento del calendario
     const handleEventClick = (e) => {
@@ -190,7 +197,6 @@ export default function Home({auth}){
     // Función para manejar la edición de una vacación
     const hanleEditVacation = (item) => {
         console.log("se esta editando",item);
-
     };
 
     // Función para manejar la eliminación de una vacación
@@ -204,6 +210,7 @@ export default function Home({auth}){
     // Función para manejar la visualización de detalles de una vacación
     const hanleSeeDetailsVacation = (item) => {
         console.log("se esta Viendo detalles",item);
+        setShowModalSeeDetails(true)
     };
 
     // Efecto para cargar las vacaciones al montar el componente
@@ -213,6 +220,7 @@ export default function Home({auth}){
 
     return(
         <div className="container-lg">
+            <ModalEditVacation show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
             <div className="row">
                 <section className='col-lg-6 col-md-12 col-12  mt-3 ' style={{height: '85vh'}}>
                 <div className="calendar_container">
