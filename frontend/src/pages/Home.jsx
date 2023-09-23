@@ -214,8 +214,8 @@ export default function Home({auth}){
     return(
         <div className="container-lg">
             <div className="row">
-                <section className='col-lg-6 col-md-12 col-12 calendarHeight' >
-                <div className="calendar_container ">
+                <section className='col-lg-6 col-md-12 col-12  mt-3 ' style={{height: '85vh'}}>
+                <div className="calendar_container">
                         <FullCalendar
                             plugins={[ dayGridPlugin, interactionPlugin ]}
                             initialView="dayGridMonth"
@@ -225,7 +225,7 @@ export default function Home({auth}){
                             editable={true}
                             eventClick={handleEventClick}
                             dayMaxEventRows={true}
-                            height="700px"
+                            height="85vh"
                             views= {{
                                 timeGridMonth: {
                                 dayMaxEventRows: 2 // ajustar a 6 solo para timeGridWeek/timeGridDay
@@ -242,12 +242,15 @@ export default function Home({auth}){
                     </div>
 
                 </section>
-                <section className='aside_main col-lg-6 col-md-12 col-10 text-center mx-auto'>                    
+                <section className='d-flex flex-column mt-3 col-lg-6 col-md-12 col-10 text-center mx-auto d-flex'>                    
                     <button  className={isAvailableForm ? "button_ask_vacation_called" : "button_ask_vacation"} onClick={handleVacationFormRequest}>
                         {isAvailableForm ? "Cancelar" : "Pedir Vacaciones"}
                     </button>
-                    <div className='form_vacation_container '>
+                    <div className='form_vacation_container'>
+                        <div classname='d-flex justify-content-center text-align-center w-100'>
                         <FormVacation isCalled={isAvailableForm} formFather={handleForm} handleSubmit={handleSubmit}/>
+                        </div>
+                    </div>  
                         <CustomTable
                             rows={formatVacationsToTable(fetchData).filter(v=>v)}
                             fields={[
@@ -259,13 +262,12 @@ export default function Home({auth}){
                             setSelectItem={setSelectItem}
                             msgNotRows="No hay vacaciones pendientes"
                             isDisabledCondition={isDisabledCondition}
-                            maxHeight="500px"
+                            maxHeight={!isAvailableForm?"75vh":'48vh'}
                         > 
                             <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
                             <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
                             <button className="btn p-0 btn_table w-100" name='seeDetails' onClick={()=>{setActionButton("seeDetails")}}>Ver Detalles <i className="bi bi-eye"></i></button>
                         </CustomTable>
-                    </div>  
                 </section>
             </div>
         </div>
