@@ -14,7 +14,10 @@ import CrossIcon from "../imgs/cross.svg";
 import QuestionIcon from "../imgs/question-square.svg";
 import ViewEye from "../imgs/eye.svg";
 import ModalEditVacation from '../components/vacationsModal/ModalSeeVacationDetaills';
-
+import ConfirmationModal from '../components/ConfirmationModal';
+import useConfirmation from '../hooks/useConfirmation';
+import { Modal } from 'react-bootstrap';
+import DeleteVacationBody from '../components/vacationsModal/DeleteVacationBody'
 export default function Home({auth}){
 
     const navigate = useNavigate();
@@ -35,12 +38,18 @@ export default function Home({auth}){
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
     const [showModalSeeDetails,setShowModalSeeDetails] = useState(false); // Estado que controla al modal 
+    const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal deletevacation
+
+    const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
     // Función para obtener las vacaciones del servidor
     const fetchVacations = async () => {
         try {
+            setVacationDaysAsked([])
+            setFetchDataToCalendara([])
+            setFetchData([])
             const vacations = await getVacations();
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
-            let temporalVacations = [...vacationDaysAsked];
+            let temporalVacations = [];
             vacations.data.map((event)=>{
                 const vacation = {
                     allDay: true,
@@ -161,7 +170,8 @@ export default function Home({auth}){
                 title: 'Guardado',
                 message: 'Se creó la vacación exitosamente',
             });
-            setTimeout(() =>navigate("/"),alertConfig.timeOff+500);
+            refresh()
+            setIsAvailableForm(false);
         } catch (error) {
             console.error(error.message);
             setAlertConfig({
@@ -208,18 +218,20 @@ export default function Home({auth}){
 
     // Función para manejar la eliminación de una vacación
     const hanleDeleteVacation = async (item) => {
-        console.log("se esta Eliminando",item);
-        const response = await deleteVacation(item.id)
-        fetch()
-        console.log(response);
+        
+            console.log("se esta Eliminando",item);
+            toggleShowModalDelete()
     };
+    
 
     // Función para manejar la visualización de detalles de una vacación
     const hanleSeeDetailsVacation = (item) => {
         console.log("se esta Viendo detalles",item);
         setShowModalSeeDetails(true)
     };
-
+    const refresh = () => {
+        fetchVacations();
+      };
     // Efecto para cargar las vacaciones al montar el componente
     useEffect(()=>{
         fetchVacations();
@@ -227,6 +239,16 @@ export default function Home({auth}){
 
     return(
         <div className="container-lg">
+            <Modal show={showModalDelete} onHide={toggleShowModalDelete}>
+                  <DeleteVacationBody
+                    title="Eliminar Vacacion"
+                    refresh={refresh}
+                    toggle={toggleShowModalDelete}
+                    item={selectItem}
+                    itemView=""
+                    delete={deleteVacation}
+                  />
+            </Modal>
             <ModalEditVacation show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
             <div className="row">
                 <section className='col-lg-6 col-md-12 col-12  mt-3 ' style={{height: '85vh'}}>
@@ -262,7 +284,7 @@ export default function Home({auth}){
                         {isAvailableForm ? "Cancelar" : "Pedir Vacaciones"}
                     </button>
                     <div className='form_vacation_container'>
-                        <div classname='d-flex justify-content-center text-align-center w-100'>
+                        <div className='d-flex justify-content-center text-align-center w-100'>
                         <FormVacation isCalled={isAvailableForm} formFather={handleForm} handleSubmit={handleSubmit}/>
                         </div>
                     </div>  
