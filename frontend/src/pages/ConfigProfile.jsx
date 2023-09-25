@@ -39,46 +39,77 @@ export default function ConfigProfile(){
     
   return (<>
     <main>
-    <div class="container light-style flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-4">
-          Configuración de perfil
-        </h4>
-        <div class="card overflow-hidden">
-            <div class="row no-gutters row-bordered row-border-light">
-                <div class="col-md-3 pt-0">
-                    <div class="list-group list-group-flush account-settings-links">
-                        <a class="list-group-item list-group-item-action active" data-toggle="list"
-                            href="#account-general">Usuario</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-change-password">Cambiar Contraseña</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-información">Info</a>
-                    </div>
-                </div>
-                {/* Corte*/}
-                <div class="col-md-9">
-                    <div class="tab-content">
-                        <div class="tab-pane fade active show" id="account-general">
-                            <div class="card-body media align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Foto De Perfil" class="d-block ui-w-80"/>
-                                <div class="media-body ml-4">
-                                    <label class="btn btn-outline-primary">
-                                        Subir nueva foto
-                                        <input type="file" class="account-settings-fileinput"/>
-                                    </label> &nbsp;
-                                    {/* Boton para resetear imagen y quede sin foto de perfil*/}
-                                    {/* <button type="button" class="btn btn-default md-btn-flat">Reset</button> */}
-                                    <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
-                                </div>
-                            </div>
+    <div className="container">
+        <header>Configuración de Usuario</header>
+        <form action="#">
+            <div className="form">
+                <div className="details personal">
+                    <span className="title">Datos Personales</span>
+                    <div className="fields">
+                        <div className="input-field">
+                            <label htmlFor="">Nombre</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Apellido</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Email</label>
+                            <input type="mail" value="Funcion que regrese dato del register"/>
+                        </div>
+
+                        <div className="input-field">
+                            <label htmlFor="">Dni</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Privilegies</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Rol</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
                         </div>
                     </div>
                 </div>
-              
-            </div>
-        </div>
-    </div>
 
+                <div className="details cuenta">
+                    <span className="title">Datos de Cuenta</span>
+                    <div className="fields">
+                        <div className="input-field">
+                            <label htmlFor="">Area</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Available Days</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Total Days</label>
+                            <input type="mail" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Is Acumulative</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Contrat Day</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="">Sign In Up</label>
+                            <input type="text" value="Funcion que regrese dato del register"/>
+                        </div>
+                    </div>
+                    <button className="Btn">
+                        <span className="btnText">Guardar Cambios</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
     </main>
 
 
