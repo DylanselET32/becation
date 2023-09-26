@@ -40,7 +40,7 @@ export default function VacationManagerCalendar(){
 
     return(
         <>
-        <button className="btn-volver" onClick={volverAtras}>Continuar</button>
+        <button className="btn-volver" onClick={volverAtras}>Volver</button>
         <h2>Nombre - Apellido - Area</h2>
         <section className='calendar_admin_section'>
             <div className="calendar_admin_container">
