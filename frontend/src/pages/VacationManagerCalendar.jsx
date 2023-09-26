@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
+import { useNavigate } from "react-router-dom";
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import "../stylesheets/calendarAdministration.css"
+import "../stylesheets/calendarAdministration.css";
 import { getAllVacations } from "../services/vacationService";
 import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 
 export default function VacationManagerCalendar(){
     const [vacationsAsked, setVacationsAsked] = useState([])
+    const navigate = useNavigate();
+    const volverAtras = ()=>{
+        navigate(-1);
+    };
 
     useEffect(()=>{
         const callVacation = async ()=>{
@@ -35,6 +40,7 @@ export default function VacationManagerCalendar(){
 
     return(
         <>
+        <button className="btn-volver" onClick={volverAtras}>Continuar</button>
         <h2>Nombre - Apellido - Area</h2>
         <section className='calendar_admin_section'>
             <div className="calendar_admin_container">
