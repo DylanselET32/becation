@@ -2,7 +2,8 @@ import "../stylesheets/register.css"
 import "../stylesheets/modalAlert.css"
 import EyeToHide from "../imgs/eye-crossed.svg"
 import EyeHiden from "../imgs/eye.svg"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { addEmployer } from "../services/employeeServices"
 //import ModalAlert from "../components/ModalAlert"
 //import useModalAlert from "../helpers/useModalAlert"
 //import { login } from "../services/userServices"
@@ -13,13 +14,13 @@ const initalForm = {
     dni: "",
     email: "",
     password: "",
-    privilegios: "",
+    privileges: "",
     rol: "",
     area: "",
     availableDays: "",
     totalDays: "",
     signUpDay: "",
-    isAvailable: false,
+    isAvailable: true,
 }
 
 function FormGroup({ label, name, type, value, onChange }) {
@@ -46,10 +47,27 @@ export default function Register (){
             [e.target.name]: e.target.value
         })
     }
+
+
+    useEffect(()=>{
+        console.log("CAMBIO DE ESTADO: ",form)
+    }, [form])
+
+    const handleSubmit = async ()=>{
+        if(form.nombre && form.apellido && form.dni && form.email && form.password && form.privileges && form.rol && form.area && form.availableDays && form.totalDays && form.signUpDay && form.isAvailable ){
+            const addUser = await addEmployer(form);
+            console.log(addUser);
+        }
+        else{
+            window.alert("Por favor, rellene los campos.");
+            return
+        }
+    }
+
     return (
         <div className="main_register-container">
             <div className="container_register">
-                <form action="">
+                <form action="" onSubmit={handleSubmit}>
                     <h1 className="form__register-title">Registrar Usuario</h1>
                     <h2 className="form__register-subtitle">Información Personal</h2>
                     <div className="form__inputs-info">
@@ -69,10 +87,10 @@ export default function Register (){
                     <h2 className="form__register-subtitle">Información del Contrato</h2>
                     <div className="form__container-contrat-info">
                         <div className="form__inputs-info">
-                        <FormGroup label="Privilegios" name="privilegios" type="text" value={form.privilegios} onChange={handleForm}/>
+                        <FormGroup label="Privilegios" name="privileges" type="number" value={form.privileges} onChange={handleForm}/>
                         <FormGroup label="Rol" name="rol" type="text" value={form.rol} onChange={handleForm}/>
                             <div className="form__register-group">
-                                <label className="form__register-label" htmlFor="typeArea">Área</label>
+                                <label className="form__register-label" htmlFor="area">Área</label>
                                 <select className="form__register-select" name="area" id="area" value={form.area} onChange={handleForm}>
                                     <option className="form__register-option" value="" disabled>Elige un área</option>
                                     <option className="form__register-option" value="opcion1">Opción 1</option>
@@ -88,10 +106,10 @@ export default function Register (){
                     </div>
                     <div className="form__register-check-submit">
                         <div className="form__container-checkbox">
-                            <input type="checkbox" className="form__register-checkbox" name="isAvailable" checked={form.isAvailable} onChange={() => { setForm({ ...form, isAvailable: !form.isAvailable, }); }}/>
+                            <input type="checkbox" className="form__register-checkbox" name="isAvailable" checked={form.isAvailable}/>
                             <label className="form__register-label-check" htmlFor="typeIsAvailable">Está Disponible</label>
                         </div>
-                        <button className="btn-register">Registrarse</button>
+                        <input type="submit" className="btn-register" ></input>
                     </div>
                 </form>
             </div>

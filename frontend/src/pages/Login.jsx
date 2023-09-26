@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 // import ModalAlert from "../components/ModalAlert"
 // import useModalAlert from "../helpers/useModalAlert"
-import { login } from "../services/userServices"
+// import { login } from "../services/userServices"
 import { useEffect } from "react"
 
 const initalForm = {
@@ -90,11 +90,11 @@ export default function Login ({auth}){
                     <h2 className="form__login-title">Iniciá Sesión</h2>
                     <div className="form__login-container">
                         <div className="form__login-group">
-                            <label className="form__login-label" htmlFor="typeEmail">Email</label>
+                            <label className="form__login-label" htmlFor="email">Email</label>
                             <input type="email" className="form__login-input" name="email" value={form.email} onChange={handleForm}/>
                         </div>
                         <div className="form__login-group">
-                            <label className="form__login-label" htmlFor="typeContraseña">Contraseña</label>
+                            <label className="form__login-label" htmlFor="password">Contraseña</label>
                             <input type={passHidden ? "text" : "password"} className="form__login-input" name="password" id="password" value={form.password} onChange={handleForm}/>
                             <span className="form__login-span"><img src={passHidden ? EyeHiden : EyeToHide} alt="" width={"30px"} onClick={changePassVisibility}/></span>                  
                         </div>
