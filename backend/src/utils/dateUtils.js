@@ -1,5 +1,6 @@
 function formatDateToString(date, format = 'YYYY-MM-DD') {
-    if(typeof date === 'string'){
+  if(!date){return null}
+    if(typeof date == 'string'){
       date = new Date(date)
     }
     const year = date.getFullYear();

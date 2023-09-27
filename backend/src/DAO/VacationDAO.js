@@ -4,14 +4,14 @@ const CRUD = require('./CRUD');
 
 /* GETS */
 const getAllVacations = async () => {
-    let sql = `SELECT v.*, a.id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id)`;
+    let sql = `SELECT v.*, a.id as area_id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id)`;
     const [results] = await pool.promise().query(sql);
     return results;
 };
 
 // ID DE LA VACACION
 const getVacationById = async (id) => {
-    let sql = `SELECT v.*, a.id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE v.id = ?`;
+    let sql = `SELECT v.*, a.id as area_id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE v.id = ?`;
     let params = [id];
     const [results] = await pool.promise().query(sql, params);
     return results;
@@ -19,7 +19,7 @@ const getVacationById = async (id) => {
 
 // ID DE USUARIO (SI ASÍ SE DESEA) o cualquier columna
 const getAllVacationByColumn = async (column, value, extraClauses = null) => {
-    let sql = `SELECT v.*, a.id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE ?? = ?`;
+    let sql = `SELECT v.*, a.id as area_id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE ?? = ?`;
     let params = [column, value];
     if (extraClauses) {
         if (extraClauses.includes('WHERE')) {
@@ -33,7 +33,7 @@ const getAllVacationByColumn = async (column, value, extraClauses = null) => {
 };
 
 const getVacationByColumn = async (column, value, extraClauses = null) => {
-    let sql = `SELECT v.*, a.id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE ?? = ?`;
+    let sql = `SELECT v.*, a.id as area_id a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE ?? = ?`;
     let params = [column, value];
     if (extraClauses) {
         if (extraClauses.includes('WHERE')) {
@@ -48,7 +48,7 @@ const getVacationByColumn = async (column, value, extraClauses = null) => {
 
 // GetAll entre fechas (la columna a comparar puede ser la fecha de inicio o la de fin)
 const getVacationsBetweenDates = async (column, date1, date2) => {
-    let sql = `SELECT v.*, a.id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE ?? BETWEEN ? AND ?`;
+    let sql = `SELECT v.*, a.id as area_id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE ?? BETWEEN ? AND ?`;
     let params = [column, date1, date2];
     
     const [results] = await pool.promise().query(sql, params);
