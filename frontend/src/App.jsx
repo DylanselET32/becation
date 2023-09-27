@@ -35,7 +35,7 @@ function App() {
           <ModalAlert/>
           <Header auth={auth} />
           <ConfigProfile/>
-          {/* <Routes>
+           <Routes>
             <Route exact path="/" element={<Home auth={auth} />} />
             <Route exact path="/login" element={<Login auth={auth} />} />
             <Route path="/home" element={<Home  auth={auth} />} />
@@ -47,7 +47,7 @@ function App() {
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
             <Route path="/resetPassword" element={<ResetPassword auth={auth} />} />
             <Route path="*" element={<NotFound />} />
-          </Routes> */}
+          </Routes> 
         </AlertProvider>
       </BrowserRouter>
     </div>
