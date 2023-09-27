@@ -16,6 +16,8 @@ export default function ModalEditVacation({ item, show, setShow }) {
       const vacation = await getVacationById(item?.id)
       if(vacation.status != 200){throw new Error(vacation.data.message || vacation.data.error)}
       console.log(vacation.data)
+      console.log("AAAAAAAAAAA",vacation.data?.start_date
+      )
       //setFetchData(vacation)
       setVacationToEdit(vacation.data)
       setLoaded(true)
@@ -27,6 +29,7 @@ export default function ModalEditVacation({ item, show, setShow }) {
   }
 
   const handleInput = (e)=>{
+      setErrorMsg("")
       const {name,value} = e.target
      setVacationToEdit({ ...vacationToEdit, [name] : value })
   }
@@ -37,7 +40,7 @@ export default function ModalEditVacation({ item, show, setShow }) {
 
   useEffect(()=>{
     fetch()
-  },[])
+  },[item])
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -59,7 +62,7 @@ export default function ModalEditVacation({ item, show, setShow }) {
                 name='start_date'
                 disabled={!loaded}
                 value={(loaded && vacationToEdit)?formatDateToString(vacationToEdit.start_date) :"Cargando..."}
-                onChange={handleInput}
+                onInput={handleInput}
                 />
             </Form.Group>
 
@@ -70,7 +73,7 @@ export default function ModalEditVacation({ item, show, setShow }) {
                 name='end_date'
                 disabled={!loaded}
                 value={(loaded && vacationToEdit)?formatDateToString(vacationToEdit.end_date):"Cargando..."}
-                onChange={handleInput}
+                onInput={handleInput}
               />
             </Form.Group>
           </Form>
