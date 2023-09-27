@@ -1,5 +1,6 @@
 import Header from "./components/Header"
 import ConfigProfile from "./pages/ConfigProfile"
+import PasswordReset from "./pages/passwordReset"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
@@ -31,7 +32,6 @@ function App() {
         <AlertProvider>
           <ModalAlert/>
           <Header auth={auth} />
-          <ConfigProfile/>
            <Routes>
             <Route exact path="/" element={<Home auth={auth} />} />
             <Route exact path="/login" element={<Login auth={auth} />} />
