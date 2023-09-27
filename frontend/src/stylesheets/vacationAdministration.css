@@ -24,13 +24,20 @@
     color: rgb(126, 126, 126) !important;
 }
 
-thead tr th:nth-child(1){
+.thead tr th:nth-child(1){
     border-bottom-left-radius: 12px;
     border-top-left-radius: 12px;
 }
 
 
-thead tr th:nth-child(5){
+.thead tr th:nth-child(5){
     border-bottom-right-radius: 12px;
     border-top-right-radius: 12px;
+}
+.b-red{
+    background-color: red !important;
+}
+
+.calendarHeight{
+    height:40vh !important;
 }

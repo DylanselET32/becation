@@ -4,7 +4,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
 import AdminArea from "./pages/AdminArea"
-
+import '../src/App.css'
 import VacationManager from "./pages/vacationManager"
 import VacationManagerCalendar from "./pages/VacationManagerCalendar"
 import ProfileManager from "./pages/ProfileManager"
@@ -14,7 +14,6 @@ import ResetPassword from "./pages/ResetPassword"
 import NotFound from "./pages/NotFound"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-
 import useAuth from "./hooks/useAuth"
 import { AlertProvider } from "./contexts/AlertContext"
 import ModalAlert from "./components/ModalAlert"
@@ -32,7 +31,8 @@ function App() {
         <AlertProvider>
           <ModalAlert/>
           <Header auth={auth} />
-          <Routes>
+          <ConfigProfile/>
+           <Routes>
             <Route exact path="/" element={<Home auth={auth} />} />
             <Route exact path="/login" element={<Login auth={auth} />} />
             <Route path="/home" element={<Home  auth={auth} />} />
@@ -44,7 +44,7 @@ function App() {
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
             <Route path="/resetPassword" element={<ResetPassword auth={auth} />} />
             <Route path="*" element={<NotFound />} />
-          </Routes>
+          </Routes> 
         </AlertProvider>
       </BrowserRouter>
     </div>
