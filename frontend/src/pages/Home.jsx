@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import "../stylesheets/calendar.css";
 import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation';
-import { addVacation, deleteVacation, getVacations } from '../services/vacationService';
+import { addVacation, deleteVacation, editVacation, getVacations } from '../services/vacationService';
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
 import CustomTable from '../components/CustomTable';
@@ -13,11 +13,12 @@ import CheckIcon from "../imgs/check.svg";
 import CrossIcon from "../imgs/cross.svg";
 import QuestionIcon from "../imgs/question-square.svg";
 import ViewEye from "../imgs/eye.svg";
-import ModalEditVacation from '../components/vacationsModal/ModalSeeVacationDetaills';
+import ModalSeeVacationDetaills from '../components/vacationsModal/ModalSeeVacationDetaills';
 import ConfirmationModal from '../components/ConfirmationModal';
 import useConfirmation from '../hooks/useConfirmation';
 import { Modal } from 'react-bootstrap';
 import DeleteVacationBody from '../components/vacationsModal/DeleteVacationBody'
+import ModalEditVacation from '../components/vacationsModal/ModalEditVacation';
 export default function Home({auth}){
 
     const navigate = useNavigate();
@@ -39,6 +40,7 @@ export default function Home({auth}){
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
     const [showModalSeeDetails,setShowModalSeeDetails] = useState(false); // Estado que controla al modal 
     const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal deletevacation
+    const [showModalEdit,setShowModalEdit] = useState(false); // Estado que controla al modal deletevacation
 
     const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
     // Función para obtener las vacaciones del servidor
@@ -213,7 +215,8 @@ export default function Home({auth}){
 
     // Función para manejar la edición de una vacación
     const hanleEditVacation = (item) => {
-        console.log("se esta editando",item);
+        console.log("se esta editando",selectItem);
+        setShowModalEdit(true)
     };
 
     // Función para manejar la eliminación de una vacación
@@ -249,7 +252,8 @@ export default function Home({auth}){
                     delete={deleteVacation}
                   />
             </Modal>
-            <ModalEditVacation show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
+            <ModalEditVacation show={showModalEdit} setShow={setShowModalEdit} item={selectItem}/>
+            <ModalSeeVacationDetaills show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
             <div className="row">
                 <section className='col-lg-6 col-md-12 col-12  mt-3 ' style={{height: '85vh'}}>
                 <div className="calendar_container">
