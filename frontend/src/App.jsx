@@ -14,9 +14,6 @@ import ResetPassword from "./pages/ResetPassword"
 import NotFound from "./pages/NotFound"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-
-
-
 import useAuth from "./hooks/useAuth"
 import { AlertProvider } from "./contexts/AlertContext"
 import ModalAlert from "./components/ModalAlert"
