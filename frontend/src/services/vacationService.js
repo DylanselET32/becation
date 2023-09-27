@@ -204,7 +204,7 @@ export async function editVacation(vacation, id) {
 /* MÉTODO DELETE */
 export async function deleteVacation(id) {
   try {
-      const response = await fetch(`${apiUrl}/vacation/deleteVacation/${id}`, {
+      const response = await fetch(`${apiUrl}/${apiVersion}/vacation/deletevacation/${id}`, {
           method: "DELETE",
           headers: {
               "Content-Type": "application/json",

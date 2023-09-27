@@ -1,7 +1,195 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
+main{
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
 
-@media (max-width: 425px) {
-    .form__title {
-        font-size: 1.8rem;
+.container{
+    position: relative;
+    max-width: 990px;
+    width: 100%;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 0px, 15px;
+    background-color: #2e2e2e;
+    box-shadow: 0px 5px 30px rgba(26, 26, 26, 0.808);
+}
+
+.container header{
+    position: relative;
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(221, 221, 221);
+}
+
+.container header::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 3px;
+    width: 30px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #464646, #afafaf);
+}
+
+.form{
+    position: relative;
+    margin-top: 16px;
+    min-height: 490px;
+    /* background-color: #2e2e2e; */
+}
+
+/* .container form .details{
+    margin-top: 30px;
+} */
+
+/* .container form .details.cuenta{
+    margin-top: 10px;
+} */
+
+.form .title{
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 550;
+    margin: 6px 0;
+    color: rgb(202, 202, 202);
+}
+
+.form .fields{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.form .fields .input-field{
+    display: flex;
+    width: calc(100% / 3 - 15px);
+    flex-direction: column;
+    margin: 4px 0;
+}
+
+.input-field label{
+    font-size: 15px;
+    font-weight: 500;
+    color: #979797;
+}
+
+.input-field input{
+    outline: none;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    border-radius: 5px;
+    border: 1px  solid #aaa;
+    padding: 0 15px;
+    height: 42px;
+    margin: 8px 0;
+}
+
+.input-field input:is(:focus, :valid){
+    box-shadow: 0 3px 6px rgba(0,0,0,0.13);
+}
+
+.container .form button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    max-width: 200px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    margin: 25px 0;
+    background-color: #424242;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    
+    box-shadow: 0 3px 6px rgba(0,0,0,0.13);
+}
+
+.form button:hover{
+    background-color: #34583f;
+    color: #00ff0d;
+}
+
+/* Responsive */
+
+@media screen and (max-width:  1134px) {
+
+    .container{
+        margin: 2rem 0 0 0;
+    }
+
+    .form{
+        width: 90% !important;
+    }
+    .personal, .cuenta{
+        width: 100% !important;
+    }
+
+    .fields{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .input-field{
+        width: 90% !important;
+    }
+
+    .Btn{
+        margin: 0 auto !important;
+    }
+    
+}
+
+/*
+@media screen and (max-width: 750px){
+    .container{
+        width: 100%;
+    }
+    .container form{
+        overflow-y: scroll;
+    }
+    .container form::-webkit-scrollbar{
+        display: none;
+    }
+    form .fields .input-field{
+        width: calc(100% / 2 - 15px);
     }
 }
+
+@media screen and (max-width: 550px){
+    form .fields .input-field{
+        width: 100%;
+    }
+}
+
+
+
+@media screen and (max-width: 500px){
+    .form {
+        width: 100%; 
+    }
+}
+*/
+
+/* @media screen and (max-width: 1132px){
+    .form {
+        min-width: 12rem;
+        font-size: .9rem;
+    }
+} */
