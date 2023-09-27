@@ -79,7 +79,7 @@ export default function Register (){
                     <div className="form__inputs-info">
                         <FormGroup label="Email" name="email" type="email" value={form.email} onChange={handleForm}/>
                         <div className="form__register-group">
-                            <label className="form__register-label" htmlFor="typeContraseña">Contraseña</label>
+                            <label className="form__register-label" htmlFor="password">Contraseña</label>
                             <input type={passHidden ? "text" : "password"} className="form__login-input" name="password" id="password" value={form.password} onChange={handleForm}/>
                             <span className="form__register-span"><img src={passHidden ? EyeHiden : EyeToHide} className="form__register-eye-closed" alt="" width={"30px"} onClick={changePassVisibility}/></span>                  
                         </div>
@@ -107,9 +107,9 @@ export default function Register (){
                     <div className="form__register-check-submit">
                         <div className="form__container-checkbox">
                             <input type="checkbox" className="form__register-checkbox" name="isAvailable" checked={form.isAvailable}/>
-                            <label className="form__register-label-check" htmlFor="typeIsAvailable">Está Disponible</label>
+                            <label className="form__register-label-check" htmlFor="isAvailable">Está Disponible</label>
                         </div>
-                        <input type="submit" className="btn-register" ></input>
+                        <input type="submit" className="btn-register" value="Registrarse"/>
                     </div>
                 </form>
             </div>
