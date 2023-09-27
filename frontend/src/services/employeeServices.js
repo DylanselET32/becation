@@ -1,7 +1,10 @@
 /* THIS JS HAS THE EMPLOYEE AND USER SERVICES/ENDPOINTS */
 
-/* USER SERVICES */
+import { getAuthToken } from "../helpers/misc/authUtils";
 
+/* USER SERVICES */
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiVersion = import.meta.env.VITE_API_VERSION;
 /* MÉTODOS PATCH */
 export async function disableUser() {
     try {
