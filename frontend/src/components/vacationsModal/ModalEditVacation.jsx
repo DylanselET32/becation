@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { getVacationById } from '../../services/vacationService';
+import { formatDateToString } from '../../helpers/misc/dateUtils';
 
 export default function ModalEditVacation({ item, show, setShow }) {
   const handleClose = () => setShow(false);
@@ -20,7 +21,7 @@ export default function ModalEditVacation({ item, show, setShow }) {
       setLoaded(true)
     } catch (error) {
       console.error(error)
-      setErrorMsg(error.message)
+      // setErrorMsg(error.message)
     }
 
   }
@@ -36,7 +37,7 @@ export default function ModalEditVacation({ item, show, setShow }) {
 
   useEffect(()=>{
     fetch()
-  },[item])
+  },[])
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -54,19 +55,21 @@ export default function ModalEditVacation({ item, show, setShow }) {
             <Form.Group controlId="formStartDate">
               <Form.Label>Fecha de Inicio</Form.Label>
               <Form.Control
-                type="text"
+                type="date"
+                name='start_date'
                 disabled={!loaded}
-                value={(loaded && vacationToEdit)?vacationToEdit.start_date:"Cargando..."}
+                value={(loaded && vacationToEdit)?formatDateToString(vacationToEdit.start_date) :"Cargando..."}
                 onChange={handleInput}
-              />
+                />
             </Form.Group>
 
             <Form.Group controlId="formEndDate">
               <Form.Label>Fecha de Fin</Form.Label>
               <Form.Control
-                type="text"
+                type="date"
+                name='end_date'
                 disabled={!loaded}
-                value={(loaded && vacationToEdit)?vacationToEdit.end_date:"Cargando..."}
+                value={(loaded && vacationToEdit)?formatDateToString(vacationToEdit.end_date):"Cargando..."}
                 onChange={handleInput}
               />
             </Form.Group>
