@@ -14,7 +14,7 @@ const getVacationById = async (id) => {
     let sql = `SELECT v.*, a.id as area_id, a.area, u.name, u.surname from (((vacation v inner join employer e ON v.employee = e.id) inner join area a ON e.area_id = a.id) inner join user u on e.user_id = u.id) WHERE v.id = ?`;
     let params = [id];
     const [results] = await pool.promise().query(sql, params);
-    return results;
+    return results[0];
 }
 
 // ID DE USUARIO (SI ASÍ SE DESEA) o cualquier columna
