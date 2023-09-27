@@ -9,22 +9,25 @@ import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 
 export default function VacationManagerCalendar(){
     const id_vacacion = useParams();
-    console.log(id_vacacion);
     const [vacations, setVacations] = useState([]);
+    const [vacationParams,setVacationParams] = useState();
     const navigate = useNavigate();
     const volverAtras = ()=>{
         navigate(-1);
     };
 
-    
+    const fetchData = async()=>{
+        const vacationByParams = await getVacationById(parseInt(id_vacacion.id));
+        const vacationData = vacationByParams.data;
+        setVacationParams(vacationData)
+    };
 
     useEffect(()=>{
         const callVacation = async ()=>{
-
             const unaVacacion = await getVacationById(parseInt(id_vacacion.id));
             const unaVacResponse = await unaVacacion.data;
 
-            const area_id = unaVacResponse[0].area_id;
+            const area_id = unaVacResponse.area_id;
 
             const request = await getAllVacationsByArea(parseInt(area_id));
             const response = await request.data
@@ -35,42 +38,39 @@ export default function VacationManagerCalendar(){
 
             
                 if(vacation.id !== parseInt(id_vacacion.id)){
-
                     let newVacation = {
-                        title: "Vacation Request",
+                        title: vacation.name,
                         start: vacation.start_date.substring(0, 10),
                         end: formatDateToString(operateDate(new Date(vacation.end_date), 1))
                     }
                     newVacations.push(newVacation)
                 }else{
                     let newVacation = {
-                        title: "Vacation Request",
+                        title: vacation.name,
                         start: vacation.start_date.substring(0, 10),
                         end: formatDateToString(operateDate(new Date(vacation.end_date), 1)),
-                        color: 'blue'
+                        color: '#8AC3FD'
                     }
                     newVacations.push(newVacation)
                 }
                 
             })
-
-            console.log("RES: ", response)
-            const coloredVacation = response.filter(vacation => vacation.id == id_vacacion.id)
-            console.log("Coloreada: ", coloredVacation)
             
-
             setVacations(newVacations);
         }
 
         callVacation()
-        console.log("NEW VACATIONS: ", vacations)
     }, [])
 
+
+    useEffect(()=>{
+        fetchData() 
+    },[])
 
     return(
         <>
         <button className="btn-volver" onClick={volverAtras}>Volver</button>
-        <h2>Nombre - Apellido - Area</h2>
+        <h2 className="title-user-data">{vacationParams?.name} - {vacationParams?.surname} - {vacationParams?.area}</h2>
         <section className='calendar_admin_section'>
             <div className="calendar_admin_container">
                 <FullCalendar

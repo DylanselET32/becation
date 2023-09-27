@@ -1,5 +1,4 @@
 .calendar_admin_section{
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,6 +6,14 @@
 
 .calendar_admin_container{
     width: 90vw;
+}
+
+.title-user-data{
+    font-weight: 600;
+    font-size: 2rem;
+    margin-left: 5rem;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 0.125rem 0.125rem #c2c2c2;
 }
 
 .btn-volver {
