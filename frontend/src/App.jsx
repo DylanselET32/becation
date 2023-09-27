@@ -37,7 +37,7 @@ function App() {
             <Route path="/home" element={<Home  auth={auth} />} />
             <Route path="/adminArea " element={<AdminArea auth={auth} />} />
             <Route path="/vacationManager" element={<VacationManager auth={auth} />} />
-            <Route path="/vacationManagerCalendar" element={<VacationManagerCalendar auth={auth} />} />
+            <Route path="/vacationManagerCalendar/:id" element={<VacationManagerCalendar auth={auth} />} />
             <Route path="/profileManager" element={<ProfileManager auth={auth} />} />
             <Route path="/profileConfig" element={<ProfileConfig auth={auth} />} />
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />

@@ -5,7 +5,7 @@ const apiVersion = import.meta.env.VITE_API_VERSION;
 /* MÉTODOS GET */
 export async function getVacationById(id) {
   try {
-      const response = await fetch(`${apiUrl}/${apiVersion}/area/getVacationById/${id}`, {
+      const response = await fetch(`${apiUrl}/${apiVersion}/vacation/getVacationById/${id}`, {
           method: "GET",
           headers: {
               "Content-Type": "application/json",
