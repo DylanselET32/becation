@@ -4,7 +4,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
 import AdminArea from "./pages/AdminArea"
-
+import '../src/App.css'
 import VacationManager from "./pages/vacationManager"
 import VacationManagerCalendar from "./pages/VacationManagerCalendar"
 import ProfileManager from "./pages/ProfileManager"

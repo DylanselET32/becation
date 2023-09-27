@@ -9,7 +9,9 @@ th{
     align-items: center;
     justify-content: center;
 }
-
+.btn_table{
+    font-size:.8rem;
+}
 
 .button_table{
     border: none;
