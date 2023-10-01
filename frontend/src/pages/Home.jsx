@@ -142,7 +142,6 @@ export default function Home({auth}){
 
     // Función para manejar el envío del formulario de vacaciones
     const handleForm = (state) => {
-        console.log(fetchData)
         setVacationDaysAsked([...fetchDataToCalendar,
             {
                 title: 'Vacacion',
@@ -215,21 +214,17 @@ export default function Home({auth}){
 
     // Función para manejar la edición de una vacación
     const hanleEditVacation = (item) => {
-        console.log("se esta editando",selectItem);
         setShowModalEdit(true)
     };
 
     // Función para manejar la eliminación de una vacación
     const hanleDeleteVacation = async (item) => {
-        
-            console.log("se esta Eliminando",item);
-            toggleShowModalDelete()
+        toggleShowModalDelete()
     };
     
 
     // Función para manejar la visualización de detalles de una vacación
     const hanleSeeDetailsVacation = (item) => {
-        console.log("se esta Viendo detalles",item);
         setShowModalSeeDetails(true)
     };
     const refresh = () => {

@@ -27,13 +27,12 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
       setLoaded(false)
       const vacation = await getVacationById(item?.id)
       if(vacation.status != 200){throw new Error(vacation.data.message || vacation.data.error)}
-      console.log(vacation.data);
       setFetchData(vacation.data)
       setVacationToEdit(vacation.data)
       setLoaded(true)
     } catch (error) {
       console.error(error)
-      // setErrorMsg(error.message)
+      setErrorMsg(error.message)
     }
 
   }
@@ -51,22 +50,32 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSaving(true)
-    const vacationEdited  = compareObjects(fetchData,vacationToEdit)
-    console.log(vacationEdited);
-    if(isChanged()){
-      const save = await editVacation(vacationEdited,fetchData.id)
-      if(save.status == 200){
-        setAlertConfig({
-          show: true,
-          status: 'success',
-          title: 'Guardado',
-          message: `Se a guardado los cambios`,
-      });
+    try {
+      const vacationEdited  = compareObjects(fetchData,vacationToEdit)
+      if(isChanged()){
+        
+          const save = await editVacation(vacationEdited,fetchData.id)
+          if(save.status == 200){
+            setAlertConfig({
+              show: true,
+              status: 'success',
+              title: 'Guardado',
+              message: `Se a guardado los cambios`,
+            }); 
+          refresh()
+          handleClose()
+          }else{
+            throw new Error("ErrBackend",save.data?.error || save.data?.message)
+          }
+        
       }
-      refresh()
-      handleClose()
+    } catch (error) {
+      console.error(error)
+      setErrorMsg(`Error al guardar,${error.message}`)
+    }finally{
+      setIsSaving(false)
     }
-    setIsSaving(false)
+
    };
 
   useEffect(()=>{
@@ -80,7 +89,7 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
         </Modal.Header>
         <Modal.Body>
           {errorMsg && (
-            <div className="alert alert-warning" role="alert">
+            <div className="alert alert-danger" role="alert">
               <span className="fw-bold">¡Error! </span>
               {errorMsg}
             </div>
