@@ -252,7 +252,7 @@ export default function Home({auth}){
                     delete={deleteVacation}
                   />
             </Modal>
-            <ModalEditVacation show={showModalEdit} setShow={setShowModalEdit} item={selectItem}/>
+            <ModalEditVacation show={showModalEdit} setShow={setShowModalEdit} item={selectItem} refresh={refresh}/>
             <ModalSeeVacationDetaills show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
             <div className="row">
                 <section className='col-lg-6 col-md-12 col-12  mt-3 ' style={{height: '85vh'}}>

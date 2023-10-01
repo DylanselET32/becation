@@ -1,24 +1,34 @@
 import React, { useState,useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { getVacationById } from '../../services/vacationService';
+import { editVacation, getVacationById } from '../../services/vacationService';
 import { formatDateToString } from '../../helpers/misc/dateUtils';
+import { compareObjects } from '../../helpers/misc/objectsUtils';
+import { useAlert } from '../../contexts/AlertContext';
 
-export default function ModalEditVacation({ item, show, setShow }) {
-  const handleClose = () => setShow(false);
+export default function ModalEditVacation({ item, show, setShow,refresh }) {
   const [errorMsg,setErrorMsg] = useState();
   const [fetchData,setFetchData] = useState();
   const [vacationToEdit,setVacationToEdit] = useState()
   const [loaded, setLoaded] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);useState
+  const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
 
+  const handleClose = () => {
+    setShow(false)
+    setErrorMsg(null)
+    setFetchData(null)
+    setVacationToEdit(null)
+    setLoaded(false)
+    setIsSaving(false)
+  };
+  
   const fetch = async ()=>{
     try {
       setLoaded(false)
       const vacation = await getVacationById(item?.id)
       if(vacation.status != 200){throw new Error(vacation.data.message || vacation.data.error)}
-      console.log(vacation.data)
-      console.log("AAAAAAAAAAA",vacation.data?.start_date
-      )
-      //setFetchData(vacation)
+      console.log(vacation.data);
+      setFetchData(vacation.data)
       setVacationToEdit(vacation.data)
       setLoaded(true)
     } catch (error) {
@@ -28,14 +38,35 @@ export default function ModalEditVacation({ item, show, setShow }) {
 
   }
 
+  const isChanged = ()=>{
+    const vacationEdited  = compareObjects(fetchData,vacationToEdit)
+    return (Object.keys(vacationEdited).length > 0)
+  }
   const handleInput = (e)=>{
       setErrorMsg("")
       const {name,value} = e.target
-     setVacationToEdit({ ...vacationToEdit, [name] : value })
+      const valueToSet = `${value}T00:00:00`
+     setVacationToEdit({ ...vacationToEdit, [name] : valueToSet })
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-     
+    setIsSaving(true)
+    const vacationEdited  = compareObjects(fetchData,vacationToEdit)
+    console.log(vacationEdited);
+    if(isChanged()){
+      const save = await editVacation(vacationEdited,fetchData.id)
+      if(save.status == 200){
+        setAlertConfig({
+          show: true,
+          status: 'success',
+          title: 'Guardado',
+          message: `Se a guardado los cambios`,
+      });
+      }
+      refresh()
+      handleClose()
+    }
+    setIsSaving(false)
    };
 
   useEffect(()=>{
@@ -80,11 +111,11 @@ export default function ModalEditVacation({ item, show, setShow }) {
           
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose} disabled={isSaving}>
             Cerrar
           </Button>
-          <Button variant="success" onClick={handleSubmit}>
-            Guardar
+          <Button variant="success" onClick={handleSubmit} disabled={isSaving || !isChanged()}>
+           {!isSaving?'Guardar':'Guardando...'} 
           </Button>
         </Modal.Footer>
       </Modal>
