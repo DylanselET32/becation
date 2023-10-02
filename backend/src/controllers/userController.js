@@ -276,12 +276,14 @@ const confirmEmailResetPassword = async (req, res) => {
     //aca va a ir la funcion para blanquear una contraseña 
     const infoToken = verifyToken(req.params.token.replaceAll("*","."));
     const uEmail = infoToken.email; // Obtener el email desde el token
+    const oldpw = req.body.oldPassword;
     const newPassword = req.body.password;
     if(!infoToken.user_id)throw new Error("invalid or modified token"); 
-    const userDB =  await UserDAO.getUserByColumn("email", uEmail, null, ["id","password"]);
+    const userDB =  await UserDAO.getUserByColumn("email", uEmail, null, ["id", "email","password"]);
     if (!userDB) { res.status(404).json({ message: 'User not found' }); return; };
     if(infoToken.user_id != userDB.id){throw new Error("invalid or modified token")};
     if(userDB.email != infoToken.email)throw new Error("Invalid email")
+    if(userDB.password != oldpw)throw new Error("La vieja contraseña no coincide con la ingresada");
     let updateData = {
       password: await encryptText(newPassword)
     }
