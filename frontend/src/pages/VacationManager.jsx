@@ -1,26 +1,31 @@
 import {React} from "react";
 import "../stylesheets/vacationAdministration.css"
-import TableRow from "../components/TableRow";
 import { useState, useEffect } from "react";
-import {  getVacations, deleteVacation } from "../services/vacationService";
+import {  getVacations, editVacation } from "../services/vacationService";
 import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 import CustomTable from "../components/CustomTable";
 import { Modal } from "react-bootstrap";
-import DeleteVacationBody from "../components/vacationsModal/DeleteVacationBody";
-
+import AproveVacationBody from "../components/vacationsModal/AproveVacationBody";
+import DenyVacationBody from "../components/vacationsModal/DenyVacationBody";
+import SendRevisionBody from "../components/vacationsModal/SendRevisionBody";
 
 export default function VacationManager(){
 
-    const [vacationsAsked, setVacationsAsked] = useState([])
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
-    const [fetchData, setFetchData] = useState([]);
-    const [showModalSeeDetails,setShowModalSeeDetails] = useState(false); // Estado que controla al modal 
-    const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal deletevacation
+    const [fetchData, setFetchData] = useState([]); //Estado para guardar todas las vacaciones
+    const [showModalAprove,setShowModalAprove] = useState(false); // Estado que controla al modal deletevacation
+    const [showModalDeny, setShowModalDeny ] = useState(false);
+    const [showModalSendRevision, setShowModalSendRevision ] = useState(false)
+
+    const [filter, setFilter] = useState([]); // Estado de filtro
+
+    const toggleShowModalDeny = ()=>{setShowModalDeny(!showModalDeny)};
+    const toggleShowModalAprove = ()=>{setShowModalAprove(!showModalAprove)};
+    const toggleShowModalSendRevision = ()=>{setShowModalSendRevision(!showModalSendRevision)};
 
 
-    const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
-
+    //Pedir todas las vacaciones y mostrarlas
     const fetchVacations = async () => {
         try {
 
@@ -28,7 +33,7 @@ export default function VacationManager(){
             const vacations = await getVacations();
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
             setFetchData(vacations.data);
-     
+            setFilter(vacations.data)     
         } catch (error) {
             setAlertConfig({
                 show: true,
@@ -38,26 +43,32 @@ export default function VacationManager(){
             });
         }
     };
+
     useEffect(()=>{
         fetchVacations();
     },[]);
 
-
+    //Manejo de acciones en cada vacacion
     useEffect((e) => {
         switch (actionButton){
-            case "edit":
-                handleEditVacation(selectItem);
+            case "aprove":
+                handleAproveVacation(selectItem);
                 break;
-            case "delete":
-                handleDeleteVacation(selectItem);
+            case "deny":
+                handleDenyVacation(selectItem);
                 break;
-            case "seeDetails":
-                handleSeeDetailsVacation(selectItem);
+            case "sendNote":
+                handleSendNote(selectItem);
+                break; 
+            case "calendar":
+                handleSeeCalendar(selectItem);
                 break;
 
         }
     },[selectItem,actionButton]);
 
+
+    //Formateo de renderizado en la tabla
     const formatVacationsToTable = (vacations) => {
         let temporalVacations = [];
         const status = {
@@ -84,96 +95,149 @@ export default function VacationManager(){
         return temporalVacations;
     };
 
-    const handleEditVacation = (item) => {
-        console.log("se esta editando",item);
+
+    //Acciones de vacacion
+    const handleAproveVacation = (item) => {
+        console.log("se esta aprobando...",item);
+        toggleShowModalAprove()
     };
 
-    const handleDeleteVacation = async (item) => {
-        
-            console.log("se esta Eliminando",item);
-            toggleShowModalDelete()
+    const handleDenyVacation = async (item) => {
+        console.log("se esta denegando...",item);
+        toggleShowModalDeny()
     };
     
-
-    const handleSeeDetailsVacation = (item) => {
-        console.log("se esta Viendo detalles",item);
-        setShowModalSeeDetails(true)
+    const handleSendNote = (item) => {
+        console.log("Nota a... ",item);
+        toggleShowModalSendRevision();
     };
 
+    const handleSeeCalendar = () => {
+        console.log("redireccionando... ",item)
+    }
+
+    //Recarga la pagina
     const refresh = () => {
         fetchVacations();
       };
 
-
+    //Maneja en que casos ciertas acciones no estaran disponibles  
     const isDisabledCondition = (row,child) =>{
         return( row['area_manager_authorization'] == null && row["status"] == "aproved" )
     }
 
-    return(
-        <div className="div">
+    //Cambio de filtro
+    const handleFilter = (e)=> {
+        if(e.target.value == "null"){
+            setFilter(fetchData);
+            return
+        }
+        let temporalFilter = fetchData.filter((event)=> event.status == e.target.value);
+        setFilter(temporalFilter)
+    }
 
-            <Modal show={showModalDelete} onHide={toggleShowModalDelete}>
-                  <DeleteVacationBody
-                    title="Eliminar Vacacion"
+    const editVacationFetch = async (selectItem, newStatus)=>{
+        let newVacationState = {
+            employee: selectItem.employee,
+            start_date: selectItem.start_date,
+            end_date: selectItem.end_date,
+            status: newStatus,
+            note: selectItem.note,
+            date_asked: selectItem.date_asked,
+            area_manager_authorization: selectItem.area_manager_authorization
+        }
+
+        // console.log("Lo que se envía: ", newVacationState)
+
+        let idVacation = selectItem.id
+        const response = editVacation(newVacationState, idVacation)
+        const data = await response.data
+
+        console.log("RESPONSE: ", data )
+    }
+
+    //Prueba de acciones
+        const aproveVacation = ()=> {
+            editVacationFetch(selectItem, "aproved")
+        }
+
+        const denyVacation =()=>{
+            editVacationFetch(selectItem, "denied")
+        }
+
+        const sendRevision = ()=>{
+            // editVacationFetch(selectItem, "revision")
+            console.log("Nota enviada...")
+        }
+
+    return(
+        <div className="vacation_manager">
+
+            <Modal show={showModalSendRevision} onHide={toggleShowModalSendRevision}>
+                <SendRevisionBody
+                    title="Enviar Nota"
                     refresh={refresh}
-                    toggle={toggleShowModalDelete}
+                    toggle={toggleShowModalSendRevision}
                     item={selectItem}
-                    itemView=""
-                    delete={deleteVacation}
-                  />
+                    sendRevision={sendRevision}
+                    handleNoteChange={handleNoteChange}
+                    >
+                </SendRevisionBody>
             </Modal>
 
+            {/* MODAL DE DENEGACÓN */}
+            <Modal show={showModalDeny} onHide={toggleShowModalDeny}>
+                <DenyVacationBody
+                    title="Denegar Vacación"
+                    refresh={refresh}
+                    toggle={toggleShowModalDeny}
+                    item={selectItem}
+                    deny={denyVacation}
+                >
+                </DenyVacationBody>
+            </Modal>
+
+            {/* MODAL DE APROBACIÓN */}
+            <Modal show={showModalAprove} onHide={toggleShowModalAprove}>
+                <AproveVacationBody
+                    title="Aprobar Vacación"
+                    refresh= {refresh}
+                    toggle={toggleShowModalAprove}
+                    item={selectItem}
+                    aprove={aproveVacation}
+                >
+                </AproveVacationBody>
+            </Modal>
+
+            <select name="filterVacation" id="filterVacation" onChange={handleFilter}>
+                <option value="null">All</option>
+                <option value="denied">Denieded</option>
+                <option value="aproved">Approved</option>
+                <option value="revision">In Revision</option>
+
+            </select>
+
             <CustomTable
-            rows={formatVacationsToTable(fetchData).filter(v=>v)}
-            fields={[
-                ["start_date","Inicio"],
-                ["end_date","Fin"],
-                ["status","Estado"],
-            ]}
-            setSelectItem={setSelectItem}
-            msgNotRows="No hay vacaciones pendientes"
-            isDisabledCondition={isDisabledCondition}
-         
-            > 
-            <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
-            <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
-            <button className="btn p-0 btn_table w-100" name='seeDetails' onClick={()=>{setActionButton("seeDetails")}}>Ver Detalles <i className="bi bi-eye"></i></button>
-            <button className="btn p-0 btn_table w-100" name='calendar' onClick={()=>{setActionButton("seeDetails")}}>Ver en Calendario<i className="bi bi-eye"></i></button>
+                rows={formatVacationsToTable(filter)}
+                fields={[
+                    ["start_date","Inicio"],
+                    ["end_date","Fin"],
+                    ["status","Estado"],
+                ]}
+                setSelectItem={setSelectItem}
+                msgNotRows="No hay vacaciones pendientes"
+                isDisabledCondition={isDisabledCondition}
+            
+                > 
+                <button className="btn p-0 btn_table w-100" name='aprove' onClick={()=>{setActionButton("aprove")}}>Aprobar <i className="bi bi-pencil-square"></i></button>
+                <button className="btn p-0 btn_table w-100" name='deny' onClick={()=>{setActionButton("deny")}}>Denegar <i className="bi bi-calendar-x-fill"></i></button>
+                <button className="btn p-0 btn_table w-100" name='sendNote' onClick={()=>{setActionButton("sendNote")}}>Mandar Comentario <i className="bi bi-eye"></i></button>
+                <button className="btn p-0 btn_table w-100" name='calendar' onClick={()=>{setActionButton("calendar")}}>Ver en Calendario<i className="bi bi-eye"></i></button>
 
 
             </CustomTable>
         </div>
         
-        // <div className="administration_container">
-        //     <div className="manager_container">
-
-        //         <div className="select_container">
-        //             <label htmlFor="filter">Filter</label><select name="" id="filter">
-        //                 <option value="1">All</option>
-        //                 <option value="2">Aprobed</option>
-        //                 <option value="3">Rejected</option>
-        //                 <option value="4">In Revision</option>
-        //             </select>
-        //         </div>
-           
-        //         <table className="table">
-        //                 <thead className="thead">
-                    
-        //                 <tr>
-        //                     <th>N°</th>
-        //                     <th>Name</th>
-        //                     <th>Start Date</th>
-        //                     <th>Final Date</th>
-        //                     <th>Actions</th>
-        //                 </tr>
-        //             </thead>
-        //             {vacationsAsked.map((reserve, index)=>(
-        //                 <TableRow key={index} index={index + 1} userName={reserve.name} startDate={reserve.startDate} endDate={reserve.endDate}/>
-        //             ))}
-        //             {/* <TableRow /> */}
-        //         </table>
-        //     </div>
-        // </div>
-
+    
     )
 }
