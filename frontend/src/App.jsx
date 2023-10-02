@@ -39,7 +39,7 @@ function App() {
             <Route path="/profileManager" element={<ProfileManager auth={auth} />} />
             <Route path="/profileConfig" element={<ProfileConfig auth={auth} />} />
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
-            <Route path="/resetPassword" element={<ResetPassword auth={auth} />} />
+            <Route path="/resetPassword/:token" element={<ResetPassword auth={auth} />} />
             <Route path="*" element={<NotFound />} />
           </Routes> 
         </AlertProvider>
