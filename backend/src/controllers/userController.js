@@ -283,12 +283,15 @@ const confirmEmailResetPassword = async (req, res) => {
     if (!userDB) { res.status(404).json({ message: 'User not found' }); return; };
     if(infoToken.user_id != userDB.id){throw new Error("invalid or modified token")};
     if(userDB.email != infoToken.email)throw new Error("Invalid email")
-    if(userDB.password != oldpw)throw new Error("La vieja contraseña no coincide con la ingresada");
+    console.log(oldpw)
+    console.log(userDB.password)
+    const isMatchPasswords = await hashCompare(oldpw, userDB.password);
+    if(!isMatchPasswords)throw new Error("La vieja contraseña no coincide con la ingresada");
     let updateData = {
       password: await encryptText(newPassword)
     }
     const updatedUser = await UserDAO.editUser(updateData, userDB.id);
-    if(updatedUser){throw new Error("Error trying to modify the token")}
+    if(!updatedUser){throw new Error("Error trying to modify the password")}
     const employee = await getEmployerByColumn("user_id",userDB.id)
     const token = createToken({id:employee.id}); // Crear el token JWT
     if (token != null || token != "") {
