@@ -5,7 +5,7 @@ import { formatDateToString } from '../../helpers/misc/dateUtils';
 import { compareObjects } from '../../helpers/misc/objectsUtils';
 import { useAlert } from '../../contexts/AlertContext';
 
-export default function ModalEditVacation({ item, show, setShow,refresh }) {
+export default function ModalEditProfile({ item, show, setShow,refresh }) {
   const [errorMsg,setErrorMsg] = useState();
   const [fetchData,setFetchData] = useState();
   const [employeeToEdit,setEmployeeToEdit] = useState()

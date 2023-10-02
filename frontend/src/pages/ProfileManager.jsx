@@ -10,7 +10,7 @@ import DeleteVacationBody from '../components/vacationsModal/DeleteVacationBody'
 import { getAllEmployers, deleteEmployer } from '../services/employeeServices';
 import ModalSeeProfileDetails from '../components/profilesModal/ModalSeeProfileDetails';
 
-export default function Home({auth}){
+export default function ProfileManager({auth}){
 
   const navigate = useNavigate();
   const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
