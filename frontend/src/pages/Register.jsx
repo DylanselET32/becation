@@ -1,9 +1,10 @@
-import "../stylesheets/register.css"
-import "../stylesheets/modalAlert.css"
-import EyeToHide from "../imgs/eye-crossed.svg"
-import EyeHiden from "../imgs/eye.svg"
-import { useEffect, useState } from "react"
-import { addEmployer } from "../services/employeeServices"
+import "../stylesheets/register.css";
+import "../stylesheets/modalAlert.css";
+import EyeToHide from "../imgs/eye-crossed.svg";
+import EyeHiden from "../imgs/eye.svg";
+import { useEffect, useState } from "react";
+import { addEmployer } from "../services/employeeServices";
+import { getAllAreas } from "../services/areaServices";
 //import ModalAlert from "../components/ModalAlert"
 //import useModalAlert from "../helpers/useModalAlert"
 //import { login } from "../services/userServices"
@@ -34,35 +35,68 @@ function FormGroup({ label, name, type, value, onChange }) {
 
 export default function Register (){
     
-    const [passHidden, setPassHidden] = useState(false)
-    const [form, setForm] = useState(initalForm)
+    const [passHidden, setPassHidden] = useState(false);
+    const [form, setForm] = useState(initalForm);
+    const [areas, setAreas] = useState([]);
+    const [fetchData,setFetchData] = useState();
+    const [vacationToEdit,setVacationToEdit] = useState();
+
+    const handleClose = () => {
+        setFetchData(null);
+        setVacationToEdit(null);
+    };
 
     const changePassVisibility = ()=>{
-        setPassHidden(!passHidden)
+        setPassHidden(!passHidden);
     }
 
     const handleForm = (e)=>{
         setForm({
             ...form,
             [e.target.name]: e.target.value
-        })
+        });
     }
 
-
-    useEffect(()=>{
-        console.log("CAMBIO DE ESTADO: ",form)
-    }, [form])
-
-    const handleSubmit = async ()=>{
-        if(form.nombre && form.apellido && form.dni && form.email && form.password && form.privileges && form.rol && form.area && form.availableDays && form.totalDays && form.signUpDay && form.isAvailable ){
-            const addUser = await addEmployer(form);
-            console.log(addUser);
-        }
-        else{
+    const handleSubmit = async () => {
+        if ( form.nombre && form.apellido && form.dni && form.email && form.password && form.privileges && form.rol && form.area && form.availableDays && form.totalDays && form.signUpDay && form.isAvailable) {
+            console.log("Nuevo usuario a agregar:", form);
+        } else {
             window.alert("Por favor, rellene los campos.");
-            return
+            return;
         }
-    }
+    };
+
+    // useEffect(() => {
+    //     // Simulación de datos de áreas
+    //     const simulatedAreas = [
+    //         { id: 1, name: "Área 1" },
+    //         { id: 2, name: "Área 2" },
+    //         { id: 2, name: "Área 3" },
+    //         { id: 2, name: "Área 4" },
+    //         { id: 2, name: "Área 5" },
+    //         { id: 2, name: "Área 6" },
+    //         { id: 2, name: "Área 7" },
+    //     ];
+
+    //     setAreas(simulatedAreas);
+    // }, []);
+
+    useEffect(() => {
+        const fetchAreas = async () => {
+            try {
+                const response = await getAllAreas();
+                if (response.status === 200) {
+                    setAreas(response.data);
+                } else {
+                    console.error("Error al obtener las áreas");
+                }
+            } catch (error) {
+                console.error("Error al obtener las áreas:", error);
+            }
+        };
+
+        fetchAreas();
+    }, []);
 
     return (
         <div className="main_register-container">
@@ -93,8 +127,9 @@ export default function Register (){
                                 <label className="form__register-label" htmlFor="area">Área</label>
                                 <select className="form__register-select" name="area" id="area" value={form.area} onChange={handleForm}>
                                     <option className="form__register-option" value="" disabled>Elige un área</option>
-                                    <option className="form__register-option" value="opcion1">Opción 1</option>
-                                    <option className="form__register-option" value="opcion2">Opción 2</option>
+                                    {areas.map((area) => (
+                                        <option key={area.id} className="form__register-option" value={area.id}>{area.name}</option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
