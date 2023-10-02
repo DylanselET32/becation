@@ -1,5 +1,7 @@
 /* THIS JS HAS THE EMPLOYEE AND USER SERVICES/ENDPOINTS */
-
+import { setAuthToken, getAuthToken } from "../helpers/misc/authUtils";
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiVersion = import.meta.env.VITE_API_VERSION;
 /* USER SERVICES */
 
 /* MÉTODOS PATCH */
@@ -80,9 +82,8 @@ export async function resetPassword(id) {
     }
 }
 
-export async function confirmEmailResetPassword(newPass, token) {
+export async function confirmEmailResetPassword(obj, token) {
     try {
-        const obj = {password : newPass};
         const response = await fetch(`${apiUrl}/${apiVersion}/user/confirmEmailResetPassword/${token}`, {
             method: "POST",
             headers: {

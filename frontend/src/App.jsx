@@ -1,6 +1,5 @@
 import Header from "./components/Header"
 import ConfigProfile from "./pages/ConfigProfile"
-import PasswordReset from "./pages/passwordReset"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
@@ -42,7 +41,7 @@ function App() {
             <Route path="/profileManager" element={<ProfileManager auth={auth} />} />
             <Route path="/profileConfig" element={<ProfileConfig auth={auth} />} />
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
-            <Route path="/resetPassword" element={<ResetPassword auth={auth} />} />
+            <Route path="/resetPassword/:token" element={<ResetPassword auth={auth} />} />
             <Route path="*" element={<NotFound />} />
           </Routes> 
         </AlertProvider>
