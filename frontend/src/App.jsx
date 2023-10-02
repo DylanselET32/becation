@@ -29,7 +29,6 @@ function App() {
         <AlertProvider>
           <ModalAlert/>
           <Header auth={auth} />
-          <ConfigProfile/>
            <Routes>
             <Route exact path="/" element={<Home auth={auth} />} />
             <Route exact path="/login" element={<Login auth={auth} />} />

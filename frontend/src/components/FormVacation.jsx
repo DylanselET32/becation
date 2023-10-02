@@ -28,7 +28,7 @@ export default function FormVacation({isCalled, formFather, handleSubmit}){
     },[isCalled])
 
     return(
-        <form action="" className={isCalled ? "form" : "hiddenForm"} onSubmit={handleSubmit} >
+        <form action="" className={isCalled ? "formVacation" : "hiddenForm"} onSubmit={handleSubmit} >
             <div>
                 <div className="d-flex">
                     <div className="input_container">
@@ -44,8 +44,7 @@ export default function FormVacation({isCalled, formFather, handleSubmit}){
                     <input type="submit" disabled={form.initialDate.length < 1 && form.finalDate.length < 1} className={form.initialDate.length > 1 && form.finalDate.length > 1 ? "button_form_available" : "button_form "} />
                 </div>
             </div>
-            
+
         </form>
     )
-
 }
