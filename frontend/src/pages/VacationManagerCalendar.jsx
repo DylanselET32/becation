@@ -69,8 +69,10 @@ export default function VacationManagerCalendar(){
 
     return(
         <>
-        <button className="btn-volver" onClick={volverAtras}>Volver</button>
-        <h2 className="title-user-data">{vacationParams?.name} - {vacationParams?.surname} - {vacationParams?.area}</h2>
+        <div className="ms-4 d-flex align-items-center justify-content-start">
+            <button className="btn-volver" onClick={volverAtras}>Volver</button>
+            <h2 className="title-user-data">{vacationParams?.name} - {vacationParams?.surname} - {vacationParams?.area}</h2>
+        </div>
         <section className='calendar_admin_section'>
             <div className="calendar_admin_container">
                 <FullCalendar
@@ -82,7 +84,7 @@ export default function VacationManagerCalendar(){
                     eventColor="gray"
                     
                     dayMaxEventRows={true}
-                    height="700px"
+                    height="75vh"
                     views= {{
                         timeGridMonth: {
                         dayMaxEventRows: 1
