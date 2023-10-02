@@ -16,10 +16,10 @@ export async function addUser(user) {
     if (status === 200 && data.token) {
       setAuthToken(data.token);
     }
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al agregar usuario");
+    throw new Error(`Error al agregar un usuario, ${error}`);
   }
 }
 
@@ -35,7 +35,7 @@ export async function editUser(user) {
     });
     const data = await response.json();
     const status = response.status;
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al editar usuario");
@@ -53,7 +53,7 @@ export async function getUser() {
     });
     const data = await response.json();
     const status = response.status;
-    return {data:data, status};
+    return {data, status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al solicitar usuario");
@@ -71,10 +71,11 @@ export async function deleteUser() {
     });
     const data = await response.json();
     const status = response.status;
-    return [data, status];
+    if (status == 500) throw new Error('Error en el servidor'); 
+    return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al eliminar usuario");
+    throw new Error(`Error al eliminar el usuario, ${error}`);
   }
 }
 
@@ -88,46 +89,9 @@ export async function login(user) {
     const data = await response.json();
     const status = response.status;
     if (status === 200 && data.token) setAuthToken(data.token);
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al iniciar sesion");
+    throw new Error(`Error al loguearse, ${error}`);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

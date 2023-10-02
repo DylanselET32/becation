@@ -14,11 +14,11 @@ export async function getRoleById(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir el Role'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el rol");
+        throw new Error(`Error al solicitar el rol, ${error}`);
     }
 }
 
@@ -33,11 +33,11 @@ export async function getRoleByName(nombreRol){
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir el Role'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el rol");
+        throw new Error(`Error al solicitar el rol, ${error}`);
     }
 }
 
@@ -52,11 +52,11 @@ export async function getAllRoles() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir los roles'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el rol");
+        throw new Error(`Error al solicitar los roles, ${error}`);
     }
 }
 
@@ -73,11 +73,11 @@ export async function addRole(role) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al agregar el Role'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al agregar el rol");
+        throw new Error(`Error al agregar el rol, ${error}`);
     }
 }
 
@@ -94,11 +94,11 @@ export async function editRole(id, role) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al modificar el Role'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al modificar el rol");
+        throw new Error(`Error al editar el rol, ${error}`);
     }
 }
 
@@ -114,10 +114,10 @@ export async function deleteRole(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al eliminar el Role'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al eliminar rol");
+        throw new Error(`Error al eliminar el rol, ${error}`);
     }
 }

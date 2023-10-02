@@ -14,11 +14,11 @@ export async function getAreaById(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir el area'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el area");
+        throw new Error(`Error solicitar el area, ${error}`);
     }
 }
 
@@ -33,11 +33,11 @@ export async function getAreaByColumn(nombreArea){
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir el area'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el area");
+        throw new Error(`Error solicitar el area, ${error}`);
     }
 }
 
@@ -52,11 +52,11 @@ export async function getAllAreas() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir las areas'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar las area");
+        throw new Error(`Error solicitar las areas, ${error}`);
     }
 }
 
@@ -73,11 +73,11 @@ export async function addArea(area) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al agregar el area'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al agregar el area");
+        throw new Error(`Error al agregar el area, ${error}`);
     }
 }
 
@@ -94,11 +94,11 @@ export async function editArea(id, area) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al modificar el area'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al editar el area");
+        throw new Error(`Error al editar el area, ${error}`);
     }
 }
 
@@ -114,10 +114,10 @@ export async function deleteArea(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al eliminar el area'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al eliminar el area");
+        throw new Error(`Error al eliminar el area, ${error}`);
     }
 }
