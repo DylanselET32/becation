@@ -1,41 +1,62 @@
 import "../stylesheets/configprofile.css"
-
+import { getEmployerById} from '../../services/employeeServices';
 import { useState } from "react";
 
 export default function ConfigProfile(){
+    const [fetchData, setFetchData] = useState();
+    const [profileToEdit, setProfileToEdit] = useState();
 
-  const [profile, setProfile] = useState({
-    name: '',
-    surname: '',
-    password: '',
-    email: '',
-    dni: '',
-    privileges: '',
-    role_id: '',
-    area_id: '',
-    avaible_days: '',
-    total_days: '',
-    is_acumulative: '',
-    contrat_day: '',
-    sign_up_date: '',
+    const handleInput = (e)=>{
+        setErrorMsg("")
+        const {name,value} = e.target
+       setVacationToEdit({ ...vacationToEdit, [name] : valueToSet })
+    }
 
 
-    // Otros campos de perfil
-  });
-    
-  //Este const maneja los cambios a realizar en el perfil
-  const handleChange = (e) => {
-      const { name, value } = e.target;
-      setProfile({ ...profile, [name]: value });
-    };
-    
 
-  //Esta const guarda los cambios en el perfil
-    const handleSubmit = (e) => {
-       e.preventDefault();
+    const fetch = async ()->{
+        try {
+            const user = await getEmployerById(id)
+            if(user.status != 200){throw new Error(user.data.message || user.data.error)}  
+            
+            const user = await getConfigProfileById(id)
+            if(user.status != 200){throw new Error(user.data.message || user.data.error)}  
+
+            const user = await getConfigProfileById(id)
+            if(user.status != 200){throw new Error(user.data.message || user.data.error)}  
+
+            const user = await getConfigProfileById(id)
+            if(user.status != 200){throw new Error(user.data.message || user.data.error)}  
+
+            const user = await getConfigProfileById(id)
+            if(user.status != 200){throw new Error(user.data.message || user.data.error)}  
+
+            const user = await getConfigProfileById(id)
+            if(user.status != 200){throw new Error(user.data.message || user.data.error)}  
         
-      };
+        setFetchData(
+            {
+            users: user.data,
 
+            }
+        )
+            
+        setProfileToEdit(
+            {
+            users: user.data,
+            }
+        )
+
+        }catch(error){
+            console.error(error)
+            setErrorMsg(error.message)
+        }
+
+    }
+    useEffect(()=>{
+    fetch()
+    },[])    
+    
     
   return (<>
     <main>

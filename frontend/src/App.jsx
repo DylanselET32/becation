@@ -15,6 +15,7 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import useAuth from "./hooks/useAuth"
 import { AlertProvider } from "./contexts/AlertContext"
 import ModalAlert from "./components/ModalAlert"
+import ConfigProfile from "./pages/ConfigProfile"
 
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
         <AlertProvider>
           <ModalAlert/>
           <Header auth={auth} />
-           <Routes>
+          <ConfigProfile/>
+           {/* <Routes>
             <Route exact path="/" element={<Home auth={auth} />} />
             <Route exact path="/login" element={<Login auth={auth} />} />
             <Route path="/home" element={<Home  auth={auth} />} />
@@ -41,7 +43,7 @@ function App() {
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
             <Route path="/resetPassword" element={<ResetPassword auth={auth} />} />
             <Route path="*" element={<NotFound />} />
-          </Routes> 
+          </Routes>  */}
         </AlertProvider>
       </BrowserRouter>
     </div>
