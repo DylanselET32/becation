@@ -17,6 +17,7 @@ export default function VacationManager(){
     const [showModalAprove,setShowModalAprove] = useState(false); // Estado que controla al modal deletevacation
     const [showModalDeny, setShowModalDeny ] = useState(false);
     const [showModalSendRevision, setShowModalSendRevision ] = useState(false)
+    const [noteRevision, setNoteRevision] = useState('');
 
     const [filter, setFilter] = useState([]); // Estado de filtro
 
@@ -24,6 +25,10 @@ export default function VacationManager(){
     const toggleShowModalAprove = ()=>{setShowModalAprove(!showModalAprove)};
     const toggleShowModalSendRevision = ()=>{setShowModalSendRevision(!showModalSendRevision)};
 
+    const handleNoteChange = (newState) => {
+        setNoteRevision(newState);
+        console.log("NOTA: ",noteRevision)
+      }
 
     //Pedir todas las vacaciones y mostrarlas
     const fetchVacations = async () => {
@@ -34,6 +39,7 @@ export default function VacationManager(){
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
             setFetchData(vacations.data);
             setFilter(vacations.data)     
+            console.log(vacations)
         } catch (error) {
             setAlertConfig({
                 show: true,
@@ -96,6 +102,22 @@ export default function VacationManager(){
     };
 
 
+    const formatDateToSend = (inputFecha) => {
+        const partes = inputFecha.split('/');
+        
+        if (partes.length !== 3 || isNaN(partes[0]) || isNaN(partes[1]) || isNaN(partes[2])) {
+          return 'Formato de fecha no válido';
+        }
+      
+        const dia = partes[1];
+        const mes = partes[0];
+        const anio = partes[2];
+      
+        const fechaFormateada = `${anio}-${mes}-${dia}`;
+        return fechaFormateada;
+      }
+
+
     //Acciones de vacacion
     const handleAproveVacation = (item) => {
         console.log("se esta aprobando...",item);
@@ -139,16 +161,15 @@ export default function VacationManager(){
     const editVacationFetch = async (selectItem, newStatus)=>{
         let newVacationState = {
             employee: selectItem.employee,
-            start_date: selectItem.start_date,
-            end_date: selectItem.end_date,
+            start_date: `${formatDateToSend(selectItem.start_date)}T00:00:00`,
+            end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
             status: newStatus,
             note: selectItem.note,
-            date_asked: selectItem.date_asked,
+            date_asked: `${formatDateToSend(selectItem.date_asked)}T00:00:00`,
             area_manager_authorization: selectItem.area_manager_authorization
         }
 
-        // console.log("Lo que se envía: ", newVacationState)
-
+        // console.log("LLLL", newVacationState)
         let idVacation = selectItem.id
         const response = editVacation(newVacationState, idVacation)
         const data = await response.data

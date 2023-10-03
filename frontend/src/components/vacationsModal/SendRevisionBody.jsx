@@ -24,8 +24,18 @@ const SendRevisionBody = (props) => {
         setErrorMessage('Error al eliminar la vacación'); // Nuevo estado para el mensaje de error
     }
 }
-    props.handleNoteChange = (e, setState)=>{
-    setState(e.target.value)
+    // props.handleNoteChange = (e, setState)=>{
+    // setState(e.target.value)
+  // }
+
+  const [note, setNote] = useState("")
+
+  const updateNoteState = (e) => {
+
+    const newText = e.target.value;
+
+    setNote(newText)
+    props.handleNoteChange(newText);
   }
 
   return (
@@ -51,9 +61,9 @@ const SendRevisionBody = (props) => {
             />
           <label  htmlFor="check"> Haga click para proceder</label>
           <Form>
-            <Form.Group onChange={handleNoteChange} className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Group onChange={updateNoteState}  className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label><b>Escriba un comentario:</b></Form.Label>
-              <Form.Control as="textarea" rows={4} name='note_revision'/>
+              <Form.Control value={note} as="textarea" rows={4} name='note_revision'/>
             </Form.Group>
           </Form>
       </ModalBody>
@@ -84,6 +94,7 @@ const SendRevisionBody = (props) => {
       </ModalFooter>
         </>
   )
-}
+        }
+
 
 export default SendRevisionBody
