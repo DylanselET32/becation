@@ -4,9 +4,7 @@ import EyeToHide from "../imgs/eye-crossed.svg"
 import EyeHiden from "../imgs/eye.svg"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-// import ModalAlert from "../components/ModalAlert"
-// import useModalAlert from "../helpers/useModalAlert"
-// import { login } from "../services/userServices"
+import { login } from "../services/userServices"
 import { useEffect } from "react"
 
 const initalForm = {
@@ -41,7 +39,7 @@ export default function Login ({auth}){
           setMsg("Complete los datos")
           return
         }
-        const [data, status]= await login(form)
+        const {data, status}= await login(form)
         if(status == 401){
           
           setMsg("Contraseña Incorrecta")
