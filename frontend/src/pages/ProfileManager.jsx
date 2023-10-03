@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addVacation, deleteVacation, getVacations } from '../services/vacationService';
-import { formatDateToString, operateDate } from '../helpers/misc/dateUtils';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
 import CustomTable from '../components/CustomTable';
-import ModalEditVacation from '../components/vacationsModal/ModalSeeVacationDetaills';
 import { Modal } from 'react-bootstrap';
-import DeleteVacationBody from '../components/vacationsModal/DeleteVacationBody'
 import { getAllEmployers, deleteEmployer } from '../services/employeeServices';
 import ModalSeeProfileDetails from '../components/profilesModal/ModalSeeProfileDetails';
+import ModalDeleteProfile from '../components/profilesModal/ModalDeleteProfile';
 
 export default function ProfileManager({auth}){
 
@@ -19,7 +16,7 @@ export default function ProfileManager({auth}){
   const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
   const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
   const [showModalSeeDetails,setShowModalSeeDetails] = useState(false); // Estado que controla al modal 
-  const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal deletevacation
+  const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal ModalDeleteProfile
   const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
   
   // Función para obtener los empleados del servidor
@@ -44,11 +41,8 @@ export default function ProfileManager({auth}){
     useEffect(() => {},handleAction,)
     name
   };
-  // Función que se llama en la tabla para condicional las acciones
-  const isDisabledCondition = (row,child) =>{
-    // row es la fila a analizar y child es el boton de accion que estan abajo
-    return(row['area_manager_authorization'] !== null && child.props.name != 'seeDetails')
-  }
+  
+
   // Efecto para realizar una acción según el botón presionado
   useEffect((e) => {
     switch (actionButton){
@@ -89,14 +83,14 @@ export default function ProfileManager({auth}){
     <div className="container-lg">
       <h1>{actionButton}</h1>
       <Modal show={showModalDelete} onHide={toggleShowModalDelete}>
-        <DeleteVacationBody
-          title="Eliminar Vacacion"
-          refresh={refresh}
-          toggle={toggleShowModalDelete}
-          item={selectItem}
-          itemView=""
-          delete={deleteVacation}
-        />
+        <ModalDeleteProfile
+            title="Eliminar Empleado"
+            refresh={refresh}
+            toggle={toggleShowModalDelete}
+            item={selectItem}
+            itemView=""
+            delete={deleteEmployer}
+          />
       </Modal>
       <ModalSeeProfileDetails show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
       <div className="row">
@@ -112,7 +106,6 @@ export default function ProfileManager({auth}){
             ]}
             setSelectItem={setSelectItem}
             msgNotRows="No se encontraron empleados"
-            isDisabledCondition={isDisabledCondition}
             maxHeight={!isAvailableForm?"75vh":'48vh'}
           > 
             <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
