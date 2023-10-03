@@ -1,0 +1,213 @@
+.main_register-container {
+    margin-top: 50px;
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container_register {
+    width: 90%;
+    max-width: 800px;
+    padding: 1em 3em;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 1rem;
+    background: #2e2e2e;
+    color: #f2f2f2;
+}
+
+.form__register-title {
+    font-size: 2rem;
+    margin-bottom: .5em;
+}
+
+.form__register-subtitle {
+    color: #bdbdbd; 
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2em;
+}
+
+.form__inputs-info {
+    display: flex;
+    gap: 2.5em;
+    margin-top: 3em;
+}
+
+.form__register-group {
+    position: relative;
+    width: 100%;
+}
+
+
+.form__register-label {
+    position: absolute;
+    top: -20px;
+    left: 3px;
+}
+
+.form__register-input {
+    width: 100%;
+    background: transparent;
+    font-size: 1rem;
+    padding: .6em .3em;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #f2f2f2;
+    float: left;
+    color: #f2f2f2;
+}
+
+.form__register-span {
+    position: absolute;
+    right: 8px;
+}
+
+.form__register-span .form__register-eye-closed {
+    opacity: 0.3;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.form__register-span .form__register-eye-closed:hover {
+    opacity: 0.6;
+}
+
+.form__register-select {
+    border: none;
+    appearance: none;
+    border-bottom: 1px solid #f2f2f2;
+    background: #2e2e2e;
+    width: 100%;
+    height: 80%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #f2f2f2;
+}
+
+.form__register-select:hover {
+    opacity: .9;
+}
+
+.form__register-option {
+    background: #2e2e2e;
+    height: 100px;
+}
+
+.form__register-check-submit {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 2em 0;
+}
+
+.form__container-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form__container-checkbox:hover {
+    opacity: .8;
+}
+
+.form__register-checkbox {
+    height: 15px;
+    width: 15px;
+    margin: 0 .3em;
+    cursor: pointer;
+}
+
+.btn-register {
+    background: transparent;
+    color: #f2f2f2;
+    font-weight: 300;
+    font-size: 1rem;
+    padding: .8em 0;
+    border-radius: .5em;
+    border: .3px solid #f2f2f2;
+    transition: .2s;
+    width: 208px;
+
+}
+
+.btn-register:hover {
+    color: #ffffff;
+    opacity: 0.7;
+    font-weight: 500;  
+}
+
+@media screen and (max-width: 768px) {
+    .container_register {
+        width: 90%;
+        max-width: 949px;
+    }
+
+    .form__register-title {
+        font-size: 1.7rem;
+    }
+
+    .form__register-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .form__register-label, .form__register-label-check, .form__register-input, .btn-register  {
+        font-size: .8rem;
+    }
+
+    .btn-register {
+        width: 180px;
+    }
+}
+
+@media screen and (max-width: 662px) {
+    .main_register-container{
+        margin: 17rem 0;
+    }
+
+    .container_register {
+        width: 90%;
+        max-width: 661px;
+    }
+
+    .form__inputs-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form__register-title {
+        font-size: 1.3rem;
+    }
+
+    .form__register-subtitle {
+        font-size: 1rem;
+    }
+
+    .form__register-label, .form__register-option, .form__register-label-check, .form__register-input, .btn-register  {
+        font-size: .7rem;
+    }
+
+    .form__register-check-submit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form__container-checkbox {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .btn-register {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .form__register-select {
+        position: relative;
+    }
+}

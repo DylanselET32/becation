@@ -1,6 +1,9 @@
-/* THIS JS HAS THE EMPLOYEE AND USER SERVICES/ENDPOINTS */
 
-import { getAuthToken } from "../helpers/misc/authUtils";
+import { setAuthToken, getAuthToken } from "../helpers/misc/authUtils";
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiVersion = import.meta.env.VITE_API_VERSION;
+/* USER SERVICES */
+
 
 /* USER SERVICES */
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -17,11 +20,11 @@ export async function disableUser() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al deshabilitar el usuario'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al deshabilitar el usuario");
+        throw new Error(`Error al deshabilitar el usuario, ${error}`);
     }
 }
 
@@ -36,11 +39,11 @@ export async function disableUserByEmployerId(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al deshabilitar el usuario'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al deshabilitar el usuario");
+        throw new Error(`Error al deshabilitar el usuario, ${error}`);
     }
 }
 
@@ -57,11 +60,11 @@ export async function login(email, pass) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al loguearse'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al loguearse");
+        throw new Error(`Error al loguearse, ${error}`);
     }
 }
 
@@ -75,17 +78,16 @@ export async function resetPassword(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al solicitar el reseteo de contraseña'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el reseteo de contraseña");
+        throw new Error(`Error al resetear la contraseña, ${error}`);
     }
 }
 
-export async function confirmEmailResetPassword(newPass, token) {
+export async function confirmEmailResetPassword(obj, token) {
     try {
-        const obj = {password : newPass};
         const response = await fetch(`${apiUrl}/${apiVersion}/user/confirmEmailResetPassword/${token}`, {
             method: "POST",
             headers: {
@@ -95,11 +97,11 @@ export async function confirmEmailResetPassword(newPass, token) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al solicitar el reseteo de contraseña'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el reseteo de contraseña");
+        throw new Error(`Error al resetear la contraseña, ${error}`);
     }
 }
 
@@ -116,11 +118,11 @@ export async function getAllEmployers() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir los empleados.'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar los empleados");
+        throw new Error(`Error al conseguir los empleados, ${error}`);
     }
 }
 
@@ -135,11 +137,11 @@ export async function getEmployer() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir el empleado.'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el empleado");
+        throw new Error(`Error al conseguir el empleado, ${error}`);
     }
 }
 
@@ -154,11 +156,11 @@ export async function getAllEmployersByArea(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir los empleados.'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar los empleados");
+        throw new Error(`Error al conseguir los empleados, ${error}`);
     }
 }
 
@@ -173,11 +175,11 @@ export async function getEmployerById(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al conseguir el empleado.'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al solicitar el empleado");
+        throw new Error(`Error al conseguir los empleados, ${error}`);
     }
 }
 
@@ -194,11 +196,11 @@ export async function addEmployer(employer) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al agregar el empleado'); 
+        if (status == 500) throw new Error('Error en el servidor.'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al agregar el empleado");
+        throw new Error(`Error al agregar un empleado, ${error}`);
     }
 }
 
@@ -215,11 +217,11 @@ export async function editEmployer(employer) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al editar el empleado'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al editar el empleado");
+        throw new Error(`Error al editar el empleado, ${error}`);
     }
 }
 
@@ -235,11 +237,11 @@ export async function editEmployerById(employer, id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al editar el empleado'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al editar el empleado");
+        throw new Error(`Error al editar el empleado, ${error}`);
     }
 }
 
@@ -255,10 +257,10 @@ export async function deleteEmployer(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error al eliminar el empleado'); 
+        if (status == 500) throw new Error('Error en el servidor'); 
         return {data, status};
     } catch (error) {
         console.error(error);
-        throw new Error("Error al eliminar el empleado");
+        throw new Error(`Error al eliminar el empleado, ${error}`);
     }
 }

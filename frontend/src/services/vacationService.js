@@ -5,7 +5,7 @@ const apiVersion = import.meta.env.VITE_API_VERSION;
 /* MÉTODOS GET */
 export async function getVacationById(id) {
   try {
-      const response = await fetch(`${apiUrl}/${apiVersion}/area/getVacationById/${id}`, {
+      const response = await fetch(`${apiUrl}/${apiVersion}/vacation/getVacationById/${id}`, {
           method: "GET",
           headers: {
               "Content-Type": "application/json",
@@ -14,11 +14,11 @@ export async function getVacationById(id) {
       });
       const data = await response.json();
       const status = response.status;
-      if (status == 500) throw new Error('Error al conseguir la vacacion.'); 
+      if (status == 500) throw new Error('Error en el servidor'); 
       return {data, status};
   } catch (error) {
       console.error(error);
-      throw new Error("Error al solicitar la vacacion");
+      throw new Error(`Error al solicitar la vacación, ${error}`);
   }
 }
 
@@ -54,11 +54,11 @@ export async function getAllVacations() {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error al conseguir las vacaciones.'); 
+    if (status == 500) throw new Error('Error en el servidor.'); 
     return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al solicitar la vacacion");
+    throw new Error(`Error al solicitar la vacación, ${error}`);
   }
 }
 
@@ -73,11 +73,11 @@ export async function getVacations() {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error al conseguir las vacaciones.'); 
+    if (status == 500) throw new Error('Error en el servidor.'); 
     return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al solicitar la vacacion");
+    throw new Error(`Error al solicitar la vacación, ${error}`);
   }
 }
 
@@ -92,11 +92,11 @@ export async function getAllVacationsByArea(idArea) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error al conseguir las vacaciones.'); 
+    if (status == 500) throw new Error('Error en el servidor.'); 
     return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al solicitar la vacacion");
+    throw new Error(`Error al solicitar la vacación, ${error}`);
   }
 }
 
@@ -111,11 +111,11 @@ export async function getAllVacationsByUser() {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error al conseguir las vacaciones.'); 
+    if (status == 500) throw new Error('Error en el servidor.'); 
     return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al solicitar la vacacion");
+    throw new Error(`Error al solicitar la vacación, ${error}`);
   }
 }
 
@@ -130,11 +130,11 @@ export async function getAllVacationsByEmployerId(id) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error al conseguir las vacaciones.'); 
+    if (status == 500) throw new Error('Error en el servidor'); 
     return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al solicitar la vacacion");
+    throw new Error(`Error al solicitar la vacación, ${error}`);
   }
 }
 
@@ -151,11 +151,11 @@ export async function getAllVacationsBetweenDates(start_date, end_date) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error al conseguir las vacaciones.'); 
+    if (status == 500) throw new Error('Error en el servidor.'); 
     return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al solicitar la vacacion");
+    throw new Error(`Error al solicitar la vacación, ${error}`);
   }
 }
 
@@ -172,11 +172,11 @@ export async function addVacation(vacation) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error al agregar la vacacion'); 
+    if (status == 500) throw new Error('Error en el servidor.'); 
     return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al agregar la vacación");
+    throw new Error(`Error al agregar la vacación, ${error}`);
   }
 }
 
@@ -193,11 +193,11 @@ export async function editVacation(vacation, id) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error al editar la vacacion'); 
+    if (status == 500) throw new Error('Error en el servidor'); 
     return {data, status};
   } catch (error) {
     console.error(error);
-    throw new Error("Error al editar la vacacion");
+    throw new Error(`Error al editar la vacación, ${error}`);
   }
 }
 
@@ -213,11 +213,11 @@ export async function deleteVacation(id) {
       });
       const data = await response.json();
       const status = response.status;
-      if (status == 500) throw new Error('Error al eliminar la vacacion'); 
+      if (status == 500) throw new Error('Error en el servidor'); 
       return {data, status};
   } catch (error) {
       console.error(error);
-      throw new Error("Error al eliminar la vacacion");
+      throw new Error(`Error al eliminar la vacación, ${error}`);
   }
 }
 

@@ -1,7 +1,5 @@
 import Header from "./components/Header"
-import ConfigProfile from "./pages/ConfigProfile"
 import Login from "./pages/Login"
-import Register from "./pages/Register"
 import Home from "./pages/Home"
 import AdminArea from "./pages/AdminArea"
 import '../src/App.css'
@@ -14,9 +12,6 @@ import ResetPassword from "./pages/ResetPassword"
 import NotFound from "./pages/NotFound"
 import "./stylesheets/app.css"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-
-
-
 import useAuth from "./hooks/useAuth"
 import { AlertProvider } from "./contexts/AlertContext"
 import ModalAlert from "./components/ModalAlert"
@@ -29,7 +24,6 @@ function App() {
   
   return (
     <div className="app">
-
       <BrowserRouter>
         <AlertProvider>
           <ModalAlert/>
@@ -40,17 +34,16 @@ function App() {
             <Route path="/home" element={<Home  auth={auth} />} />
             <Route path="/adminArea " element={<AdminArea auth={auth} />} />
             <Route path="/vacationManager" element={<VacationManager auth={auth} />} />
-            <Route path="/vacationManagerCalendar" element={<VacationManagerCalendar auth={auth} />} />
+            <Route path="/vacationManagerCalendar/:id" element={<VacationManagerCalendar auth={auth} />} />
             <Route path="/profileManager" element={<ProfileManager auth={auth} />} />
             <Route path="/profileConfig" element={<ProfileConfig auth={auth} />} />
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
-            <Route path="/resetPassword" element={<ResetPassword auth={auth} />} />
+            <Route path="/resetPassword/:token" element={<ResetPassword auth={auth} />} />
             <Route path="*" element={<NotFound />} />
-          </Routes>
+          </Routes> 
         </AlertProvider>
       </BrowserRouter>
     </div>
-
   )
 }
 
