@@ -24,12 +24,11 @@ function App() {
   
   return (
     <div className="app">
-
       <BrowserRouter>
         <AlertProvider>
           <ModalAlert/>
           <Header auth={auth} />
-           <Routes>
+          <Routes>
             <Route exact path="/" element={<Home auth={auth} />} />
             <Route exact path="/login" element={<Login auth={auth} />} />
             <Route path="/home" element={<Home  auth={auth} />} />
@@ -45,7 +44,6 @@ function App() {
         </AlertProvider>
       </BrowserRouter>
     </div>
-
   )
 }
 

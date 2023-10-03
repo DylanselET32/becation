@@ -10,7 +10,7 @@ const useAuth= ()=>{
         setAuthenticated(false)
         setUser(null)
         if(getAuthToken()){
-            const u = await getUser()
+            const u = await getEmployer()
 
             if(u.data){
                setUser(u.data) 
