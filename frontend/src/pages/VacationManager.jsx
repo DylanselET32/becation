@@ -38,7 +38,8 @@ export default function VacationManager(){
             const vacations = await getVacations();
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
             setFetchData(vacations.data);
-            setFilter(vacations.data)     
+            
+            setFilter(vacations.data.filter(f => f.status == "pending"))     
             console.log(vacations)
         } catch (error) {
             setAlertConfig({
@@ -145,12 +146,13 @@ export default function VacationManager(){
 
     //Maneja en que casos ciertas acciones no estaran disponibles  
     const isDisabledCondition = (row,child) =>{
-        return( row['area_manager_authorization'] == null && row["status"] == "aproved" )
+        // return( row['area_manager_authorization'] == null && row["status"] == "aproved" )
+        return(row["status"] != "aproved" && child.props.name == "denied" || child.props.name == "aprove")
     }
 
     //Cambio de filtro
     const handleFilter = (e)=> {
-        if(e.target.value == "null"){
+        if(e.target.value == "all"){
             setFilter(fetchData);
             return
         }
@@ -173,27 +175,47 @@ export default function VacationManager(){
         let idVacation = selectItem.id
         const response = editVacation(newVacationState, idVacation)
         const data = await response.data
-
         console.log("RESPONSE: ", data )
+    }
+
+    const editVacationNoteFetch = async (selectItem, newStatus)=>{
+        let newVacationState = {
+            employee: selectItem.employee,
+            start_date: `${formatDateToSend(selectItem.start_date)}T00:00:00`,
+            end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
+            status: newStatus,
+            note: noteRevision,
+            date_asked: `${formatDateToSend(selectItem.date_asked)}T00:00:00`,
+            area_manager_authorization: selectItem.area_manager_authorization
+        }
+
+        // console.log("LLLL", newVacationState)
+        let idVacation = selectItem.id
+        const response = editVacation(newVacationState, idVacation)
+        const data = await response.data
     }
 
     //Prueba de acciones
         const aproveVacation = ()=> {
             editVacationFetch(selectItem, "aproved")
+            refresh()
         }
 
         const denyVacation =()=>{
             editVacationFetch(selectItem, "denied")
+            refresh()
         }
 
         const sendRevision = ()=>{
-            // editVacationFetch(selectItem, "revision")
+            editVacationNoteFetch(selectItem, "revision")
             console.log("Nota enviada...")
+            refresh()
         }
 
     return(
+        
         <div className="vacation_manager">
-
+ <h2>Gestión de Vacaciones</h2>
             <Modal show={showModalSendRevision} onHide={toggleShowModalSendRevision}>
                 <SendRevisionBody
                     title="Enviar Nota"
@@ -230,11 +252,13 @@ export default function VacationManager(){
                 </AproveVacationBody>
             </Modal>
 
-            <select name="filterVacation" id="filterVacation" onChange={handleFilter}>
-                <option value="null">All</option>
+            <select name="filterVacation" id="filterVacation" onChange={handleFilter} className="select_filter" >
+                <option value="null">Pending</option>
                 <option value="denied">Denieded</option>
                 <option value="aproved">Approved</option>
                 <option value="revision">In Revision</option>
+                <option value="all">All</option>
+
 
             </select>
 

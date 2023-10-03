@@ -40,6 +40,9 @@ const SendRevisionBody = (props) => {
 
   return (
     <>
+
+     
+
       <ModalHeader toggle={props.toggle} closeButton>
         <h3>{props.title}</h3>
       </ModalHeader>
