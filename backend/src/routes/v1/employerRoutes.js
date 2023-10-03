@@ -223,7 +223,7 @@ module.exports = router;
  *        dni: 12345678
  *        privileges: 2
  *        role_id: 1
- *        area_id: 2
+ *        area_id: 1
  *        available_days: 5
  *        total_days: 7
  *        is_cumulative: 1
