@@ -58,9 +58,10 @@ export default function ProfileManager({auth}){
     }
     setActionButton("")
   },[selectItem,actionButton]);
+
   // Función para manejar la edición de un empleado
   const handleEditEmployer = (item) => {
-    console.log("se esta editando",item);
+    navigate(`/profileConfig/${item?.id}`);
   };
   // Función para manejar la eliminación de un empleado
   const handleDeleteEmployer = async (item) => {
