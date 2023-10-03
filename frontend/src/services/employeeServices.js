@@ -4,10 +4,6 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const apiVersion = import.meta.env.VITE_API_VERSION;
 /* USER SERVICES */
 
-
-/* USER SERVICES */
-const apiUrl = import.meta.env.VITE_API_URL;
-const apiVersion = import.meta.env.VITE_API_VERSION;
 /* MÉTODOS PATCH */
 export async function disableUser() {
     try {
