@@ -5,12 +5,32 @@ const CRUD = require('./CRUD');
 /* ORDEN: TABLA, DATOS A PEDIR, EXTRAS*/
 
 /* GETS */
-const getAllAreas = async () => await CRUD.getAll('area', ["id", "area", "area_manager", "to_create", "to_update", "to_update_date"]);
+const getAllAreas = async () => {
+    let sql = `SELECT a.*, u.name, u.surname from area a inner join user u on a.area_manager = u.id`;
+    const [results] = await pool.promise().query(sql);
+    return results;
+};
 
-const getAreaById = async (id) => await CRUD.getById('area', id, ["id", "area", "area_manager", "to_create", "to_update", "to_update_date"]);
+const getAreaById = async (id) => {
+    let sql = `SELECT a.*, u.name, u.surname from area a inner join user u on a.area_manager = u.id WHERE a.id = ?`;
+    let params = [id];
+    const [results] = await pool.promise().query(sql, params);
+    return results[0];
+}
 
-const getAreaByColumn = async (column, value, fields = ["id", "area", "area_manager", "to_create", "to_update", "to_update_date"]) => await CRUD.getByColumn('area', column, value, fields);
-
+const getAreaByColumn = async (column, value, extraClauses = null) => {
+    let sql = `SELECT a.*, u.name, u.surname from area a inner join user u on a.area_manager = u.id WHERE ?? = ?`;
+    let params = [column, value];
+    if (extraClauses) {
+        if (extraClauses.includes('WHERE')) {
+            sql += ` AND ${extraClauses.replace('WHERE', '')}`;
+        }else {
+            sql += ` ${extraClauses}`;
+        }
+    }
+    const [results] = await pool.promise().query(sql, params);
+    return results;
+};
 /* ADD */
 const addArea = async (data) => await CRUD.add('area', data);
 
