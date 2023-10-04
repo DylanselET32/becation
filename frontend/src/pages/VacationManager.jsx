@@ -36,11 +36,14 @@ export default function VacationManager(){
 
             setFetchData([])
             const vacations = await getVacations();
+
+            const vacationsAproved = vacations.data.filter(v => v.area_manager_authorization == 1)
+
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
-            setFetchData(vacations.data);
+            setFetchData(vacationsAproved);
             
-            setFilter(vacations.data.filter(f => f.status == "pending"))     
-            console.log(vacations)
+            setFilter(vacationsAproved.filter(f => f.status == null))     
+            console.log("VACAS APROBADAS: ", vacationsAproved)
         } catch (error) {
             setAlertConfig({
                 show: true,
@@ -110,14 +113,32 @@ export default function VacationManager(){
           return 'Formato de fecha no válido';
         }
       
-        const dia = partes[1];
-        const mes = partes[0];
+        const dia = partes[0];
+        const mes = partes[1];
         const anio = partes[2];
       
         const fechaFormateada = `${anio}-${mes}-${dia}`;
         return fechaFormateada;
       }
 
+      function formatDateAsked(inputFecha) {
+        const [fechaParte, horaParte] = inputFecha.split(' ');
+      
+        if (!fechaParte || !horaParte) {
+          return 'Formato de fecha y hora no válido';
+        }
+      
+        const [mes, dia, anio] = fechaParte.split('/');
+        const [hora, minutos, segundos] = horaParte.split(':');
+      
+        if (isNaN(mes) || isNaN(dia) || isNaN(anio) || isNaN(hora) || isNaN(minutos) || isNaN(segundos)) {
+          return 'Formato de fecha y hora no válido';
+        }
+      
+        const fechaFormateada = `${anio}-${mes}-${dia}T${hora}:${minutos}:${segundos}`;
+        return fechaFormateada;
+      }
+      
 
     //Acciones de vacacion
     const handleAproveVacation = (item) => {
@@ -146,17 +167,27 @@ export default function VacationManager(){
 
     //Maneja en que casos ciertas acciones no estaran disponibles  
     const isDisabledCondition = (row,child) =>{
-        // return( row['area_manager_authorization'] == null && row["status"] == "aproved" )
-        return(row["status"] != "aproved" && child.props.name == "denied" || child.props.name == "aprove")
+        return((row["status"] == "Aprobado" && child.props.name == "deny") 
+                || (row["status"] == "Aprobado" && child.props.name == "aprove")
+                || (row["status"] == "Aprobado" && child.props.name == "sendNote")
+                || (row["status"] == "Denegado" && child.props.name == "deny")
+                )
     }
 
     //Cambio de filtro
     const handleFilter = (e)=> {
+
+        let temporalFilter = []
+
         if(e.target.value == "all"){
             setFilter(fetchData);
             return
+        }else if(e.target.value == "null"){
+            temporalFilter = fetchData.filter((event)=> event.status == null);
+            setFilter(temporalFilter)
+            return
         }
-        let temporalFilter = fetchData.filter((event)=> event.status == e.target.value);
+        temporalFilter = fetchData.filter((event)=> event.status == e.target.value);
         setFilter(temporalFilter)
     }
 
@@ -167,11 +198,11 @@ export default function VacationManager(){
             end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
             status: newStatus,
             note: selectItem.note,
-            date_asked: `${formatDateToSend(selectItem.date_asked)}T00:00:00`,
+            date_asked: formatDateAsked(selectItem.date_asked),
             area_manager_authorization: selectItem.area_manager_authorization
         }
 
-        // console.log("LLLL", newVacationState)
+        console.log("LO QUE SE ENVÍA", newVacationState)
         let idVacation = selectItem.id
         const response = editVacation(newVacationState, idVacation)
         const data = await response.data
@@ -185,11 +216,11 @@ export default function VacationManager(){
             end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
             status: newStatus,
             note: noteRevision,
-            date_asked: `${formatDateToSend(selectItem.date_asked)}T00:00:00`,
+            date_asked: formatDateAsked(selectItem.date_asked),
             area_manager_authorization: selectItem.area_manager_authorization
         }
 
-        // console.log("LLLL", newVacationState)
+        console.log("LO QUE SE ENVÍA", newVacationState)
         let idVacation = selectItem.id
         const response = editVacation(newVacationState, idVacation)
         const data = await response.data
@@ -198,24 +229,25 @@ export default function VacationManager(){
     //Prueba de acciones
         const aproveVacation = ()=> {
             editVacationFetch(selectItem, "aproved")
-            refresh()
+            window.location.reload();
         }
 
         const denyVacation =()=>{
             editVacationFetch(selectItem, "denied")
-            refresh()
+            window.location.reload();
         }
 
         const sendRevision = ()=>{
             editVacationNoteFetch(selectItem, "revision")
             console.log("Nota enviada...")
-            refresh()
+            window.location.reload();
         }
 
     return(
         
         <div className="vacation_manager">
  <h2>Gestión de Vacaciones</h2>
+            {/* MODAL DE REVISIÓN */}
             <Modal show={showModalSendRevision} onHide={toggleShowModalSendRevision}>
                 <SendRevisionBody
                     title="Enviar Nota"
