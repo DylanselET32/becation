@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Button, ModalHeader, ModalBody, ModalFooter, Spinner } from 'react-bootstrap';
 
 export default function DeleteVacationBody(props) {
+    
     const [canDelete, setCanDelete] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     const [errorMessage,setErrorMessage] = useState(false)

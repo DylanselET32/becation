@@ -6,7 +6,7 @@ import '../src/App.css'
 import VacationManager from "./pages/vacationManager"
 import VacationManagerCalendar from "./pages/VacationManagerCalendar"
 import ProfileManager from "./pages/ProfileManager"
-import ProfileConfig from "./pages/ProfileConfig"
+// import ProfileConfig from "./pages/ProfileConfig"
 import RegisterUser from "./pages/RegisterUser"
 import ResetPassword from "./pages/ResetPassword"
 import NotFound from "./pages/NotFound"
@@ -28,7 +28,7 @@ function App() {
         <AlertProvider>
           <ModalAlert/>
           <Header auth={auth} />
-          <Routes>
+           <Routes>
             <Route exact path="/" element={<Home auth={auth} />} />
             <Route exact path="/login" element={<Login auth={auth} />} />
             <Route path="/home" element={<Home  auth={auth} />} />
@@ -36,7 +36,7 @@ function App() {
             <Route path="/vacationManager" element={<VacationManager auth={auth} />} />
             <Route path="/vacationManagerCalendar/:id" element={<VacationManagerCalendar auth={auth} />} />
             <Route path="/profileManager" element={<ProfileManager auth={auth} />} />
-            <Route path="/profileConfig" element={<ProfileConfig auth={auth} />} />
+            {/* <Route path="/profileConfig" element={<ProfileConfig auth={auth} />} /> */}
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
             <Route path="/resetPassword/:token" element={<ResetPassword auth={auth} />} />
             <Route path="*" element={<NotFound />} />
