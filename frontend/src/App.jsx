@@ -3,7 +3,7 @@ import Login from "./pages/Login"
 import Home from "./pages/Home"
 import AdminArea from "./pages/AdminArea"
 import '../src/App.css'
-import VacationManager from "./pages/vacationManager"
+import VacationManager from "./pages/VacationManager"
 import VacationManagerCalendar from "./pages/VacationManagerCalendar"
 import ProfileManager from "./pages/ProfileManager"
 // import ProfileConfig from "./pages/ProfileConfig"
