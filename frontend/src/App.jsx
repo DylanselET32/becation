@@ -1,7 +1,7 @@
 import Header from "./components/Header"
 import Login from "./pages/Login"
 import Home from "./pages/Home"
-import AdminArea from "./pages/AdminArea"
+import AdminAreaRole from "./pages/AdminAreaRole"
 import '../src/App.css'
 import VacationManager from "./pages/vacationManager"
 import VacationManagerCalendar from "./pages/VacationManagerCalendar"
@@ -32,7 +32,7 @@ function App() {
             <Route exact path="/" element={<Home auth={auth} />} />
             <Route exact path="/login" element={<Login auth={auth} />} />
             <Route path="/home" element={<Home  auth={auth} />} />
-            <Route path="/adminArea " element={<AdminArea auth={auth} />} />
+            <Route path="/adminAreaRole" element={<AdminAreaRole auth={auth} />} />
             <Route path="/vacationManager" element={<VacationManager auth={auth} />} />
             <Route path="/vacationManagerCalendar/:id" element={<VacationManagerCalendar auth={auth} />} />
             <Route path="/profileManager" element={<ProfileManager auth={auth} />} />
