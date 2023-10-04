@@ -1,5 +1,4 @@
 .calendar_admin_section{
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,4 +6,59 @@
 
 .calendar_admin_container{
     width: 90vw;
+}
+
+.title-user-data{
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin-left: 2rem;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 0.125rem 0.125rem #c2c2c2;
+}
+
+.btn-volver {
+    background: #2e2e2e;
+    color: #f2f2f2;
+    font-weight: 300;
+    font-size: 1rem;
+    padding: .8em 0;
+    margin: 1rem;
+    border: none;
+    border-radius: .5em;
+    cursor: pointer;
+    border: .3px solid #f2f2f2;
+    width: 7.5rem;
+    transition: .2s;
+}
+
+.btn-volver:hover {
+    background: #f2f2f2;
+    color: #2e2e2e;
+    opacity: 0.7;
+    font-weight: 500;
+}
+
+@media screen and (max-width:900px) {
+    .title-user-data{
+        font-size: 1.5rem;
+        margin-left: 0.5rem;
+       
+    }
+    
+}
+@media screen and (max-width:600px) {
+    .title-user-data{
+        font-size: 1.3rem;
+        margin-left: 0.5rem;
+       
+    }
+    
+}
+@media screen and (max-width:400px) {
+    .title-user-data{
+        font-size: 1rem;
+        margin-left: 0.5rem;
+       
+    }
+    
 }

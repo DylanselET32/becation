@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUser } from "../services/userServices";
 import { getAuthToken,deleteAuthToken } from "../helpers/misc/authUtils";
+import { getEmployer } from "../services/employeeServices";
 
 const useAuth= ()=>{
     const [user,setUser] = useState(null);
@@ -10,7 +11,7 @@ const useAuth= ()=>{
         setAuthenticated(false)
         setUser(null)
         if(getAuthToken()){
-            const u = await getUser()
+            const u = await getEmployer()
 
             if(u.data){
                setUser(u.data) 
