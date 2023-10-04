@@ -24,6 +24,7 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
   
   const fetch = async ()=>{
     try {
+      if(!item){return}
       setLoaded(false)
       const vacation = await getVacationById(item?.id)
       if(vacation.status != 200){throw new Error(vacation.data.message || vacation.data.error)}

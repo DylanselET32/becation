@@ -53,7 +53,7 @@ export default function CustomTable({ rows, fields, children, setSelectItem, msg
             <tr className="rowTable" key={index}>
               <td>{index + 1}</td>
               {fields.map((field) => (
-                <td key={field[0]} onClick={() => setAccionItem(row)}>{row[field[0]]}</td>
+                <td key={field[0]}>{row[field[0]]}</td>
               ))}
               {React.Children.count(children) >= 2 ? (
                 <td className="action-field">
