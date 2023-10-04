@@ -1,12 +1,12 @@
 import "../stylesheets/configprofile.css"
-
-import { editEmployer, getEmployerById } from '../services/employeeServices';
+import { useNavigate } from 'react-router-dom';
+import { editEmployerById, getEmployerById } from '../services/employeeServices';
 import { useState, useEffect } from "react";
 import { useAlert } from '../contexts/AlertContext'
 import { compareObjects } from '../helpers/misc/objectsUtils'
 import { useParams } from "react-router-dom";
 
-export default function ProfileConfig() {
+export default function ProfileConfig({}) {
 
   const initialFilds = {
     name: '',
@@ -25,6 +25,7 @@ export default function ProfileConfig() {
     // Otros campos de perfil
   }
 
+  const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState();
   const { alertConfig, setAlertConfig } = useAlert(); // Usa el contexto alert
   const [fetchData, setFetchData] = useState();
@@ -34,12 +35,12 @@ export default function ProfileConfig() {
   const params = useParams()
 
   const handleClose = () => {
-    setShow(false)
     setErrorMsg(null)
     setFetchData(null)
     setEmployerToEdit(initialFilds)
     setLoaded(false)
     setIsSaving(false)
+    navigate(-1)
   };
 
   const fetch = async () => {
@@ -72,6 +73,10 @@ export default function ProfileConfig() {
     setEmployerToEdit({ ...employerToEdit, [name]: value });
   };
 
+  //Este refresh es para llamar al fetch
+  const refresh = ()=>{
+    fetch()
+  }
 
   //Esta const guarda los cambios en el perfil
   const handleSubmit = async (e) => {
@@ -80,7 +85,7 @@ export default function ProfileConfig() {
     try {
       const employerEdited = compareObjects(fetchData, employerToEdit)
       if (isChanged()) {
-        const save = await editEmployer(employerEdited, fetchData.id)
+        const save = await editEmployerById(employerEdited, fetchData.id)
         if (save.status == 200) {
           setAlertConfig({
             show: true,
@@ -88,6 +93,7 @@ export default function ProfileConfig() {
             title: 'Guardado',
             message: `Se han guardado los cambios`,
           });
+
           refresh()
           handleClose()
         } else {
@@ -110,13 +116,13 @@ export default function ProfileConfig() {
 
   return (<>
     <main>
+      <div className="container">
       {errorMsg && (
         <div className="alert alert-danger" role="alert">
           <span className="fw-bold">¡Error! </span>
           {errorMsg}
         </div>
       )}
-      <div className="container">
         <header>Configuración de Usuario</header>
         <form action="#">
           <div className="form">
