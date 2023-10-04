@@ -1,10 +1,14 @@
 import "../stylesheets/configprofile.css"
 
-import { useState } from "react";
+import { editEmployer, getEmployerById } from '../services/employeeServices';
+import { useState, useEffect } from "react";
+import { useAlert } from '../contexts/AlertContext'
+import { compareObjects } from '../helpers/misc/objectsUtils'
+import { useParams } from "react-router-dom";
 
-export default function ProfileConfig(){
+export default function ProfileConfig() {
 
-  const [profile, setProfile] = useState({
+  const initialFilds = {
     name: '',
     surname: '',
     password: '',
@@ -18,98 +22,217 @@ export default function ProfileConfig(){
     is_acumulative: '',
     contrat_day: '',
     sign_up_date: '',
-
-
     // Otros campos de perfil
-  });
-    
+  }
+
+  const [errorMsg, setErrorMsg] = useState();
+  const { alertConfig, setAlertConfig } = useAlert(); // Usa el contexto alert
+  const [fetchData, setFetchData] = useState();
+  const [employerToEdit, setEmployerToEdit] = useState(initialFilds)
+  const [loaded, setLoaded] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const params = useParams()
+
+  const handleClose = () => {
+    setShow(false)
+    setErrorMsg(null)
+    setFetchData(null)
+    setEmployerToEdit(initialFilds)
+    setLoaded(false)
+    setIsSaving(false)
+  };
+
+  const fetch = async () => {
+    try {
+      setLoaded(false)
+      const profile = await getEmployerById(params?.id)
+      if (profile.status != 200) { throw new Error(profile.data.message || profile.data.error) }
+      setFetchData(profile.data)
+      setEmployerToEdit(profile.data)
+      setLoaded(true)
+    } catch (error) {
+      console.error(error)
+      setAlertConfig({
+        show: true,
+        status: 'danger',
+        title: 'Error',
+        message: `Hubo un error al traer los datos ${error.message}`,
+      });
+    }
+  }
+
+  const isChanged = ()=>{
+    const employerEdited  = compareObjects(fetchData,employerToEdit)
+    return (Object.keys(employerEdited).length > 0)
+  }
+
   //Este const maneja los cambios a realizar en el perfil
   const handleChange = (e) => {
-      const { name, value } = e.target;
-      setProfile({ ...profile, [name]: value });
-    };
-    
+    const { name, value } = e.target;
+    setEmployerToEdit({ ...employerToEdit, [name]: value });
+  };
+
 
   //Esta const guarda los cambios en el perfil
-    const handleSubmit = (e) => {
-       e.preventDefault();
-        
-      };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSaving(true)
+    try {
+      const employerEdited = compareObjects(fetchData, employerToEdit)
+      if (isChanged()) {
+        const save = await editEmployer(employerEdited, fetchData.id)
+        if (save.status == 200) {
+          setAlertConfig({
+            show: true,
+            status: 'success',
+            title: 'Guardado',
+            message: `Se han guardado los cambios`,
+          });
+          refresh()
+          handleClose()
+        } else {
+          throw new Error("ErrBackend", save.data?.error || save.data?.message)
+        }
 
-    
+      }
+    } catch (error) {
+      console.error(error)
+      setErrorMsg(`Error al guardar,${error.message}`)
+    } finally {
+      setIsSaving(false)
+    }
+
+  };
+
+  useEffect(() => {
+    fetch()
+  }, [])
+
   return (<>
     <main>
-    <div className="container">
+      {errorMsg && (
+        <div className="alert alert-danger" role="alert">
+          <span className="fw-bold">¡Error! </span>
+          {errorMsg}
+        </div>
+      )}
+      <div className="container">
         <header>Configuración de Usuario</header>
         <form action="#">
-            <div className="form">
-                <div className="details personal">
-                    <span className="title">Datos Personales</span>
-                    <div className="fields">
-                        <div className="input-field">
-                            <label htmlFor="">Nombre</label>
-                            <input type="text" onChange={handleChange} name="name" value={profile.name}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Apellido</label>
-                            <input type="text" onChange={handleChange} name="surname" value={profile.surname}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Email</label>
-                            <input type="mail" onChange={handleChange} name="email" value={profile.email}/>
-                        </div>
-
-                        <div className="input-field">
-                            <label htmlFor="">Dni</label>
-                            <input type="text" onChange={handleChange} name="dni" value={profile.dni}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Privileges</label>
-                            <input type="text" onChange={handleChange} name="privileges" value={profile.privileges}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Rol</label>
-                            <input type="text" onChange={handleChange} name="role" value={profile.role_id}/>
-                        </div>
-                    </div>
+          <div className="form">
+            <div className="details personal">
+              <span className="title">Datos Personales</span>
+              <div className="fields">
+                <div className="input-field">
+                  <label htmlFor="name">Nombre</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="name"
+                    value={employerToEdit?.name} />
                 </div>
-
-                <div className="details cuenta">
-                    <span className="title">Datos de Cuenta</span>
-                    <div className="fields">
-                        <div className="input-field">
-                            <label htmlFor="">Area</label>
-                            <input type="text" onChange={handleChange} name="area" value={profile.area_id}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Available Days</label>
-                            <input type="text" onChange={handleChange} name="avaible_days" value={profile.avaible_days}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Total Days</label>
-                            <input type="mail" onChange={handleChange} name="total_days" value={profile.total_days}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Is Acumulative</label>
-                            <input type="text" onChange={handleChange} name="is_acumulative" value={profile.is_acumulative}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Contrat Day</label>
-                            <input type="text" onChange={handleChange} name="contrat_day" value={profile.contrat_day}/>
-                        </div>
-                        <div className="input-field">
-                            <label htmlFor="">Sign In Up</label>
-                            <input type="text" onChange={handleChange} name="sign_up_date" value={profile.sign_up_date}/>
-                        </div>
-                    </div>
-                    <button className="Btn">
-                        <span className="btnText" onClick={handleSubmit}>Guardar Cambios</span>
-                    </button>
+                <div className="input-field">
+                  <label htmlFor="surname">Apellido</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="surname"
+                    value={employerToEdit?.surname} />
                 </div>
+                <div className="input-field">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    onChange={handleChange}
+                    name="email"
+                    value={employerToEdit?.email} />
+                </div>
+                <div className="input-field">
+                  <label htmlFor="dni">Dni</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="dni"
+                    value={employerToEdit?.dni} />
+                </div>
+                <div className="input-field">
+                  <label htmlFor="privileges">Privileges</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="privileges"
+                    value={employerToEdit?.privileges} />
+                </div>
+                <div className="input-field">
+                  <label htmlFor="role">Rol</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="role"
+                    value={employerToEdit?.role_id} />
+                </div>
+              </div>
             </div>
+            <div className="details cuenta">
+              <span className="title">Datos de Cuenta</span>
+              <div className="fields">
+                <div className="input-field">
+                  <label htmlFor="area">Area</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="area"
+                    value={employerToEdit?.area_id} />
+                </div>
+                <div className="input-field">
+                  <label htmlFor="available_days">Available Days</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="avaible_days"
+                    value={employerToEdit?.avaible_days} />
+                </div>
+                <div className="input-field">
+                  <label htmlFor="total_days">Total Days</label>
+                  <input
+                    type="mail"
+                    onChange={handleChange}
+                    name="total_days"
+                    value={employerToEdit?.total_days} />
+                </div>
+                <div className="input-field">
+                  <label htmlFor="is_cumulative">Is Acumulative</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="is_acumulative"
+                    value={employerToEdit?.is_acumulative} />
+                </div>
+                <div className="input-field">
+                  <label htmlFor="contrat_day">Contrat Day</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="contrat_day"
+                    value={employerToEdit?.contrat_day} />
+                </div>
+                <div className="input-field">
+                  <label htmlFor="sign_up_date">Sign In Up</label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="sign_up_date"
+                    value={employerToEdit?.sign_up_date} />
+                </div>
+              </div>
+              <button className="Btn">
+                <span className="btnText" onClick={handleSubmit} disabled={isSaving || !isChanged()}>{!isSaving?'Guardar cambios':'Guardando...'}</span>
+              </button>
+            </div>
+          </div>
         </form>
 
-    </div>
+      </div>
     </main>
 
 
