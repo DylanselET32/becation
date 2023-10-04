@@ -24,6 +24,7 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
   
   const fetch = async ()=>{
     try {
+      if(!item){return}
       setLoaded(false)
       if(!item){return}
       const vacation = await getVacationById(item?.id)
