@@ -184,12 +184,6 @@ export default function Home({auth}){
         }
     };
 
-    // Función para manejar las acciones de la tabla
-    const handleAction = (e) => {
-        switch (e.type) {}
-        useEffect(() => {},handleAction,)
-        name
-    };
     // Función que se llama en la tabla para condicional las acciones
     const isDisabledCondition = (row,child) =>{
         // row es la fila a analisar y child es el boton de accion que estan abajo

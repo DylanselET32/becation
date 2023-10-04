@@ -39,7 +39,7 @@ export default function Login ({auth}){
           setMsg("Complete los datos")
           return
         }
-        const [data, status]= await login(form)
+        const {data, status}= await login(form)
         if(status == 401){
           
           setMsg("Contraseña Incorrecta")
