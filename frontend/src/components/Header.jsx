@@ -3,6 +3,7 @@ import LogoBecation from "../imgs/BeCation_logo.png"
 import "../stylesheets/header.css"
 import ConfirmationModal from './ConfirmationModal';
 import useConfirmation from '../hooks/useConfirmation';
+//import ReturnLinks from './HeaderVariants';
 const Header = ({auth}) => {
 
 const user = auth ? auth.user : null;
