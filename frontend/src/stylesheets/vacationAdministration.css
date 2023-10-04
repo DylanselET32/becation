@@ -3,6 +3,18 @@
     
 }
 
+.select_filter{
+    padding: 5px;
+    border-radius: 10px;
+    border: 0.3px solid rgb(117, 117, 117);
+}
+
+
+
+.vacation_manager{
+    padding: 2rem;
+}
+
 .manager_container{
     
     width: 90vw;
