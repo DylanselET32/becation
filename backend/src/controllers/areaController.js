@@ -14,7 +14,7 @@ const getAllAreas = async (req, res)=>{
 
 const getAreaById = async (req, res)=>{
     try {
-        const idArea = req.params.area_id;
+        const idArea = req.params.id;
         const respuesta = await AreaDAO.getAreaById(idArea);
         res.status(200).json(respuesta);
     }catch (error) {
@@ -25,7 +25,7 @@ const getAreaById = async (req, res)=>{
 
 const getAreaByColumn = async (req, res)=>{
     try {
-        const columnName = req.params.area_name;
+        const columnName = req.params.name;
         const respuesta = await AreaDAO.getAreaById(columnName);
         res.status(200).json(respuesta);
     }catch (error) {

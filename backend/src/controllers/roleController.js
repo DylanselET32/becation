@@ -13,7 +13,7 @@ const getAllRoles = async (req, res)=>{
 
 const getRoleById = async (req, res)=>{
     try {
-        const idRol = req.params.role_id;
+        const idRol = req.params.id;
         const respuesta = await RoleDAO.getRoleById(idRol);
         res.status(200).json(respuesta);
     }catch (error) {
@@ -24,7 +24,7 @@ const getRoleById = async (req, res)=>{
 
 const getRoleByName = async (req, res)=>{
     try {
-        const nameRol = req.params.role_name;
+        const nameRol = req.params.name;
         const respuesta = await RoleDAO.getRoleById(nameRol);
         res.status(200).json(respuesta);
     }catch (error) {
