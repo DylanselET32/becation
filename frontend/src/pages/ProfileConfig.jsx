@@ -6,7 +6,7 @@ import { useAlert } from '../contexts/AlertContext'
 import { compareObjects } from '../helpers/misc/objectsUtils'
 import { useParams } from "react-router-dom";
 
-export default function ProfileConfig({}) {
+export default function ProfileConfig({auth}) {
 
   const initialFilds = {
     name: '',
@@ -26,6 +26,7 @@ export default function ProfileConfig({}) {
   }
 
   const navigate = useNavigate();
+
   const [errorMsg, setErrorMsg] = useState();
   const { alertConfig, setAlertConfig } = useAlert(); // Usa el contexto alert
   const [fetchData, setFetchData] = useState();
@@ -33,6 +34,13 @@ export default function ProfileConfig({}) {
   const [loaded, setLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const params = useParams()
+  
+  useEffect(()=>{
+    const isNotLoginPage = location.pathname !== "/login";
+    if(!auth.user && isNotLoginPage){
+        navigate("/login");
+    }
+}, [auth, navigate]);
 
   const handleClose = () => {
     setErrorMsg(null)

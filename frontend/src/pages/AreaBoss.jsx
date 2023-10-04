@@ -9,12 +9,12 @@ import CustomTable from "../components/CustomTable";
 import { Modal } from "react-bootstrap";
 import AproveVacationBody from "../components/vacationsModal/AproveVacationBody";
 import DenyVacationBody from "../components/vacationsModal/DenyVacationBody";
-import SendRevisionBody from "../components/vacationsModal/SendRevisionBody";
 
 
 export default function AreaBoss({auth}){
 
     const navigate = useNavigate();
+
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
     const [fetchData, setFetchData] = useState([]); //Estado para guardar todas las vacaciones

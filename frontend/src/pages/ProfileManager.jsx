@@ -10,6 +10,7 @@ import ModalDeleteProfile from '../components/profilesModal/ModalDeleteProfile';
 export default function ProfileManager({auth}){
 
   const navigate = useNavigate();
+  
   const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
   const [isAvailableForm, setIsAvailableForm] = useState(false); // Estado que controla si el formulario de empleados está disponible
   const [fetchData, setFetchData] = useState([]); // Estado que guarda los datos de empleados obtenidos del servidor
@@ -19,6 +20,13 @@ export default function ProfileManager({auth}){
   const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal ModalDeleteProfile
   const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
   
+  useEffect(()=>{
+    const isNotLoginPage = location.pathname !== "/login";
+    if(!auth.user && isNotLoginPage){
+        navigate("/login");
+    }
+  }, [auth, navigate]);
+
   // Función para obtener los empleados del servidor
   const fetchEmployers = async () => {
     try {

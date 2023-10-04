@@ -8,8 +8,10 @@ import { Modal } from "react-bootstrap";
 import AproveVacationBody from "../components/vacationsModal/AproveVacationBody";
 import DenyVacationBody from "../components/vacationsModal/DenyVacationBody";
 import SendRevisionBody from "../components/vacationsModal/SendRevisionBody";
+import { useNavigate } from "react-router-dom";
 
-export default function VacationManager(){
+
+export default function VacationManager({auth}){
 
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
@@ -18,6 +20,14 @@ export default function VacationManager(){
     const [showModalDeny, setShowModalDeny ] = useState(false);
     const [showModalSendRevision, setShowModalSendRevision ] = useState(false)
     const [noteRevision, setNoteRevision] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        const isNotLoginPage = location.pathname !== "/login";
+        if(!auth.user && isNotLoginPage){
+            navigate("/login");
+        }
+    }, [auth, navigate]);
 
     const [filter, setFilter] = useState([]); // Estado de filtro
 

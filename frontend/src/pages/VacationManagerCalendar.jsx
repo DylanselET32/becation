@@ -7,7 +7,7 @@ import "../stylesheets/calendarAdministration.css";
 import { getAllVacationsByArea, getVacationById } from "../services/vacationService";
 import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 
-export default function VacationManagerCalendar(){
+export default function VacationManagerCalendar({auth}){
     const id_vacacion = useParams();
     const [vacations, setVacations] = useState([]);
     const [vacationParams,setVacationParams] = useState();
@@ -15,6 +15,13 @@ export default function VacationManagerCalendar(){
     const volverAtras = ()=>{
         navigate(-1);
     };
+
+    useEffect(()=>{
+        const isNotLoginPage = location.pathname !== "/login";
+        if(!auth.user && isNotLoginPage){
+            navigate("/login");
+        }
+    }, [auth, navigate]);
 
     const fetchData = async()=>{
         const vacationByParams = await getVacationById(parseInt(id_vacacion.id));

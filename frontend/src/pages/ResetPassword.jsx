@@ -4,8 +4,10 @@ import "../stylesheets/passwordreset.css"
 import { useState } from "react";
 import { confirmEmailResetPassword, resetPassword } from "../services/employeeServices";
 import { useAlert } from "../contexts/AlertContext";
+import { useNavigate } from "react-router-dom";
 
-export default function ResetPassword(){
+
+export default function ResetPassword({auth}){
     const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
 
     const token = useParams().token
@@ -18,6 +20,14 @@ export default function ResetPassword(){
   const [errorMsg,setErrorMsg] = useState(false)
   const [seePassword1,setSeePassword1] = useState(false)
   const [seePassword2,setSeePassword2] = useState(false)
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    const isNotLoginPage = location.pathname !== "/login";
+    if(!auth.user && isNotLoginPage){
+        navigate("/login");
+    }
+}, [auth, navigate]);
     
   //Este const maneja los cambios a realizar en la contraseña
   const handleChange = (e) => {

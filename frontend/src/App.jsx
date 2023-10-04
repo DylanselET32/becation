@@ -18,7 +18,7 @@ import useAuth from "./hooks/useAuth"
 import { AlertProvider } from "./contexts/AlertContext"
 import ModalAlert from "./components/ModalAlert"
 import AreaBoss from "./pages/AreaBoss"
-import ConfigProfile from "./pages/ConfigProfile"
+import ProfileConfig from "./pages/ProfileConfig"
 
 
 function App() {
