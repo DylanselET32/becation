@@ -13,9 +13,11 @@ import ModalSeeVacationDetaills from '../components/vacationsModal/ModalSeeVacat
 import DeleteVacationBody from '../components/vacationsModal/DeleteVacationBody'
 import ModalEditVacation from '../components/vacationsModal/ModalEditVacation';
 import { Modal } from 'react-bootstrap';
-import { getAllRoles } from '../services/roleServices';
-import { getAllAreas } from '../services/areaServices';
+import { deleteRole, getAllRoles } from '../services/roleServices';
+import { deleteArea, getAllAreas } from '../services/areaServices';
 import Loading from '../components/Loading';
+import ModalEditArea from '../components/areaModal/ModalEditArea';
+import ModalSeeAreaDetails from '../components/areaModal/ModalSeeAreaDetaills';
 export default function AdminAreaRole({auth}){
 
     const navigate = useNavigate();
@@ -36,12 +38,16 @@ export default function AdminAreaRole({auth}){
     const [fetchRoles, setFetchRoles] = useState([]); // Estado que guarda los datos de vacaciones obtenidos del servidor
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
-    const [showModalSeeDetails,setShowModalSeeDetails] = useState(false); // Estado que controla al modal 
-    const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal deletevacation
-    const [showModalEdit,setShowModalEdit] = useState(false); // Estado que controla al modal deletevacation
+    const [showModalSeeDetailsArea,setShowModalSeeDetailsArea] = useState(false); // Estado que controla al modal 
+    const [showModalSeeDetailsRole,setShowModalSeeDetailsRole] = useState(false); // Estado que controla al modal 
+    const [showModalDeleteArea,setShowModalDeleteArea] = useState(false); // Estado que controla al modal deletevacation
+    const [showModalDeleteRole,setShowModalDeleteRole] = useState(false); // Estado que controla al modal deletevacation
+    const [showModalEditArea,setShowModalEditArea] = useState(false); // Estado que controla al modal deletevacation
+    const [showModalEditRole,setShowModalEditRole] = useState(false); // Estado que controla al modal deletevacation
     const [isLoaded,setIsLoaded] = useState(false); 
 
-    const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
+    const toggleShowModalDeleteArea = ()=>{setShowModalDeleteArea(!showModalDeleteArea)};
+    const toggleShowModalDeleteRole = ()=>{setShowModalDeleteRole(!showModalDeleteRole)};
     // Función para obtener las vacaciones del servidor
     const fetchVacations = async () => {
         try {
@@ -109,10 +115,13 @@ export default function AdminAreaRole({auth}){
     useEffect((e) => {
         switch (actionButton){
             case "edit":
-                hanleEditVacation(selectItem);
+                setShowModalEditArea(true)
                 break;
-            case "delete":
-                hanleDeleteVacation(selectItem);
+            case "deleteArea":
+                toggleShowModalDeleteArea();
+                break;
+            case "deleteRole":
+                toggleShowModalDeleteRole();
                 break;
             case "seeDetails":
                 hanleSeeDetailsVacation(selectItem);
@@ -121,17 +130,7 @@ export default function AdminAreaRole({auth}){
         }
     },[selectItem,actionButton]);
 
-    // Función para manejar la edición de una vacación
-    const hanleEditVacation = (item) => {
-        setShowModalEdit(true)
-    };
-
-    // Función para manejar la eliminación de una vacación
-    const hanleDeleteVacation = async (item) => {
-        toggleShowModalDelete()
-    };
     
-
     // Función para manejar la visualización de detalles de una vacación
     const hanleSeeDetailsVacation = (item) => {
         setShowModalSeeDetails(true)
@@ -146,18 +145,28 @@ export default function AdminAreaRole({auth}){
 
     return(
         <div className="container-lg">
-            <Modal show={showModalDelete} onHide={toggleShowModalDelete}>
+            <Modal show={showModalDeleteArea && !showModalDeleteRole} onHide={toggleShowModalDeleteArea}>
                   <DeleteVacationBody
-                    title="Eliminar Vacacion"
+                    title="Eliminar Area"
                     refresh={refresh}
-                    toggle={toggleShowModalDelete}
+                    toggle={toggleShowModalDeleteArea}
                     item={selectItem}
-                    itemView=""
-                    delete={deleteVacation}
+                    delete={deleteArea}
                   />
             </Modal>
-            <ModalEditVacation show={showModalEdit} setShow={setShowModalEdit} item={selectItem} refresh={refresh}/>
-            <ModalSeeVacationDetaills show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
+            <Modal show={showModalDeleteRole && !showModalDeleteArea} onHide={toggleShowModalDeleteRole}>
+                  <DeleteVacationBody
+                    title="Eliminar Rol"
+                    refresh={refresh}
+                    toggle={toggleShowModalDeleteRole}
+                    item={selectItem}
+                    delete={deleteRole}
+                  />
+            </Modal>
+            <ModalEditArea show={showModalEditArea} setShow={setShowModalEditArea} item={selectItem} refresh={refresh}/>
+            <ModalSeeAreaDetails show={showModalSeeDetailsArea} setShow={setShowModalSeeDetailsArea} item={selectItem}/>
+            {/* <ModalEditRole show={showModalEditRole} setShow={setShowModalEditArea} item={selectItem} refresh={refresh}/>
+            <ModalSeeRoleDetails show={showModalSeeDetailsRole} setShow={setShowModalSeeDetailsRole} item={selectItem}/> */}
             
             {isLoaded?
             <div className="row">
@@ -166,15 +175,12 @@ export default function AdminAreaRole({auth}){
                         <CustomTable
                             rows={formatAreaToTable(fetchAreas).filter(v=>v)}
                             fields={[
-                                // ["date_asked","Solicitud"],
                                 ["area","Nombre"],
                                 ["area_manager","Jefe"],
                                 ["to_create","Creacion"],
                             ]}
                             setSelectItem={setSelectItem}
-                            msgNotRows="No hay vacaciones pendientes"
-                            isDisabledCondition={isDisabledCondition}
-                            
+                            msgNotRows="No hay areas pendientes"                            
                         > 
                             <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
                             <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
@@ -186,14 +192,12 @@ export default function AdminAreaRole({auth}){
                         <CustomTable
                             rows={formatRoleToTable(fetchRoles).filter(v=>v)}
                             fields={[
-                                // ["date_asked","Solicitud"],
                                 ["role_name","Nombre"],
                                 ["to_create","Fecha de Creacion"],
                                 
                             ]}
                             setSelectItem={setSelectItem}
-                            msgNotRows="No hay vacaciones pendientes"
-                            isDisabledCondition={isDisabledCondition}
+                            msgNotRows="No hay roles presentes"
         
                         > 
                             <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>

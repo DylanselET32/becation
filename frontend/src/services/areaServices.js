@@ -105,7 +105,7 @@ export async function editArea(id, area) {
 /* MÉTODO DELETE */
 export async function deleteArea(id) {
     try {
-        const response = await fetch(`${apiUrl}/area/deleteArea/${id}`, {
+        const response = await fetch(`${apiUrl}/${apiVersion}/area/deleteArea/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
