@@ -176,7 +176,7 @@ export default function AdminAreaRole({auth}){
                             rows={formatAreaToTable(fetchAreas).filter(v=>v)}
                             fields={[
                                 ["area","Nombre"],
-                                ["area_manager","Jefe"],
+                                ["name","Jefe"],
                                 ["to_create","Creacion"],
                             ]}
                             setSelectItem={setSelectItem}
