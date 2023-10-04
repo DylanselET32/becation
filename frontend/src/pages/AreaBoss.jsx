@@ -1,7 +1,8 @@
 import {React} from "react";
 import "../stylesheets/vacationAdministration.css"
+import { getUser } from "../services/userServices";
 import { useState, useEffect } from "react";
-import {  getVacations, editVacation } from "../services/vacationService";
+import {  getVacations, editVacation, getAllVacationsByArea  } from "../services/vacationService";
 import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 import CustomTable from "../components/CustomTable";
 import { Modal } from "react-bootstrap";
@@ -10,14 +11,13 @@ import DenyVacationBody from "../components/vacationsModal/DenyVacationBody";
 import SendRevisionBody from "../components/vacationsModal/SendRevisionBody";
 
 
-export default function AdminArea(){
+export default function AreaBoss(){
 
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
     const [fetchData, setFetchData] = useState([]); //Estado para guardar todas las vacaciones
     const [showModalAprove,setShowModalAprove] = useState(false); // Estado que controla al modal deletevacation
     const [showModalDeny, setShowModalDeny ] = useState(false);
-
 
     const [filter, setFilter] = useState([]); // Estado de filtro
 
@@ -30,16 +30,19 @@ export default function AdminArea(){
     const fetchVacations = async () => {
         try {
 
-            setFetchData([])
-            const vacations = await getVacations();
 
-            const vacationsAproved = vacations.data.filter(v => v.area_manager_authorization == null)
+            const user = await getUser();
+            const userId = await user.data.area_id;
+
+            setFetchData([])
+            const vacations = await getAllVacationsByArea(userId);
+
+            const vacationsAproved = vacations.data.filter(f => f.area_manager_authorization == null)
 
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
             setFetchData(vacationsAproved);
             
-            setFilter(vacationsAproved.filter(f => f.status == null))     
-            console.log("VACAS APROBADAS: ", vacationsAproved)
+            setFilter(vacationsAproved.filter(f => f.area_manager_authorization == null))     
         } catch (error) {
             setAlertConfig({
                 show: true,
@@ -63,13 +66,6 @@ export default function AdminArea(){
             case "deny":
                 handleDenyVacation(selectItem);
                 break;
-            case "sendNote":
-                handleSendNote(selectItem);
-                break; 
-            case "calendar":
-                handleSeeCalendar(selectItem);
-                break;
-
         }
     },[selectItem,actionButton]);
 
@@ -134,7 +130,7 @@ export default function AdminArea(){
         const fechaFormateada = `${anio}-${mes}-${dia}T${hora}:${minutos}:${segundos}`;
         return fechaFormateada;
       }
-      
+
 
     //Acciones de vacacion
     const handleAproveVacation = (item) => {
@@ -147,14 +143,7 @@ export default function AdminArea(){
         toggleShowModalDeny()
     };
     
-    const handleSendNote = (item) => {
-        console.log("Nota a... ",item);
-        toggleShowModalSendRevision();
-    };
-
-    const handleSeeCalendar = () => {
-        console.log("redireccionando... ",item)
-    }
+   
 
     //Recarga la pagina
     const refresh = () => {
@@ -187,74 +176,42 @@ export default function AdminArea(){
         setFilter(temporalFilter)
     }
 
-    const editVacationFetch = async (selectItem, newStatus)=>{
+    const editVacationFetch = async (selectItem, newAuth)=>{
         let newVacationState = {
             employee: selectItem.employee,
             start_date: `${formatDateToSend(selectItem.start_date)}T00:00:00`,
             end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
-            status: newStatus,
+            status: null,
             note: selectItem.note,
             date_asked: formatDateAsked(selectItem.date_asked),
-            area_manager_authorization: selectItem.area_manager_authorization
+            area_manager_authorization: newAuth
         }
 
         console.log("LO QUE SE ENVÍA", newVacationState)
+
         let idVacation = selectItem.id
         const response = editVacation(newVacationState, idVacation)
         const data = await response.data
         console.log("RESPONSE: ", data )
     }
 
-    const editVacationNoteFetch = async (selectItem, newStatus)=>{
-        let newVacationState = {
-            employee: selectItem.employee,
-            start_date: `${formatDateToSend(selectItem.start_date)}T00:00:00`,
-            end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
-            status: newStatus,
-            note: noteRevision,
-            date_asked: formatDateAsked(selectItem.date_asked),
-            area_manager_authorization: selectItem.area_manager_authorization
-        }
-
-        console.log("LO QUE SE ENVÍA", newVacationState)
-        let idVacation = selectItem.id
-        const response = editVacation(newVacationState, idVacation)
-        const data = await response.data
-    }
 
     //Prueba de acciones
         const aproveVacation = ()=> {
-            editVacationFetch(selectItem, "aproved")
+            editVacationFetch(selectItem, 1)
             window.location.reload();
         }
 
         const denyVacation =()=>{
-            editVacationFetch(selectItem, "denied")
+            editVacationFetch(selectItem, 0)
             window.location.reload();
         }
 
-        const sendRevision = ()=>{
-            editVacationNoteFetch(selectItem, "revision")
-            console.log("Nota enviada...")
-            window.location.reload();
-        }
-
+   
     return(
         
         <div className="vacation_manager">
  <h2>Gestión de Vacaciones</h2>
-            {/* MODAL DE REVISIÓN */}
-            <Modal show={showModalSendRevision} onHide={toggleShowModalSendRevision}>
-                <SendRevisionBody
-                    title="Enviar Nota"
-                    refresh={refresh}
-                    toggle={toggleShowModalSendRevision}
-                    item={selectItem}
-                    sendRevision={sendRevision}
-                    handleNoteChange={handleNoteChange}
-                    >
-                </SendRevisionBody>
-            </Modal>
 
             {/* MODAL DE DENEGACÓN */}
             <Modal show={showModalDeny} onHide={toggleShowModalDeny}>
@@ -283,11 +240,7 @@ export default function AdminArea(){
             <select name="filterVacation" id="filterVacation" onChange={handleFilter} className="select_filter" >
                 <option value="null">Pending</option>
                 <option value="denied">Denieded</option>
-                <option value="aproved">Approved</option>
-                <option value="revision">In Revision</option>
                 <option value="all">All</option>
-
-
             </select>
 
             <CustomTable
@@ -304,8 +257,7 @@ export default function AdminArea(){
                 > 
                 <button className="btn p-0 btn_table w-100" name='aprove' onClick={()=>{setActionButton("aprove")}}>Aprobar <i className="bi bi-pencil-square"></i></button>
                 <button className="btn p-0 btn_table w-100" name='deny' onClick={()=>{setActionButton("deny")}}>Denegar <i className="bi bi-calendar-x-fill"></i></button>
-                <button className="btn p-0 btn_table w-100" name='sendNote' onClick={()=>{setActionButton("sendNote")}}>Mandar Comentario <i className="bi bi-eye"></i></button>
-                <button className="btn p-0 btn_table w-100" name='calendar' onClick={()=>{setActionButton("calendar")}}>Ver en Calendario<i className="bi bi-eye"></i></button>
+
 
 
             </CustomTable>
