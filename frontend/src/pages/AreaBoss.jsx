@@ -2,6 +2,7 @@ import {React} from "react";
 import "../stylesheets/vacationAdministration.css"
 import { getUser } from "../services/userServices";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {  getVacations, editVacation, getAllVacationsByArea  } from "../services/vacationService";
 import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 import CustomTable from "../components/CustomTable";
@@ -11,8 +12,9 @@ import DenyVacationBody from "../components/vacationsModal/DenyVacationBody";
 import SendRevisionBody from "../components/vacationsModal/SendRevisionBody";
 
 
-export default function AreaBoss(){
+export default function AreaBoss({auth}){
 
+    const navigate = useNavigate();
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
     const [fetchData, setFetchData] = useState([]); //Estado para guardar todas las vacaciones
@@ -24,7 +26,12 @@ export default function AreaBoss(){
     const toggleShowModalDeny = ()=>{setShowModalDeny(!showModalDeny)};
     const toggleShowModalAprove = ()=>{setShowModalAprove(!showModalAprove)};
 
-
+    useEffect(()=>{
+        const isNotLoginPage = location.pathname !== "/login";
+        if(!auth.user && isNotLoginPage){
+            navigate("/login");
+        }
+    }, [auth, navigate]);
 
     //Pedir todas las vacaciones y mostrarlas
     const fetchVacations = async () => {

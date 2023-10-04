@@ -18,6 +18,7 @@ import useAuth from "./hooks/useAuth"
 import { AlertProvider } from "./contexts/AlertContext"
 import ModalAlert from "./components/ModalAlert"
 import AreaBoss from "./pages/AreaBoss"
+import ConfigProfile from "./pages/ConfigProfile"
 
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
             <Route path="/vacationManager" element={<VacationManager auth={auth} />} />
             <Route path="/vacationManagerCalendar/:id" element={<VacationManagerCalendar auth={auth} />} />
             <Route path="/profileManager" element={<ProfileManager auth={auth} />} />
-            {/* <Route path="/profileConfig" element={<ProfileConfig auth={auth} />} /> */}
+            <Route path="/profileConfig" element={<ConfigProfile auth={auth} />} />
             <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
             <Route path="/resetPassword/:token" element={<ResetPassword auth={auth} />} />
             <Route path="*" element={<NotFound />} />

@@ -9,10 +9,6 @@ import { addVacation, deleteVacation, editVacation, getVacations } from '../serv
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
 import CustomTable from '../components/CustomTable';
-import CheckIcon from "../imgs/check.svg";
-import CrossIcon from "../imgs/cross.svg";
-import QuestionIcon from "../imgs/question-square.svg";
-import ViewEye from "../imgs/eye.svg";
 import ModalSeeVacationDetaills from '../components/vacationsModal/ModalSeeVacationDetaills';
 import ConfirmationModal from '../components/ConfirmationModal';
 import useConfirmation from '../hooks/useConfirmation';

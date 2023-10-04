@@ -1,27 +1,37 @@
 import "../stylesheets/configprofile.css"
+import { useNavigate } from "react-router-dom";
 
-import { useState } from "react";
 
-export default function ConfigProfile(){
+import { useState , useEffect } from "react";
 
-  const [profile, setProfile] = useState({
-    name: '',
-    surname: '',
-    password: '',
-    email: '',
-    dni: '',
-    privileges: '',
-    role_id: '',
-    area_id: '',
-    avaible_days: '',
-    total_days: '',
-    is_acumulative: '',
-    contrat_day: '',
-    sign_up_date: '',
+export default function ConfigProfile({auth}){
 
+    const navigate = useNavigate();
+
+    const [profile, setProfile] = useState({
+        name: '',
+        surname: '',
+        password: '',
+        email: '',
+        dni: '',
+        privileges: '',
+        role_id: '',
+        area_id: '',
+        avaible_days: '',
+        total_days: '',
+        is_acumulative: '',
+        contrat_day: '',
+        sign_up_date: '',
 
     // Otros campos de perfil
   });
+
+  useEffect(()=>{
+    const isNotLoginPage = location.pathname !== "/login";
+    if(!auth.user && isNotLoginPage){
+        navigate("/login");
+    }
+}, [auth, navigate]);
     
   //Este const maneja los cambios a realizar en el perfil
   const handleChange = (e) => {
