@@ -30,7 +30,7 @@ return (<>
             <ul className='routes_links_container'>
                 <li className='li_route'><a href="home">Home</a></li>
                 {!user ? <li className='li_route'><a href="login">Login</a></li> : <li className='li_route'><a onClick={singOut}>Logout</a></li>}
-                {user?.privileges >= 2 ? <li className='li_route'><a href="adminArea">Admin. del area</a></li> : ""}
+                {user?.privileges >= 2 ? <li className='li_route'><a href="areaBoss">Jefe del area</a></li> : ""}
                 {user?.privileges >= 3 ? <li className='li_route'><a href="vacationManager">Admin. Vacaciones</a></li> : ""}
                 {user?.privileges >= 3 ? <li className='li_route'><a href="profileManager">Admin. de Perfiles</a></li> : ""}
                 {user?.privileges >= 3 ? <li className='li_route'><a href="adminAreaRole">Admin. Area-Rol</a></li> : ""}
@@ -44,7 +44,7 @@ return (<>
                 <li className='li_route'><a href="home">Home</a></li>
                 <li className='li_route'><a href="login">Login</a></li>
                 <li className='li_route'><a onClick={singOut}>Logout</a></li>
-                {user?.privileges >= 2 ? <li className='li_route'><a href="adminArea">Admin. del area</a></li> : ""}
+                {user?.privileges >= 2 ? <li className='li_route'><a href="areaBoss">Jefe del area</a></li> : ""}
                 {user?.privileges >= 3 ? <li className='li_route'><a href="vacationManager">Admin. Vacaciones</a></li> : ""}
                 {user?.privileges >= 3 ? <li className='li_route'><a href="profileManager">Admin. de Perfiles</a></li> : ""}
                 {user?.privileges >= 3 ? <li className='li_route'><a href="adminAreaRole">Admin. Area-Rol</a></li> : ""}
