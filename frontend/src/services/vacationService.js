@@ -22,27 +22,6 @@ export async function getVacationById(id) {
   }
 }
 
-/*
-export async function getVacationByColumn(nombreV){
-  try {
-      const response = await fetch(`${apiUrl}/${apiVersion}/area/getVacationByColumn/${nombreV}`, {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${getAuthToken()}`,
-          },
-      });
-      const data = await response.json();
-      const status = response.status;
-      if (status == 500) throw new Error('Error al conseguir la vacacion'); 
-      return {data, status};
-  } catch (error) {
-      console.error(error);
-      throw new Error("Error al solicitar la vacacion");
-  }
-}
-*/
-
 export async function getAllVacations() {
   try {
     const response = await fetch(`${apiUrl}/${apiVersion}/vacation/getAllVacations`, {

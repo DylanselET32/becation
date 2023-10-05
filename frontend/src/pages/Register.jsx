@@ -5,9 +5,8 @@ import EyeHiden from "../imgs/eye.svg";
 import { useEffect, useState } from "react";
 import { addEmployer } from "../services/employeeServices";
 import { getAllAreas } from "../services/areaServices";
-//import ModalAlert from "../components/ModalAlert"
-//import useModalAlert from "../helpers/useModalAlert"
-//import { login } from "../services/userServices"
+import { useNavigate } from "react-router-dom";
+
 
 const initalForm = {
     nombre: "",
@@ -33,13 +32,23 @@ function FormGroup({ label, name, type, value, onChange }) {
     );
 }
 
-export default function Register (){
+export default function Register ({auth}){
     
     const [passHidden, setPassHidden] = useState(false);
     const [form, setForm] = useState(initalForm);
     const [areas, setAreas] = useState([]);
     const [fetchData,setFetchData] = useState();
     const [vacationToEdit,setVacationToEdit] = useState();
+    const navigate = useNavigate();
+
+
+    useEffect(()=>{
+        const isNotLoginPage = location.pathname !== "/login";
+        if(!auth.user && isNotLoginPage){
+            navigate("/login");
+        }
+    }, [auth, navigate]);
+
 
     const handleClose = () => {
         setFetchData(null);
