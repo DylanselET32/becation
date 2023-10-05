@@ -16,7 +16,7 @@ export async function disableUser() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -35,7 +35,7 @@ export async function disableUserByEmployerId(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -56,7 +56,7 @@ export async function login(email, pass) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -74,7 +74,7 @@ export async function resetPassword(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -93,7 +93,7 @@ export async function confirmEmailResetPassword(obj, token) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -114,7 +114,7 @@ export async function getAllEmployers() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -133,7 +133,7 @@ export async function getEmployer() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -152,7 +152,7 @@ export async function getAllEmployersByArea(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -171,7 +171,7 @@ export async function getEmployerById(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -192,7 +192,7 @@ export async function addEmployer(employer) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`); 
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -213,7 +213,7 @@ export async function editEmployer(employer) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -233,7 +233,7 @@ export async function editEmployerById(employer, id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -253,7 +253,7 @@ export async function deleteEmployer(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);

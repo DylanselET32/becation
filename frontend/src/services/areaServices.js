@@ -14,7 +14,7 @@ export async function getAreaById(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -33,7 +33,7 @@ export async function getAreaByColumn(nombreArea){
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -52,7 +52,7 @@ export async function getAllAreas() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -73,7 +73,7 @@ export async function addArea(area) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -94,7 +94,7 @@ export async function editArea(obj,id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -114,7 +114,7 @@ export async function deleteArea(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);

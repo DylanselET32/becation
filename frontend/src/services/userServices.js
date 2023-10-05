@@ -71,7 +71,7 @@ export async function deleteUser() {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);

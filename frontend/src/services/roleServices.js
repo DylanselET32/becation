@@ -14,7 +14,7 @@ export async function getRoleById(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -33,7 +33,7 @@ export async function getRoleByName(nombreRol){
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -52,7 +52,7 @@ export async function getAllRoles() {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -73,7 +73,7 @@ export async function addRole(role) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -82,7 +82,7 @@ export async function addRole(role) {
 }
 
 /* MÉTODO PATCH */
-export async function editRole(id, role) {
+export async function editRole(obj,id) {
     try {
         const response = await fetch(`${apiUrl}/${apiVersion}/role/editRole/${id}`, {
             method: "PATCH",
@@ -90,11 +90,11 @@ export async function editRole(id, role) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getAuthToken()}`,
             },
-            body: JSON.stringify(role),
+            body: JSON.stringify(obj),
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor.'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
@@ -114,7 +114,7 @@ export async function deleteRole(id) {
         });
         const data = await response.json();
         const status = response.status;
-        if (status == 500) throw new Error('Error en el servidor'); 
+        if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
         return {data, status};
     } catch (error) {
         console.error(error);
