@@ -1,4 +1,5 @@
 const RoleDAO = require('../DAO/RoleDAO');
+const EmployerDAO = require('../DAO/EmployerDAO');
 const { formatFullDateTime } = require('../utils/dateUtils');
 
 const getAllRoles = async (req, res)=>{
