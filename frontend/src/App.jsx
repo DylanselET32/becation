@@ -1,9 +1,7 @@
 import Header from "./components/Header"
 import Login from "./pages/Login"
 import Home from "./pages/Home"
-import AdminArea from "./pages/AdminArea"
-
-
+import AdminAreaRole from "./pages/AdminAreaRole"
 import '../src/App.css'
 import VacationManager from "./pages/VacationManager"
 import VacationManagerCalendar from "./pages/VacationManagerCalendar"

@@ -95,7 +95,7 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
               {errorMsg}
             </div>
           )}
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formStartDate">
               <Form.Label>Fecha de Inicio</Form.Label>
               <Form.Control

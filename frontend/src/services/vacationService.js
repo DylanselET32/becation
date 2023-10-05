@@ -14,7 +14,7 @@ export async function getVacationById(id) {
       });
       const data = await response.json();
       const status = response.status;
-      if (status == 500) throw new Error('Error en el servidor'); 
+      if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
       return {data, status};
   } catch (error) {
       console.error(error);
@@ -33,7 +33,7 @@ export async function getAllVacations() {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor.'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);
@@ -52,7 +52,7 @@ export async function getVacations() {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor.'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);
@@ -71,7 +71,7 @@ export async function getAllVacationsByArea(idArea) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor.'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);
@@ -90,7 +90,7 @@ export async function getAllVacationsByUser() {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor.'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);
@@ -109,7 +109,7 @@ export async function getAllVacationsByEmployerId(id) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);
@@ -130,7 +130,7 @@ export async function getAllVacationsBetweenDates(start_date, end_date) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor.'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);
@@ -151,7 +151,7 @@ export async function addVacation(vacation) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor.'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error ||data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);
@@ -172,7 +172,7 @@ export async function editVacation(vacation, id) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status == 500) throw new Error('Error en el servidor'); 
+    if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
     return {data, status};
   } catch (error) {
     console.error(error);
@@ -192,7 +192,7 @@ export async function deleteVacation(id) {
       });
       const data = await response.json();
       const status = response.status;
-      if (status == 500) throw new Error('Error en el servidor'); 
+      if (status != 200) throw new Error(`Error en el servidor, ${data?.error || data?.message}`);
       return {data, status};
   } catch (error) {
       console.error(error);
