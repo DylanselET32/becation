@@ -128,14 +128,14 @@ main{
 
 /* Responsive */
 
-@media screen and (max-width:  1134px) {
+@media screen and (max-width:  634px) {
 
     .container{
         margin: 2rem 0 0 0;
     }
 
     .form{
-        width: 90% !important;
+        width: 100% !important;
     }
     .personal, .cuenta{
         width: 100% !important;
@@ -143,11 +143,11 @@ main{
 
     .fields{
         display: flex;
-        flex-direction: column;
+        
     }
 
     .input-field{
-        width: 90% !important;
+        width: 40% !important;
     }
 
     .Btn{
@@ -156,40 +156,20 @@ main{
     
 }
 
-/*
-@media screen and (max-width: 750px){
-    .container{
-        width: 100%;
+@media screen and (max-width:  534px) {
+
+   
+    .fields{
+        display: flex;
+        flex-direction: column;
+        
     }
-    .container form{
-        overflow-y: scroll;
+
+    .input-field{
+        width: 90% !important;
     }
-    .container form::-webkit-scrollbar{
-        display: none;
-    }
-    form .fields .input-field{
-        width: calc(100% / 2 - 15px);
-    }
+
+    
+    
 }
 
-@media screen and (max-width: 550px){
-    form .fields .input-field{
-        width: 100%;
-    }
-}
-
-
-
-@media screen and (max-width: 500px){
-    .form {
-        width: 100%; 
-    }
-}
-*/
-
-/* @media screen and (max-width: 1132px){
-    .form {
-        min-width: 12rem;
-        font-size: .9rem;
-    }
-} */

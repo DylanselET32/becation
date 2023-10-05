@@ -103,7 +103,7 @@ export default function ProfileManager({auth}){
       </Modal>
       <ModalSeeProfileDetails show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
       <div className="row">
-        <section className='d-flex flex-column mt-3 col-lg-6 col-md-12 col-10 text-center mx-auto d-flex'>
+        <section className='d-flex flex-column mt-3 col-md-12 col-10 text-center mx-auto d-flex'>
           <CustomTable
             rows={fetchData.filter(v=>v.is_able==true)}
             fields={[
@@ -115,7 +115,6 @@ export default function ProfileManager({auth}){
             ]}
             setSelectItem={setSelectItem}
             msgNotRows="No se encontraron empleados"
-            maxHeight={!isAvailableForm?"75vh":'48vh'}
           > 
             <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
             <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
