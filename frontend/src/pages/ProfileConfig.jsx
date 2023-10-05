@@ -8,6 +8,9 @@ import { useState, useEffect } from "react";
 import { useAlert } from "../contexts/AlertContext";
 import { compareObjects } from "../helpers/misc/objectsUtils";
 import { useParams } from "react-router-dom";
+import { getAllAreas } from "../services/areaServices";
+import Select from "react-select";
+import { getAllRoles } from "../services/roleServices";
 
 export default function ProfileConfig({ auth }) {
   const initialFilds = {
@@ -60,7 +63,23 @@ export default function ProfileConfig({ auth }) {
       if (profile.status != 200) {
         throw new Error(profile.data.message || profile.data.error);
       }
-      setFetchData(profile.data);
+      const areas = await getAllAreas()
+      if (areas.status != 200) { throw new Error(areas.data.message || areas.data.error) }
+
+      const areasOrder = areas.data.map(area => ({
+        value: area.id,
+        label: area.area
+      }));
+
+      const roles = await getAllRoles()
+      if (roles.status != 200) { throw new Error(roles.data.message || roles.data.error) }
+
+      const rolesOrder = roles.data.map(role => ({
+        value: role.id,
+        label: role.role_name
+      }));
+
+      setFetchData({profile:profile.data,areas:areasOrder,roles:rolesOrder});
       setEmployerToEdit(profile.data);
       setLoaded(true);
     } catch (error) {
@@ -74,8 +93,15 @@ export default function ProfileConfig({ auth }) {
     }
   };
 
+  const handleSelectChangeAreas = (selectedOption) => {
+    setEmployerToEdit({ ...employerToEdit, area_id: selectedOption.value });
+  };
+  const handleSelectChangeRoles = (selectedOption) => {
+    setEmployerToEdit({ ...employerToEdit, role_id: selectedOption.value });
+  };
+
   const isChanged = () => {
-    const employerEdited = compareObjects(fetchData, employerToEdit);
+    const employerEdited = compareObjects(fetchData?.profile, employerToEdit);
     return Object.keys(employerEdited).length > 0;
   };
 
@@ -95,9 +121,11 @@ export default function ProfileConfig({ auth }) {
     e.preventDefault();
     setIsSaving(true);
     try {
-      const employerEdited = compareObjects(fetchData, employerToEdit);
+      console.log(fetchData)
+      const employerEdited = compareObjects(fetchData?.profile, employerToEdit);
+      console.log(employerEdited);
       if (isChanged()) {
-        const save = await editEmployerById(employerEdited, fetchData.id);
+        const save = await editEmployerById(employerEdited, fetchData.profile.id);
         if (save.status == 200) {
           setAlertConfig({
             show: true,
@@ -188,11 +216,12 @@ export default function ProfileConfig({ auth }) {
                   </div>
                   <div className="input-field">
                     <label htmlFor="role">Rol</label>
-                    <input
-                      type="text"
-                      onChange={handleChange}
-                      name="role"
-                      value={employerToEdit?.role_id}
+                    <Select
+                      options={fetchData?.roles}
+                      isDisabled={!loaded}
+                      value={(loaded && fetchData?.roles)?fetchData.roles.find(option => option.value == employerToEdit.role_id) : null}
+                      onChange={handleSelectChangeRoles}
+                      placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
                     />
                   </div>
                 </div>
@@ -202,11 +231,12 @@ export default function ProfileConfig({ auth }) {
                 <div className="fields">
                   <div className="input-field">
                     <label htmlFor="area">Area</label>
-                    <input
-                      type="text"
-                      onChange={handleChange}
-                      name="area"
-                      value={employerToEdit?.area_id}
+                    <Select
+                      options={fetchData?.areas}
+                      isDisabled={!loaded}
+                      value={(loaded && fetchData?.areas)?fetchData.areas.find(option => option.value == employerToEdit.area_id) : null}
+                      onChange={handleSelectChangeAreas}
+                      placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
                     />
                   </div>
                   <div className="input-field">
