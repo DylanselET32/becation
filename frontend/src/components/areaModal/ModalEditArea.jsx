@@ -48,25 +48,26 @@ export default function ModalEditArea({ item, show, setShow, refresh }) {
 
   }
   const handleSelectChange = (selectedOption) => {
-    setSelectedEmployerId(selectedOption?.value || null);
+    setAreaToEdit({ ...areaToEdit, area_manager: selectedOption.value })
   };
   const isChanged = () => {
-    const areaEdited = compareObjects(fetchData, areaToEdit)
+    const areaEdited = compareObjects(fetchData?.area, areaToEdit)
     return (Object.keys(areaEdited).length > 0)
   }
   const handleInput = (e) => {
     setErrorMsg("")
     const { name, value } = e.target
-    setAreaToEdit({ ...areaToEdit, [name]: valueToSet })
+    setAreaToEdit({ ...areaToEdit, [name]: value })
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSaving(true)
     try {
-      const areaEdited = compareObjects(fetchData, areaToEdit)
+      const areaEdited = compareObjects(fetchData.area, areaToEdit)
+      console.log(areaEdited)
       if (isChanged()) {
 
-        const save = await editArea(areaEdited, fetchData.id)
+        const save = await editArea(areaEdited, fetchData.area.id)
         if (save.status == 200) {
           setAlertConfig({
             show: true,
@@ -117,18 +118,18 @@ export default function ModalEditArea({ item, show, setShow, refresh }) {
                 onInput={handleInput}
               />
             </Form.Group>
-|
+
             <Form.Group controlId="formEndDate">
               <Form.Label>Jefe de área</Form.Label>
-              {loaded && fetchData.employers&& 
+              
               <Select
-                options={fetchData['employers']}
+                options={(loaded && fetchData.employers)&&fetchData['employers']}
                 isDisabled={!loaded}
-                defaultValue={fetchData['employers'].find(option => option.value === selectedEmployerId)}
+                value={(loaded && fetchData.employers)?fetchData['employers'].find(option => option.value == areaToEdit.area_manager) : null}
                 onChange={handleSelectChange}
-                placeholder="Selecciona un jefe de área"
+                placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
               />
-              }
+              
             </Form.Group>
         </Form>
 

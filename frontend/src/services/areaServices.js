@@ -82,7 +82,7 @@ export async function addArea(area) {
 }
 
 /* MÉTODO PATCH */
-export async function editArea(id, area) {
+export async function editArea(obj,id) {
     try {
         const response = await fetch(`${apiUrl}/${apiVersion}/area/editArea/${id}`, {
             method: "PATCH",
@@ -90,7 +90,7 @@ export async function editArea(id, area) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getAuthToken()}`,
             },
-            body: JSON.stringify(area),
+            body: JSON.stringify(obj),
         });
         const data = await response.json();
         const status = response.status;

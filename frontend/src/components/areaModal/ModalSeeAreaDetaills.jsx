@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { getAllEmployers } from '../../services/employeeServices';
+import { formatDateToString } from '../../helpers/misc/dateUtils';
 
 export default function ModalSeeAreaDetails({ item, show, setShow }) {
   const handleClose = () => setShow(false);
@@ -30,23 +31,19 @@ export default function ModalSeeAreaDetails({ item, show, setShow }) {
           <div>
             <p><span className='fw-bold'>Codigo de Area:</span> {item?.id}</p>
             <p><span className='fw-bold'>Nombre del area:</span> {item?.area}</p>
-            <p><span className='fw-bold'>Jefe del area:</span> {item?.area_manager}</p>
+            <p><span className='fw-bold'>Jefe del area:</span> {`${item?.name} ${item?.surname}`}</p>
+            <p><span className='fw-bold'>Email del Jefe:</span> {`${users.find(u => u.user_id == item?.area_manager)?.email}`}</p>
             <p><span className='fw-bold'>Fecha de creacion:</span> {item?.to_create}</p>
-            <p><span className='fw-bold'>Ultima Modificacion:</span> {item?.to_update_date}</p>
+            <p><span className='fw-bold'>Ultima Modificacion:</span> {item?.to_update_date&&formatDateToString(item?.to_update_date, 'DD/MM/YYYY hh:mm:ss') }</p>
             <p>
               <span className='fw-bold'>Modificado por:</span> {item?.to_update == 0 
                 ? "No Modificado" 
-                : users.find(u => u.user_id == item?.to_update)?.name}
+                :`${users.find(u => u.user_id == item?.to_update)?.name} ${users.find(u => u.user_id == item?.to_update)?.surname}`}
             </p>
             {/* Agrega más detalles según sea necesario */}
           </div>
         </Modal.Body>
-        <Modal.Footer className="text-align-left justify-content-between">
-        <span className={`badge fs-5 ${
-          item?.status== "Aprobado"?'bg-success':
-          item?.status== "Denegado"?'bg-danger':
-          item?.status== "En Evaluación"?'bg-warning':'bg-secondary'
-        }`}>{item?.status}</span>
+        <Modal.Footer className="">
           <Button variant="secondary" onClick={handleClose}>
             Cerrar
           </Button>

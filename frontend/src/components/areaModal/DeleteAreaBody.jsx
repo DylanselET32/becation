@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import { Button, ModalHeader, ModalBody, ModalFooter, Spinner } from 'react-bootstrap';
+import { useAlert } from "../../contexts/AlertContext";
 
-export default function DeleteVacationBody(props) {
+export default function DeleteAreaBody(props) {
     const [canDelete, setCanDelete] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     const [errorMessage,setErrorMessage] = useState(false)
+    const { alertConfig, setAlertConfig } = useAlert(); // Usa el contexto alert
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -17,14 +19,25 @@ export default function DeleteVacationBody(props) {
     const deleteRequest = async (id) => {
         setIsDeleting(true)
         try {
-            await props.delete(id)
-            props.toggle()
-            setIsDeleting(false)
-            props.refresh()
+            const isDelete = await props.delete(id)
+            if (isDelete.status == 200) {
+                setAlertConfig({
+                  show: true,
+                  status: 'success',
+                  title: 'Eliminado',
+                  message: `Se a eliminado con exito`,
+                });
+                props.toggle()
+                setIsDeleting(false)
+                props.refresh()
+              } else {
+                throw new Error("ErrBackend", isDelete.data?.error || isDelete.data?.message)
+              }
+
         } catch (error) {
             console.error(error)
             setIsDeleting(false); // Asegúrate de detener el spinner
-            setErrorMessage('Error al eliminar el area'); // Nuevo estado para el mensaje de error
+            setErrorMessage('Error al eliminar el area, asegurete que ningun empleado este asociado al area, sino no podras eliminarla'); // Nuevo estado para el mensaje de error
         }
     }
 

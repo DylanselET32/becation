@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { useNavigate } from 'react-router-dom';
-import "../stylesheets/calendar.css";
-import interactionPlugin from '@fullcalendar/interaction';
-import FormVacation from '../components/FormVacation';
 import { addVacation, deleteVacation, editVacation, getVacations } from '../services/vacationService';
 import { formatDateToString, operateDate } from '../helpers/misc/dateUtils';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
@@ -18,6 +13,8 @@ import { deleteArea, getAllAreas } from '../services/areaServices';
 import Loading from '../components/Loading';
 import ModalEditArea from '../components/areaModal/ModalEditArea';
 import ModalSeeAreaDetails from '../components/areaModal/ModalSeeAreaDetaills';
+import DeleteAreaBody from '../components/areaModal/DeleteAreaBody';
+import ModalAddArea from '../components/areaModal/ModalAddArea';
 export default function AdminAreaRole({auth}){
 
     const navigate = useNavigate();
@@ -40,10 +37,12 @@ export default function AdminAreaRole({auth}){
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
     const [showModalSeeDetailsArea,setShowModalSeeDetailsArea] = useState(false); // Estado que controla al modal 
     const [showModalSeeDetailsRole,setShowModalSeeDetailsRole] = useState(false); // Estado que controla al modal 
-    const [showModalDeleteArea,setShowModalDeleteArea] = useState(false); // Estado que controla al modal deletevacation
-    const [showModalDeleteRole,setShowModalDeleteRole] = useState(false); // Estado que controla al modal deletevacation
-    const [showModalEditArea,setShowModalEditArea] = useState(false); // Estado que controla al modal deletevacation
-    const [showModalEditRole,setShowModalEditRole] = useState(false); // Estado que controla al modal deletevacation
+    const [showModalDeleteArea,setShowModalDeleteArea] = useState(false); // Estado que controla al modal delet
+    const [showModalDeleteRole,setShowModalDeleteRole] = useState(false); // Estado que controla al modal delete
+    const [showModalEditArea,setShowModalEditArea] = useState(false); // Estado que controla al modal edit
+    const [showModalEditRole,setShowModalEditRole] = useState(false); // Estado que controla al modal edit
+    const [showModalAddArea, setShowModalAddArea] = useState(false); // Estado para el modal de agregar área
+
     const [isLoaded,setIsLoaded] = useState(false); 
 
     const toggleShowModalDeleteArea = ()=>{setShowModalDeleteArea(!showModalDeleteArea)};
@@ -114,8 +113,11 @@ export default function AdminAreaRole({auth}){
     // Efecto para realizar una acción según el botón presionado
     useEffect((e) => {
         switch (actionButton){
-            case "edit":
+            case "editArea":
                 setShowModalEditArea(true)
+                break;
+            case "editRole":
+                setShowModalEditRole(true)
                 break;
             case "deleteArea":
                 toggleShowModalDeleteArea();
@@ -123,18 +125,18 @@ export default function AdminAreaRole({auth}){
             case "deleteRole":
                 toggleShowModalDeleteRole();
                 break;
-            case "seeDetails":
-                hanleSeeDetailsVacation(selectItem);
+            case "seeDetailsArea":
+                setShowModalSeeDetailsArea(true);
+                break;
+            case "seeDetailsRole":
+                setShowModalSeeDetailsRole(true);
                 break;
 
         }
     },[selectItem,actionButton]);
 
     
-    // Función para manejar la visualización de detalles de una vacación
-    const hanleSeeDetailsVacation = (item) => {
-        setShowModalSeeDetails(true)
-    };
+ 
     const refresh = () => {
         fetchVacations();
       };
@@ -146,7 +148,7 @@ export default function AdminAreaRole({auth}){
     return(
         <div className="container-lg">
             <Modal show={showModalDeleteArea && !showModalDeleteRole} onHide={toggleShowModalDeleteArea}>
-                  <DeleteVacationBody
+                  <DeleteAreaBody
                     title="Eliminar Area"
                     refresh={refresh}
                     toggle={toggleShowModalDeleteArea}
@@ -163,6 +165,7 @@ export default function AdminAreaRole({auth}){
                     delete={deleteRole}
                   />
             </Modal>
+            <ModalAddArea show={showModalAddArea} setShow={setShowModalAddArea} refresh={refresh} /> 
             <ModalEditArea show={showModalEditArea} setShow={setShowModalEditArea} item={selectItem} refresh={refresh}/>
             <ModalSeeAreaDetails show={showModalSeeDetailsArea} setShow={setShowModalSeeDetailsArea} item={selectItem}/>
             {/* <ModalEditRole show={showModalEditRole} setShow={setShowModalEditArea} item={selectItem} refresh={refresh}/>
@@ -170,24 +173,25 @@ export default function AdminAreaRole({auth}){
             
             {isLoaded?
             <div className="row">
-                <section className='d-flex flex-column mt-3 col-lg-6 col-md-12 col-10 text-center mx-auto d-flex'>                    
+                <section className='d-flex flex-column mt-3 col-lg-7 col-md-12 col-10 text-center mx-auto d-flex'>                    
                         <h2>Administrador de Areas</h2>
+                        <button className="btn btn-danger p-0 btn_table w-25 px-3  py-1 m-auto fs-6" onClick={()=>setShowModalAddArea(true)}>Agregar Área</button> 
                         <CustomTable
                             rows={formatAreaToTable(fetchAreas).filter(v=>v)}
                             fields={[
                                 ["area","Nombre"],
-                                ["name","Jefe"],
+                                ["name,surname","Jefe"],
                                 ["to_create","Creacion"],
                             ]}
                             setSelectItem={setSelectItem}
                             msgNotRows="No hay areas pendientes"                            
                         > 
-                            <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
-                            <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
-                            <button className="btn p-0 btn_table w-100" name='seeDetails' onClick={()=>{setActionButton("seeDetails")}}>Ver Detalles <i className="bi bi-eye"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("editArea")}}>Editar <i className="bi bi-pencil-square"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("deleteArea")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='seeDetailsArea' onClick={()=>{setActionButton("seeDetailsArea")}}>Ver Detalles <i className="bi bi-eye"></i></button>
                         </CustomTable>
                 </section>
-                <section className='d-flex flex-column mt-3 col-lg-6 col-md-12 col-10 text-center mx-auto d-flex'>                    
+                <section className='d-flex flex-column mt-3 col-lg-5 col-md-12 col-10 text-center mx-auto d-flex'>                    
                         <h2>Administrador de Roles</h2>
                         <CustomTable
                             rows={formatRoleToTable(fetchRoles).filter(v=>v)}
@@ -200,9 +204,9 @@ export default function AdminAreaRole({auth}){
                             msgNotRows="No hay roles presentes"
         
                         > 
-                            <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
-                            <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
-                            <button className="btn p-0 btn_table w-100" name='seeDetails' onClick={()=>{setActionButton("seeDetails")}}>Ver Detalles <i className="bi bi-eye"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("editRole")}}>Editar <i className="bi bi-pencil-square"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("deleteRole")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
+                            <button className="btn p-0 btn_table w-100" name='seeDetailsRole' onClick={()=>{setActionButton("seeDetailsRole")}}>Ver Detalles <i className="bi bi-eye"></i></button>
                         </CustomTable>
                 </section>
             </div>
