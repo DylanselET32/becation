@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { editArea, getAreaById } from '../../services/areaServices';
+import { editRole, getRoleById } from '../../services/roleServices';
 import { formatDateToString } from '../../helpers/misc/dateUtils';
 import { compareObjects } from '../../helpers/misc/objectsUtils';
 import { useAlert } from '../../contexts/AlertContext';
 import { getAllEmployers } from '../../services/employeeServices';
 import Select from "react-select";
 
-export default function ModalEditArea({ item, show, setShow, refresh }) {
+export default function ModalEditRole({ item, show, setShow, refresh }) {
   const [errorMsg, setErrorMsg] = useState();
   const [fetchData, setFetchData] = useState();
-  const [areaToEdit, setAreaToEdit] = useState()
+  const [roleToEdit, setRoleToEdit] = useState(null)
   const [loaded, setLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false); useState
   const { alertConfig, setAlertConfig } = useAlert(); // Usa el contexto alert
@@ -20,7 +20,7 @@ export default function ModalEditArea({ item, show, setShow, refresh }) {
     setShow(false)
     setErrorMsg(null)
     setFetchData(null)
-    setAreaToEdit(null)
+    setRoleToEdit(null)
     setLoaded(false)
     setIsSaving(false)
   };
@@ -29,17 +29,12 @@ export default function ModalEditArea({ item, show, setShow, refresh }) {
     try {
       if (!item) { return }
       setLoaded(false)
-      const area = await getAreaById(item?.id)
-      if (area.status != 200) { throw new Error(area.data.message || area.data.error) }
-      const employers = await getAllEmployers()
-      if (employers.status != 200) { throw new Error(employers.data.message || employers.data.error) }
-
-      const employersOrder = employers.data.map(employer => ({
-        value: employer.id,
-        label: `${employer.name} ${employer.surname}`,
-      }));
-      setFetchData({ area: area.data, employers: employersOrder})
-      setAreaToEdit(area.data)
+      const role = await getRoleById(item?.id)
+      if (role.status != 200) { throw new Error(role.data.message || role.data.error) }
+      
+      
+      setFetchData({ role: role.data})
+      setRoleToEdit(role.data)
       setLoaded(true)
     } catch (error) {
       console.error(error)
@@ -47,27 +42,25 @@ export default function ModalEditArea({ item, show, setShow, refresh }) {
     }
 
   }
-  const handleSelectChange = (selectedOption) => {
-    setAreaToEdit({ ...areaToEdit, area_manager: selectedOption.value })
-  };
+ 
   const isChanged = () => {
-    const areaEdited = compareObjects(fetchData?.area, areaToEdit)
-    return (Object.keys(areaEdited).length > 0)
+    const roleEdited = compareObjects(fetchData?.role, roleToEdit)
+    return (Object.keys(roleEdited).length > 0)
   }
   const handleInput = (e) => {
     setErrorMsg("")
     const { name, value } = e.target
-    setAreaToEdit({ ...areaToEdit, [name]: value })
+    setRoleToEdit({ ...roleToEdit, [name]: value })
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSaving(true)
     try {
-      const areaEdited = compareObjects(fetchData.area, areaToEdit)
-      console.log(areaEdited)
+      const roleEdited = compareObjects(fetchData.role, roleToEdit)
+      console.log(roleEdited)
       if (isChanged()) {
 
-        const save = await editArea(areaEdited, fetchData.area.id)
+        const save = await editRole(roleEdited, fetchData.role.id)
         if (save.status == 200) {
           setAlertConfig({
             show: true,
@@ -101,7 +94,7 @@ export default function ModalEditArea({ item, show, setShow, refresh }) {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Editar Area</Modal.Title>
+          <Modal.Title>Editar Rol</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {errorMsg && (
@@ -111,28 +104,15 @@ export default function ModalEditArea({ item, show, setShow, refresh }) {
             </div>
           )}
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formStartDate">
+            <Form.Group controlId="formName">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
-                name='area'
+                name='role_name'
                 disabled={!loaded}
-                value={(loaded && areaToEdit) ? areaToEdit?.area : "Cargando..."}
+                value={(loaded && roleToEdit) ? roleToEdit?.role_name : "Cargando..."}
                 onInput={handleInput}
               />
-            </Form.Group>
-
-            <Form.Group controlId="formEndDate">
-              <Form.Label>Jefe de área</Form.Label>
-              
-              <Select
-                options={(loaded && fetchData.employers)&&fetchData['employers']}
-                isDisabled={!loaded}
-                value={(loaded && fetchData.employers)?fetchData['employers'].find(option => option.value == areaToEdit.area_manager) : null}
-                onChange={handleSelectChange}
-                placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
-              />
-              
             </Form.Group>
         </Form>
 

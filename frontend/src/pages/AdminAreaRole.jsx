@@ -15,6 +15,12 @@ import ModalEditArea from '../components/areaModal/ModalEditArea';
 import ModalSeeAreaDetails from '../components/areaModal/ModalSeeAreaDetaills';
 import DeleteAreaBody from '../components/areaModal/DeleteAreaBody';
 import ModalAddArea from '../components/areaModal/ModalAddArea';
+
+import ModalEditRole from '../components/roleModal/ModalEditRole';
+import ModalSeeRoleDetails from '../components/roleModal/ModalSeeRoleDetaills';
+import DeleteRoleBody from '../components/roleModal/DeleteRoleBody';
+import ModalAddRole from '../components/roleModal/ModalAddRole';
+
 export default function AdminAreaRole({auth}){
 
     const navigate = useNavigate();
@@ -35,15 +41,19 @@ export default function AdminAreaRole({auth}){
     const [fetchRoles, setFetchRoles] = useState([]); // Estado que guarda los datos de vacaciones obtenidos del servidor
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
+    const [isLoaded,setIsLoaded] = useState(false); 
+
     const [showModalSeeDetailsArea,setShowModalSeeDetailsArea] = useState(false); // Estado que controla al modal 
-    const [showModalSeeDetailsRole,setShowModalSeeDetailsRole] = useState(false); // Estado que controla al modal 
     const [showModalDeleteArea,setShowModalDeleteArea] = useState(false); // Estado que controla al modal delet
-    const [showModalDeleteRole,setShowModalDeleteRole] = useState(false); // Estado que controla al modal delete
     const [showModalEditArea,setShowModalEditArea] = useState(false); // Estado que controla al modal edit
-    const [showModalEditRole,setShowModalEditRole] = useState(false); // Estado que controla al modal edit
     const [showModalAddArea, setShowModalAddArea] = useState(false); // Estado para el modal de agregar área
 
-    const [isLoaded,setIsLoaded] = useState(false); 
+    const [showModalSeeDetailsRole,setShowModalSeeDetailsRole] = useState(false); // Estado que controla al modal 
+    const [showModalDeleteRole,setShowModalDeleteRole] = useState(false); // Estado que controla al modal delete
+    const [showModalEditRole,setShowModalEditRole] = useState(false); // Estado que controla al modal edit
+    const [showModalAddRole, setShowModalAddRole] = useState(false); // Estado para el modal de agregar área
+
+
 
     const toggleShowModalDeleteArea = ()=>{setShowModalDeleteArea(!showModalDeleteArea)};
     const toggleShowModalDeleteRole = ()=>{setShowModalDeleteRole(!showModalDeleteRole)};
@@ -59,9 +69,7 @@ export default function AdminAreaRole({auth}){
             
             const roles = await getAllRoles()
             if(roles.status !== 200) throw new Error("Error de servidor, intentar más tarde");
-           
-            console.log("AREAS",areas)
-            console.log("ROLES",roles)
+         
             setFetchAreas(areas.data);
             setFetchRoles(roles.data);
             setIsLoaded(true)
@@ -157,7 +165,7 @@ export default function AdminAreaRole({auth}){
                   />
             </Modal>
             <Modal show={showModalDeleteRole && !showModalDeleteArea} onHide={toggleShowModalDeleteRole}>
-                  <DeleteVacationBody
+                  <DeleteRoleBody
                     title="Eliminar Rol"
                     refresh={refresh}
                     toggle={toggleShowModalDeleteRole}
@@ -165,17 +173,21 @@ export default function AdminAreaRole({auth}){
                     delete={deleteRole}
                   />
             </Modal>
+            {/* Modals of area */}
             <ModalAddArea show={showModalAddArea} setShow={setShowModalAddArea} refresh={refresh} /> 
             <ModalEditArea show={showModalEditArea} setShow={setShowModalEditArea} item={selectItem} refresh={refresh}/>
             <ModalSeeAreaDetails show={showModalSeeDetailsArea} setShow={setShowModalSeeDetailsArea} item={selectItem}/>
-            {/* <ModalEditRole show={showModalEditRole} setShow={setShowModalEditArea} item={selectItem} refresh={refresh}/>
-            <ModalSeeRoleDetails show={showModalSeeDetailsRole} setShow={setShowModalSeeDetailsRole} item={selectItem}/> */}
+            {/* Modals of role */}
+            <ModalAddRole show={showModalAddRole} setShow={setShowModalAddRole} refresh={refresh} /> 
+            <ModalEditRole show={showModalEditRole} setShow={setShowModalEditRole} item={selectItem} refresh={refresh}/>
+            <ModalSeeRoleDetails show={showModalSeeDetailsRole} setShow={setShowModalSeeDetailsRole} item={selectItem}/>
+            
             
             {isLoaded?
             <div className="row">
                 <section className='d-flex flex-column mt-3 col-lg-7 col-md-12 col-10 text-center mx-auto d-flex'>                    
                         <h2>Administrador de Areas</h2>
-                        <button className="btn btn-danger p-0 btn_table w-25 px-3  py-1 m-auto fs-6" onClick={()=>setShowModalAddArea(true)}>Agregar Área</button> 
+                        <button className="btn btn-danger p-0 btn_table col-lg-5 px-3  py-1 mx-auto fs-6" onClick={()=>setShowModalAddArea(true)}>Agregar Área</button> 
                         <CustomTable
                             rows={formatAreaToTable(fetchAreas).filter(v=>v)}
                             fields={[
@@ -193,6 +205,7 @@ export default function AdminAreaRole({auth}){
                 </section>
                 <section className='d-flex flex-column mt-3 col-lg-5 col-md-12 col-10 text-center mx-auto d-flex'>                    
                         <h2>Administrador de Roles</h2>
+                        <button className="btn btn-danger btn_table col-lg-5 px-3  py-1 mx-auto fs-6" onClick={()=>setShowModalAddRole(true)}>Agregar Rol</button> 
                         <CustomTable
                             rows={formatRoleToTable(fetchRoles).filter(v=>v)}
                             fields={[

@@ -18,7 +18,6 @@ export default function ModalAddArea({ show, setShow, refresh }) {
   const fetch = async () => {
     try {
       setLoaded(false)
-      console.log("FETCH DATA")
       const employers = await getAllEmployers()
       if (employers.status != 200) { throw new Error(employers.data.message || employers.data.error) }
 
@@ -96,7 +95,7 @@ export default function ModalAddArea({ show, setShow, refresh }) {
             {errorMsg}
           </div>
         )}
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formAreaName">
             <Form.Label>Nombre del Área</Form.Label>
             <Form.Control
