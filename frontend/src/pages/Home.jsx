@@ -6,7 +6,7 @@ import "../stylesheets/calendar.css";
 import interactionPlugin from '@fullcalendar/interaction';
 import FormVacation from '../components/FormVacation';
 import { addVacation, deleteVacation, editVacation, getVacations } from '../services/vacationService';
-import { formatDateToString, operateDate } from '../helpers/misc/dateUtils';
+import { calculateDaysBetweenDates, formatDateToString, operateDate } from '../helpers/misc/dateUtils';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
 import CustomTable from '../components/CustomTable';
 import ModalSeeVacationDetaills from '../components/vacationsModal/ModalSeeVacationDetaills';
@@ -15,6 +15,7 @@ import useConfirmation from '../hooks/useConfirmation';
 import { Modal } from 'react-bootstrap';
 import DeleteVacationBody from '../components/vacationsModal/DeleteVacationBody'
 import ModalEditVacation from '../components/vacationsModal/ModalEditVacation';
+import { getEmployer } from '../services/employeeServices';
 export default function Home({auth}){
 
     const navigate = useNavigate();
@@ -27,27 +28,27 @@ export default function Home({auth}){
             navigate("/login");
         }
     }, [auth, navigate]);
-
+    const initialFetch = {vacations:[]}
     const [isAvailableForm, setIsAvailableForm] = useState(false); // Estado que controla si el formulario de vacaciones está disponible
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}]); // Estado que almacena los días de vacaciones solicitados
     const [fetchDataToCalendar, setFetchDataToCalendara] = useState([]); // Estado que guarda los datos de vacaciones obtenidos del servidor
-    const [fetchData, setFetchData] = useState([]); // Estado que guarda los datos de vacaciones obtenidos del servidor
+    const [fetchData, setFetchData] = useState(initialFetch); // Estado que guarda los datos de vacaciones obtenidos del servidor
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
     const [showModalSeeDetails,setShowModalSeeDetails] = useState(false); // Estado que controla al modal 
     const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal deletevacation
     const [showModalEdit,setShowModalEdit] = useState(false); // Estado que controla al modal deletevacation
-
     const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
     // Función para obtener las vacaciones del servidor
     const fetchVacations = async () => {
         try {
             setVacationDaysAsked([])
             setFetchDataToCalendara([])
-            setFetchData([])
-            console.log("DIAS HABILES",auth.user.available_days)
+            setFetchData(initialFetch)
             const vacations = await getVacations();
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
+            const employer = await getEmployer();
+            if(employer.status !== 200) throw new Error("Error de servidor, intentar más tarde");
             let temporalVacations = [];
             vacations.data.map((event)=>{
                 const vacation = {
@@ -61,7 +62,7 @@ export default function Home({auth}){
                 temporalVacations.push(vacation);
             });
 
-            setFetchData(vacations.data);
+            setFetchData({vacations:vacations.data,employer:employer.data});
             setVacationDaysAsked(temporalVacations);
             setFetchDataToCalendara(temporalVacations)
         } catch (error) {
@@ -160,6 +161,15 @@ export default function Home({auth}){
             date_asked: new Date(),
             area_manager_authorization: null,
         };
+        if( fetchData.employer?.available_days < calculateDaysBetweenDates(vacationToSend.start_date,vacationToSend.end_date)){
+            setAlertConfig({
+                show: true,
+                status: 'warning',
+                title: 'Vacaciones no accesibles',
+                message: `No Contas con dias suficientes para esas vacaciones, Elija menos dias...`,
+            });
+            return;
+        }
         try {
             await addVacation(vacationToSend);
             setAlertConfig({
@@ -179,6 +189,7 @@ export default function Home({auth}){
                 message: `No se pudo registrar la fecha, inténtelo nuevamente más tarde (${error.message})`,
             });
         }
+        
     };
 
     // Función que se llama en la tabla para condicional las acciones
@@ -270,16 +281,23 @@ export default function Home({auth}){
 
                 </section>
                 <section className='d-flex flex-column mt-3 col-lg-6 col-md-12 col-10 text-center mx-auto d-flex'>                    
-                    <button  className={isAvailableForm ? "button_ask_vacation_called" : "button_ask_vacation"} onClick={handleVacationFormRequest}>
-                        {isAvailableForm ? "Cancelar" : "Pedir Vacaciones"}
-                    </button>
+                    <div className='row d-flex align-items-center justify-content-around'>
+                        <button  className={`col-10 col-lg-5 ${isAvailableForm ? "button_ask_vacation_called" : "button_ask_vacation"}`} onClick={handleVacationFormRequest}>
+                            {isAvailableForm ? "Cancelar" : "Pedir Vacaciones"}
+                        </button>
+                        <span className={`badge fs-5 col-10 col-lg-5 my-2 my-lg-0 ${
+                            fetchData.employer?.available_days>= 15?'bg-success':
+                            fetchData.employer?.available_days>= 5?'bg-warning':'bg-danger'
+                        }`}>Dias disp.: { fetchData.employer?.available_days || '...'}</span>
+                    </div>
+                    
                     <div className='form_vacation_container'>
                         <div className='d-flex justify-content-center text-align-center w-100'>
                         <FormVacation isCalled={isAvailableForm} formFather={handleForm} handleSubmit={handleSubmit}/>
                         </div>
                     </div>  
                         <CustomTable
-                            rows={formatVacationsToTable(fetchData).filter(v=>v)}
+                            rows={formatVacationsToTable(fetchData.vacations).filter(v=>v)}
                             fields={[
                                 // ["date_asked","Solicitud"],
                                 ["start_date","Inicio"],

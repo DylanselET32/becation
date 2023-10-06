@@ -22,7 +22,7 @@ export default function ProfileConfig({ auth }) {
     privileges: "",
     role_id: "",
     area_id: "",
-    avaible_days: "",
+    available_days: "",
     total_days: "",
     is_acumulative: "",
     contrat_day: "",
@@ -245,8 +245,8 @@ export default function ProfileConfig({ auth }) {
                       type="number"
                       min="0"
                       onChange={handleChange}
-                      name="avaible_days"
-                      value={employerToEdit?.avaible_days}
+                      name="available_days"
+                      value={employerToEdit?.available_days}
                     />
                   </div>
                   <div className="input-field">

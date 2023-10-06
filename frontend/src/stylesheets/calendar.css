@@ -71,11 +71,10 @@ main{
     border-radius: 10px;
     border: .5px solid #9e9e9e;
     height: 2.5rem;
-    width: 100%;
     font-weight: bold;
     transition: .2s;
     font-weight: 700;
-    margin-bottom: -5px;
+    
 }
 
 .button_ask_vacation:hover{
@@ -87,7 +86,6 @@ main{
   border-radius: 10px;
   border: .5px solid #9e9e9e;
   height: 2rem;
-  width: 100%;
   font-weight: bold;
   transition: .2s;
   font-weight: 700;

@@ -26,7 +26,25 @@ export function formatDate(date){
   export function operateDate(date, days){
     return  new Date(date.setDate(date.getDate() + days));
   }
-export  function operateDateTime(date, minutes) {
+  export  function operateDateTime(date, minutes) {
     return new Date(date.getTime() + minutes * 60000); //en milisegundos lo transformamos a minutos multiplicando
+  }
+  
+  export function calculateDaysBetweenDates(startDate, endDate) {
+    // Convert the dates to Date objects
+    if(typeof startDate === 'string'){
+      startDate = new Date(startDate)
+    }
+    if(typeof endDate === 'string'){
+      endDate = new Date(endDate)
+    }
+
+    // Calculate the time difference in milliseconds
+    const difference = Math.abs(endDate - startDate);
+  
+    // Convert the difference to days
+    const daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24))+1; //le sumo uno para que tenga en cuenta el dia que esta solicitando 
+  
+    return daysDifference;
   }
   
