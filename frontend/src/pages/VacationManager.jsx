@@ -43,8 +43,8 @@ export default function VacationManager({auth}){
     //Pedir todas las vacaciones y mostrarlas
     const fetchVacations = async () => {
         try {
-
             setFetchData([])
+            setFilter([])
             const vacations = await getVacations();
 
             const vacationsAproved = vacations.data.filter(v => v.area_manager_authorization == 1)
@@ -166,8 +166,9 @@ export default function VacationManager({auth}){
         toggleShowModalSendRevision();
     };
 
-    const handleSeeCalendar = () => {
+    const handleSeeCalendar = (item) => {
         console.log("redireccionando... ",item)
+        navigate(`/vacationManagerCalendar/${item?.id}`)
     }
 
     //Recarga la pagina
@@ -217,6 +218,7 @@ export default function VacationManager({auth}){
         const response = editVacation(newVacationState, idVacation)
         const data = await response.data
         console.log("RESPONSE: ", data )
+
     }
 
     const editVacationNoteFetch = async (selectItem, newStatus)=>{
@@ -230,27 +232,24 @@ export default function VacationManager({auth}){
             area_manager_authorization: selectItem.area_manager_authorization
         }
 
-        console.log("LO QUE SE ENVÍA", newVacationState)
         let idVacation = selectItem.id
         const response = editVacation(newVacationState, idVacation)
         const data = await response.data
     }
 
     //Prueba de acciones
-        const aproveVacation = ()=> {
-            editVacationFetch(selectItem, "aproved")
-            window.location.reload();
+        const aproveVacation = async () => {
+            await editVacationFetch(selectItem, "aproved")
+            console.log("APROBADOOOOOOOOOO");
         }
 
-        const denyVacation =()=>{
-            editVacationFetch(selectItem, "denied")
-            window.location.reload();
+        const denyVacation = async ()=>{
+            await editVacationFetch(selectItem, "denied")
         }
 
-        const sendRevision = ()=>{
-            editVacationNoteFetch(selectItem, "revision")
-            console.log("Nota enviada...")
-            window.location.reload();
+        const sendRevision = async ()=>{
+            await editVacationNoteFetch(selectItem, "revision")
+            refresh()
         }
 
     return(

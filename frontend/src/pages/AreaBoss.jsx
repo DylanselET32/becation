@@ -36,8 +36,9 @@ export default function AreaBoss({auth}){
     //Pedir todas las vacaciones y mostrarlas
     const fetchVacations = async () => {
         try {
-
-
+            setSelectItem(null)
+            setActionButton('')
+            setFetchData(null)
             const user = await getUser();
             const userId = await user.data.area_id;
 
@@ -206,12 +207,10 @@ export default function AreaBoss({auth}){
     //Prueba de acciones
         const aproveVacation = ()=> {
             editVacationFetch(selectItem, 1)
-            window.location.reload();
         }
 
         const denyVacation =()=>{
             editVacationFetch(selectItem, 0)
-            window.location.reload();
         }
 
    

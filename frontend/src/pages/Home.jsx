@@ -45,6 +45,7 @@ export default function Home({auth}){
             setVacationDaysAsked([])
             setFetchDataToCalendara([])
             setFetchData([])
+            console.log("DIAS HABILES",auth.user.available_days)
             const vacations = await getVacations();
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
             let temporalVacations = [];

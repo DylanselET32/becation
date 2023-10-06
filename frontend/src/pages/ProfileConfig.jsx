@@ -260,12 +260,12 @@ export default function ProfileConfig({ auth }) {
                     />
                   </div>
                   <div className="input-field">
-                    <label htmlFor="is_acumulative">Son Acumulables</label>
+                    <label htmlFor="is_cumulative">Son Acumulables</label>
                     <select
                       className="form-control"
-                      id="is_acumulative"
-                      name="is_acumulative"
-                      value={employerToEdit?.is_acumulative}
+                      id="is_cumulative"
+                      name="is_cumulative"
+                      value={employerToEdit?.is_cumulative}
                       onChange={handleChange}
                     >
                       <option value="true">Sí</option>
