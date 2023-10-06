@@ -1,7 +1,9 @@
 const { getAreaById } = require('../DAO/AreaDAO');
 const { getEmployerByColumn, getEmployerById, getCompleteEmployer } = require('../DAO/EmployerDAO');
 const vDAO = require('../DAO/VacationDAO');
-const { formatFullDateTime } = require('../utils/dateUtils');
+const EmployerDAO = require('../DAO/EmployerDAO');
+
+const { formatFullDateTime, calculateDaysBetweenDates } = require('../utils/dateUtils');
 
 const email = require('../utils/emeilSendUtils');
 
@@ -97,6 +99,12 @@ const addVacation = async (req, res) => {
   try {
     const data = req.body;
     const employee_id = req.employer.id
+    const emplyer = await getEmployerById(employee_id);
+    const newAvailableDays = emplyer.available_days - calculateDaysBetweenDates(data.start_date,data.end_date)
+    if(newAvailableDays < 0) {
+      throw new Error('No tenes suficientes dias de vacaciones disponibles')
+    }
+    
     const vacationData = {
       employee: employee_id,
       start_date: data.start_date,
@@ -112,7 +120,7 @@ const addVacation = async (req, res) => {
     // Agregar vacacion
     const id = await vDAO.addVacation(vacationData);
     if(!id) throw new Error('Error al agregar la vacación');
-
+    const updateAvailableDays = await EmployerDAO.editEmployer({available_days:newAvailableDays},employee_id);
     email.sendVacationUploadConfirmation(vacationData.employee, id);
     res.status(200).json({ message: "La vacación se agregó correctamente"});
   } catch (error) {
