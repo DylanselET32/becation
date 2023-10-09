@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { getAllEmployers } from '../../services/employeeServices';
+import { formatDateToString } from '../../helpers/misc/dateUtils';
 
 export default function ModalSeeProfileDetails({ item, show, setShow }) {
   const handleClose = () => setShow(false);
+  const [users,setUsers] = useState([])
+
+  const fetch = async ()=>{
+    try {
+      const users = await getAllEmployers()
+      console.log(users)
+      setUsers(users.data)
+      
+    } catch (error) {
+      console.error(error)
+
+    }
+  }
+
+  useEffect(() => {
+    fetch()
+    console.log(item)
+  },[item])
 
   return (
     <>
@@ -19,7 +39,14 @@ export default function ModalSeeProfileDetails({ item, show, setShow }) {
             <p><span className='fw-bold'>DNI:</span> {item?.dni}</p>
             <p><span className='fw-bold'>Area:</span> {item?.area}</p>
             <p><span className='fw-bold'>Rol:</span> {item?.role_name}</p>
-            <p><span className='fw-bold'>Fecha de creacion:</span> {item?.to_create}</p>
+            <p><span className='fw-bold'>Fecha de creacion:</span> {item?.to_create&&formatDateToString(item?.to_create, 'DD/MM/YYYY hh:mm:ss')}</p>
+            <p><span className='fw-bold'>Fecha de contratación:</span> {item?.sign_up_date&&formatDateToString(item?.sign_up_date, 'DD/MM/YYYY hh:mm:ss')}</p>
+            <p><span className='fw-bold'>Ultima Modificacion:</span> {item?.to_update_date&&formatDateToString(item?.to_update_date, 'DD/MM/YYYY hh:mm:ss') }</p>
+            <p><span className='fw-bold'>Modificado por:</span> {item?.to_update == 0 ? "No Modificado":`${users.find(u => u.user_id == item?.to_update)?.name} ${users.find(u => u.user_id == item?.to_update)?.surname}`}</p>
+            <p><span className='fw-bold'>Días totales:</span> {item?.total_days}</p>
+            <p><span className='fw-bold'>Días disponibles:</span> {item?.available_days}</p>
+            <p><span className='fw-bold'>Vacaciones acumulables:</span> {item?.is_cumulative == 0 ? "No":"Si"}</p>
+            <p><span className='fw-bold'>Nivel de privilegios:</span> {item?.privileges}</p>
             {/* Agrega más detalles según sea necesario */}
           </div>
         </Modal.Body>
