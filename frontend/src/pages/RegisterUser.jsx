@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { addEmployer } from "../services/employeeServices";
 import { getAllAreas } from "../services/areaServices";
 import { useNavigate } from "react-router-dom";
+import { getAllRoles } from "../services/roleServices";
+import Loading from '../components/Loading'
 
 
 const initalForm = {
@@ -38,7 +40,9 @@ export default function RegisterUser ({auth}){
     const [form, setForm] = useState(initalForm);
     const [areas, setAreas] = useState([]);
     const [fetchData,setFetchData] = useState();
-    const [vacationToEdit,setVacationToEdit] = useState();
+    const [errorMsg , setErrorMsg ] = useState(false);
+    const [loaded, setLoaded] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const navigate = useNavigate();
 
 
@@ -49,11 +53,6 @@ export default function RegisterUser ({auth}){
         }
     }, [auth, navigate]);
 
-
-    const handleClose = () => {
-        setFetchData(null);
-        setVacationToEdit(null);
-    };
 
     const changePassVisibility = ()=>{
         setPassHidden(!passHidden);
@@ -67,49 +66,67 @@ export default function RegisterUser ({auth}){
     }
 
     const handleSubmit = async () => {
-        if ( form.nombre && form.apellido && form.dni && form.email && form.password && form.privileges && form.rol && form.area && form.availableDays && form.totalDays && form.signUpDay && form.isAvailable) {
-            console.log("Nuevo usuario a agregar:", form);
-        } else {
-            window.alert("Por favor, rellene los campos.");
+        if ( !form.nombre || !form.apellido || !form.dni || !form.email || !form.password || !form.privileges || !form.rol || !form.area || !form.availableDays || !form.totalDays || !form.signUpDay || !form.isAvailable) {
+            setErrorMsg("Por favor, rellene los campos.");
+            return;
+        } 
+
+        if(form.password.length <8){
+            setErrorMsg("La contraseña debe tener como minimo 8 caracteres");
             return;
         }
+
+        
+
     };
 
-    // useEffect(() => {
-    //     // Simulación de datos de áreas
-    //     const simulatedAreas = [
-    //         { id: 1, name: "Área 1" },
-    //         { id: 2, name: "Área 2" },
-    //         { id: 2, name: "Área 3" },
-    //         { id: 2, name: "Área 4" },
-    //         { id: 2, name: "Área 5" },
-    //         { id: 2, name: "Área 6" },
-    //         { id: 2, name: "Área 7" },
-    //     ];
-
-    //     setAreas(simulatedAreas);
-    // }, []);
+    const fetch = async () => {
+        try {
+          setLoaded(false);
+          const areas = await getAllAreas()
+          if (areas.status != 200) { throw new Error(areas.data.message || areas.data.error) }
+    
+          const areasOrder = areas.data.map(area => ({
+            value: area.id,
+            label: area.area
+          }));
+    
+          const roles = await getAllRoles()
+          if (roles.status != 200) { throw new Error(roles.data.message || roles.data.error) }
+    
+          const rolesOrder = roles.data.map(role => ({
+            value: role.id,
+            label: role.role_name
+          }));
+          
+          setFetchData({areas:areasOrder,roles:rolesOrder});
+          setLoaded(true);
+        } catch (error) {
+          console.error(error);
+          setAlertConfig({
+            show: true,
+            status: "danger",
+            title: "Error",
+            message: `Hubo un error al traer los datos ${error.message}`,
+          });
+        }
+      };
+ 
 
     useEffect(() => {
-        const fetchAreas = async () => {
-            try {
-                const response = await getAllAreas();
-                if (response.status === 200) {
-                    setAreas(response.data);
-                } else {
-                    console.error("Error al obtener las áreas");
-                }
-            } catch (error) {
-                console.error("Error al obtener las áreas:", error);
-            }
-        };
-
-        fetchAreas();
+        fetch()
     }, []);
 
     return (
         <div className="main_register-container">
-            <div className="container_register">
+            
+            {loaded?<div className="container_register">
+                {errorMsg && (
+                <div className="alert alert-danger" role="alert">
+                <span className="fw-bold">¡Error! </span>
+                {errorMsg}
+                </div>
+                )}
                 <form action="" onSubmit={handleSubmit}>
                     <h1 className="form__register-title">Registrar Usuario</h1>
                     <h2 className="form__register-subtitle">Información Personal</h2>
@@ -136,7 +153,7 @@ export default function RegisterUser ({auth}){
                                 <label className="form__register-label" htmlFor="area">Área</label>
                                 <select className="form__register-select" name="area" id="area" value={form.area} onChange={handleForm}>
                                     <option className="form__register-option" value="" disabled>Elige un área</option>
-                                    {areas.map((area) => (
+                                    {fetchData.areas.map((area) => (
                                         <option key={area.id} className="form__register-option" value={area.id}>{area.name}</option>
                                     ))}
                                 </select>
@@ -156,7 +173,11 @@ export default function RegisterUser ({auth}){
                         <input type="submit" className="btn-register" value="Registrarse"/>
                     </div>
                 </form>
+                
             </div>
+            :
+            <Loading/>
+            }
         </div>
     );
 }
