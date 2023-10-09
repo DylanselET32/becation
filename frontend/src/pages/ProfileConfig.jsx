@@ -25,7 +25,7 @@ export default function ProfileConfig({ auth }) {
     area_id: "",
     available_days: "",
     total_days: "",
-    is_acumulative: "",
+    is_cumulative: "",
     contrat_day: "",
     // Otros campos de perfil
   };
@@ -127,10 +127,15 @@ export default function ProfileConfig({ auth }) {
       console.log(employerEdited);
       if (isChanged()) {
         console.log(employerEdited)
-        const setDate = {
-          ...employerEdited,
-          sign_up_date: `${employerEdited.sign_up_date}T00:00:00`
+        let setDate = {...employerEdited}
+        if(employerEdited.sign_up_date){
+          setDate = {
+            ...employerEdited,
+            sign_up_date: `${employerEdited.sign_up_date}T00:00:00`
+          }
         }
+
+        
         const save = await editEmployerById(setDate, fetchData.profile.id);
         if (save.status == 200) {
           setAlertConfig({
