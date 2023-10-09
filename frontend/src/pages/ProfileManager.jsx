@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
 import CustomTable from '../components/CustomTable';
 import { Modal } from 'react-bootstrap';
-import { getAllEmployers, deleteEmployer, addEmployer } from '../services/employeeServices';
+import { getAllEmployers, deleteEmployer, resetPassword } from '../services/employeeServices';
 import ModalSeeProfileDetails from '../components/profilesModal/ModalSeeProfileDetails';
 import ModalDeleteProfile from '../components/profilesModal/ModalDeleteProfile';
 
@@ -62,10 +62,14 @@ export default function ProfileManager({auth}){
       case "seeDetails":
         handleSeeDetailsEmployer(selectItem);
         break;
+      case "resetPassword":
+        handleResetPassword(selectItem);
+        break;
     }
     setActionButton("")
   },[selectItem,actionButton]);
 
+  // Función para redirigir a Register
   const handleButton = () => {
     navigate('/registerUser');
   }
@@ -84,6 +88,31 @@ export default function ProfileManager({auth}){
     console.log("se esta viendo detalles",item);
     setShowModalSeeDetails(true)
   };
+  //Función para blanquear la contraseña de un empleado
+  const handleResetPassword = async (item) => {
+    console.log("Blanquear contraseña");
+    try{
+      const reset = await resetPassword(item?.id);
+      if(reset.status !== 200){
+        throw new Error("Error de servidor, intentar más tarde"); 
+      } else{
+        setAlertConfig({
+          show: true,
+          status: 'success',
+          title:'Guardado',
+          message: 'Se ha blanqueado la contraseña éxitosamente'
+        })
+      }
+
+    }catch (error){
+      setAlertConfig({
+        show: true,
+        status: 'danger',
+        title: 'Error',
+        message: `Hubo un error al blanquear la contraseña, ${error}`,
+      });
+    }
+  }
   const refresh = () => {
     fetchEmployers();
   };
@@ -127,6 +156,7 @@ export default function ProfileManager({auth}){
             <button className="btn p-0 btn_table w-100" name='edit' onClick={()=>{setActionButton("edit")}}>Editar <i className="bi bi-pencil-square"></i></button>
             <button className="btn p-0 btn_table w-100" name='delete' onClick={()=>{setActionButton("delete")}}>Eliminar <i className="bi bi-calendar-x-fill"></i></button>
             <button className="btn p-0 btn_table w-100" name='seeDetails' onClick={()=>{setActionButton("seeDetails")}}>Ver Detalles <i className="bi bi-eye"></i></button>
+            <button className="btn p-0 btn_table w-100" name='resetPassword' onClick={()=>{setActionButton("resetPassword")}}>Blanquear contraseña <i className="bi bi-envelope-at-fill"></i></button>
           </CustomTable>
         </section>
       </div>
