@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
 import CustomTable from '../components/CustomTable';
 import { Modal } from 'react-bootstrap';
-import { getAllEmployers, deleteEmployer, resetPassword } from '../services/employeeServices';
+import { getAllEmployers, deleteEmployer, resetPassword, disableUserByEmployerId } from '../services/employeeServices';
 import ModalSeeProfileDetails from '../components/profilesModal/ModalSeeProfileDetails';
 import ModalDeleteProfile from '../components/profilesModal/ModalDeleteProfile';
 
@@ -129,7 +129,7 @@ export default function ProfileManager({auth}){
               toggle={toggleShowModalDelete}
               item={selectItem}
               itemView=""
-              delete={deleteEmployer}
+              delete={disableUserByEmployerId}
             />
         </Modal>
       <ModalSeeProfileDetails show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>

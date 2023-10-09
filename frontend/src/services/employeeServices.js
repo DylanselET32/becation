@@ -26,7 +26,7 @@ export async function disableUser() {
 
 export async function disableUserByEmployerId(id) {
     try {
-        const response = await fetch(`${apiUrl}/${apiVersion}/user/disableUser/${id}`, {
+        const response = await fetch(`${apiUrl}/${apiVersion}/user/disableUserByEmployerId/${id}`, {
             method: "PATCH",
             headers: {
             "Content-Type": "application/json",

@@ -291,9 +291,9 @@ export default function VacationManager({auth}){
             </AproveVacationBody>
         </Modal>
 
-        <div className="vacation_manager">
+        <div className="container-lg">
             <div className="d-flex justify-content-between align-items-center mt-3">
-                <h2>Gestión de Vacaciones</h2>
+                <h1>Gestión de Vacaciones</h1>
                 <select name="filterVacation" id="filterVacation" onChange={handleFilter} className="select_filter" >
                     <option value="null">Pending</option>
                     <option value="denied">Denieded</option>
@@ -302,26 +302,27 @@ export default function VacationManager({auth}){
                     <option value="all">All</option>
                 </select>
             </div>
+            <div className="row">
+                <CustomTable
+                    rows={formatVacationsToTable(filter)}
+                    fields={[
+                        ["start_date","Inicio"],
+                        ["end_date","Fin"],
+                        ["status","Estado"],
+                    ]}
+                    setSelectItem={setSelectItem}
+                    msgNotRows="No hay vacaciones pendientes"
+                    isDisabledCondition={isDisabledCondition}
+                    
+                    > 
+                    <button className="btn p-0 btn_table w-100" name='aprove' onClick={()=>{setActionButton("aprove")}}>Aprobar <i className="bi bi-pencil-square"></i></button>
+                    <button className="btn p-0 btn_table w-100" name='deny' onClick={()=>{setActionButton("deny")}}>Denegar <i className="bi bi-calendar-x-fill"></i></button>
+                    <button className="btn p-0 btn_table w-100" name='sendNote' onClick={()=>{setActionButton("sendNote")}}>Mandar Comentario <i className="bi bi-eye"></i></button>
+                    <button className="btn p-0 btn_table w-100" name='calendar' onClick={()=>{setActionButton("calendar")}}>Ver en Calendario<i className="bi bi-eye"></i></button>
 
-            <CustomTable
-                rows={formatVacationsToTable(filter)}
-                fields={[
-                    ["start_date","Inicio"],
-                    ["end_date","Fin"],
-                    ["status","Estado"],
-                ]}
-                setSelectItem={setSelectItem}
-                msgNotRows="No hay vacaciones pendientes"
-                isDisabledCondition={isDisabledCondition}
-                
-                > 
-                <button className="btn p-0 btn_table w-100" name='aprove' onClick={()=>{setActionButton("aprove")}}>Aprobar <i className="bi bi-pencil-square"></i></button>
-                <button className="btn p-0 btn_table w-100" name='deny' onClick={()=>{setActionButton("deny")}}>Denegar <i className="bi bi-calendar-x-fill"></i></button>
-                <button className="btn p-0 btn_table w-100" name='sendNote' onClick={()=>{setActionButton("sendNote")}}>Mandar Comentario <i className="bi bi-eye"></i></button>
-                <button className="btn p-0 btn_table w-100" name='calendar' onClick={()=>{setActionButton("calendar")}}>Ver en Calendario<i className="bi bi-eye"></i></button>
 
-
-            </CustomTable>
+                </CustomTable>
+            </div>
         </div>
         </>
         

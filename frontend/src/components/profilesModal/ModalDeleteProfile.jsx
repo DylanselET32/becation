@@ -24,7 +24,7 @@ export default function ModalDeleteProfile(props) {
         } catch (error) {
             console.error(error)
             setIsDeleting(false); // Asegúrate de detener el spinner
-            setErrorMessage('Error al eliminar la vacación'); // Nuevo estado para el mensaje de error
+            setErrorMessage('Error al eliminar al empleado'); // Nuevo estado para el mensaje de error
         }
     }
 
