@@ -253,55 +253,55 @@ export default function VacationManager({auth}){
         }
 
     return(
+        <>
+        {/* MODAL DE REVISIÓN */}
+        <Modal show={showModalSendRevision} onHide={toggleShowModalSendRevision}>
+            <SendRevisionBody
+                title="Enviar Nota"
+                refresh={refresh}
+                toggle={toggleShowModalSendRevision}
+                item={selectItem}
+                sendRevision={sendRevision}
+                handleNoteChange={handleNoteChange}
+                >
+            </SendRevisionBody>
+        </Modal>
+
+        {/* MODAL DE DENEGACÓN */}
+        <Modal show={showModalDeny} onHide={toggleShowModalDeny}>
+            <DenyVacationBody
+                title="Denegar Vacación"
+                refresh={refresh}
+                toggle={toggleShowModalDeny}
+                item={selectItem}
+                deny={denyVacation}
+            >
+            </DenyVacationBody>
+        </Modal>
         
+        {/* MODAL DE APROBACIÓN */}
+        <Modal show={showModalAprove} onHide={toggleShowModalAprove}>
+            <AproveVacationBody
+                title="Aprobar Vacación"
+                refresh= {refresh}
+                toggle={toggleShowModalAprove}
+                item={selectItem}
+                aprove={aproveVacation}
+            >
+            </AproveVacationBody>
+        </Modal>
+
         <div className="vacation_manager">
- <h2>Gestión de Vacaciones</h2>
-            {/* MODAL DE REVISIÓN */}
-            <Modal show={showModalSendRevision} onHide={toggleShowModalSendRevision}>
-                <SendRevisionBody
-                    title="Enviar Nota"
-                    refresh={refresh}
-                    toggle={toggleShowModalSendRevision}
-                    item={selectItem}
-                    sendRevision={sendRevision}
-                    handleNoteChange={handleNoteChange}
-                    >
-                </SendRevisionBody>
-            </Modal>
-
-            {/* MODAL DE DENEGACÓN */}
-            <Modal show={showModalDeny} onHide={toggleShowModalDeny}>
-                <DenyVacationBody
-                    title="Denegar Vacación"
-                    refresh={refresh}
-                    toggle={toggleShowModalDeny}
-                    item={selectItem}
-                    deny={denyVacation}
-                >
-                </DenyVacationBody>
-            </Modal>
-
-            {/* MODAL DE APROBACIÓN */}
-            <Modal show={showModalAprove} onHide={toggleShowModalAprove}>
-                <AproveVacationBody
-                    title="Aprobar Vacación"
-                    refresh= {refresh}
-                    toggle={toggleShowModalAprove}
-                    item={selectItem}
-                    aprove={aproveVacation}
-                >
-                </AproveVacationBody>
-            </Modal>
-
-            <select name="filterVacation" id="filterVacation" onChange={handleFilter} className="select_filter" >
-                <option value="null">Pending</option>
-                <option value="denied">Denieded</option>
-                <option value="aproved">Approved</option>
-                <option value="revision">In Revision</option>
-                <option value="all">All</option>
-
-
-            </select>
+            <div className="d-flex justify-content-between align-items-center mt-3">
+                <h2>Gestión de Vacaciones</h2>
+                <select name="filterVacation" id="filterVacation" onChange={handleFilter} className="select_filter" >
+                    <option value="null">Pending</option>
+                    <option value="denied">Denieded</option>
+                    <option value="aproved">Approved</option>
+                    <option value="revision">In Revision</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
 
             <CustomTable
                 rows={formatVacationsToTable(filter)}
@@ -313,7 +313,7 @@ export default function VacationManager({auth}){
                 setSelectItem={setSelectItem}
                 msgNotRows="No hay vacaciones pendientes"
                 isDisabledCondition={isDisabledCondition}
-            
+                
                 > 
                 <button className="btn p-0 btn_table w-100" name='aprove' onClick={()=>{setActionButton("aprove")}}>Aprobar <i className="bi bi-pencil-square"></i></button>
                 <button className="btn p-0 btn_table w-100" name='deny' onClick={()=>{setActionButton("deny")}}>Denegar <i className="bi bi-calendar-x-fill"></i></button>
@@ -323,6 +323,7 @@ export default function VacationManager({auth}){
 
             </CustomTable>
         </div>
+        </>
         
     
     )
