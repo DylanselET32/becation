@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAlert } from '../contexts/AlertContext'; // Importa el contexto
 import CustomTable from '../components/CustomTable';
 import { Modal } from 'react-bootstrap';
-import { getAllEmployers, deleteEmployer } from '../services/employeeServices';
+import { getAllEmployers, deleteEmployer, addEmployer } from '../services/employeeServices';
 import ModalSeeProfileDetails from '../components/profilesModal/ModalSeeProfileDetails';
 import ModalDeleteProfile from '../components/profilesModal/ModalDeleteProfile';
 
@@ -49,7 +49,6 @@ export default function ProfileManager({auth}){
     useEffect(() => {},handleAction,)
     name
   };
-  
 
   // Efecto para realizar una acción según el botón presionado
   useEffect((e) => {
@@ -66,6 +65,10 @@ export default function ProfileManager({auth}){
     }
     setActionButton("")
   },[selectItem,actionButton]);
+
+  const handleButton = () => {
+    navigate('/registerUser');
+  }
 
   // Función para manejar la edición de un empleado
   const handleEditEmployer = (item) => {
@@ -88,22 +91,27 @@ export default function ProfileManager({auth}){
   useEffect(()=>{
     fetchEmployers();
   },[]);
-  return(
-    <div className="container-lg">
-      <h1>{actionButton}</h1>
-      <Modal show={showModalDelete} onHide={toggleShowModalDelete}>
-        <ModalDeleteProfile
-            title="Eliminar Empleado"
-            refresh={refresh}
-            toggle={toggleShowModalDelete}
-            item={selectItem}
-            itemView=""
-            delete={deleteEmployer}
-          />
-      </Modal>
+  return(<>
+    {actionButton}
+    <Modal show={showModalDelete} onHide={toggleShowModalDelete}>
+          <ModalDeleteProfile
+              title="Eliminar Empleado"
+              refresh={refresh}
+              toggle={toggleShowModalDelete}
+              item={selectItem}
+              itemView=""
+              delete={deleteEmployer}
+            />
+        </Modal>
       <ModalSeeProfileDetails show={showModalSeeDetails} setShow={setShowModalSeeDetails} item={selectItem}/>
+  
+    <div className="container-lg">
+      <div className='d-flex justify-content-between align-items-center mt-3'>
+        <h1>Administador de perfiles</h1>
+        <button className='btn btn-success' onClick={handleButton}>Añadir</button>
+      </div>
       <div className="row">
-        <section className='d-flex flex-column mt-3 col-md-12 col-10 text-center mx-auto d-flex'>
+        <section className='d-flex flex-column col-md-12 col-10 text-center mx-auto d-flex'>
           <CustomTable
             rows={fetchData.filter(v=>v.is_able==true)}
             fields={[
@@ -122,6 +130,7 @@ export default function ProfileManager({auth}){
           </CustomTable>
         </section>
       </div>
-    </div>
+    </div> 
+    </>
   );
 }
