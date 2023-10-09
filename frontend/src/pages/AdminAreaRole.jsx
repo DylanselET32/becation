@@ -187,7 +187,7 @@ export default function AdminAreaRole({auth}){
             <div className="row">
                 <section className='d-flex flex-column mt-3 col-lg-7 col-md-12 col-10 text-center mx-auto d-flex'>                    
                         <h2>Administrador de Areas</h2>
-                        <button className="btn btn-danger p-0 btn_table col-lg-5 px-3  py-1 mx-auto fs-6" onClick={()=>setShowModalAddArea(true)}>Agregar Área</button> 
+                        <button className="btn btn-success p-0 btn_table col-lg-5 px-3  py-1 mx-auto fs-6" onClick={()=>setShowModalAddArea(true)}>Agregar Área</button> 
                         <CustomTable
                             rows={formatAreaToTable(fetchAreas).filter(v=>v)}
                             fields={[
@@ -205,7 +205,7 @@ export default function AdminAreaRole({auth}){
                 </section>
                 <section className='d-flex flex-column mt-3 col-lg-5 col-md-12 col-10 text-center mx-auto d-flex'>                    
                         <h2>Administrador de Roles</h2>
-                        <button className="btn btn-danger btn_table col-lg-5 px-3  py-1 mx-auto fs-6" onClick={()=>setShowModalAddRole(true)}>Agregar Rol</button> 
+                        <button className="btn btn-success btn_table col-lg-5 px-3  py-1 mx-auto fs-6" onClick={()=>setShowModalAddRole(true)}>Agregar Rol</button> 
                         <CustomTable
                             rows={formatRoleToTable(fetchRoles).filter(v=>v)}
                             fields={[
