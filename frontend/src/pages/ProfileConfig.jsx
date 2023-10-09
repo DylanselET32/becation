@@ -242,7 +242,6 @@ export default function ProfileConfig({ auth }) {
                     <Select
                       options={fetchData?.areas}
                       isDisabled={!loaded}
-                      value={(loaded && fetchData?.areas)?fetchData.areas.find(option => option.value == employerToEdit.area_id) : null}
                       onChange={handleSelectChangeAreas}
                       placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
                     />

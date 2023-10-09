@@ -8,28 +8,35 @@ import { getAllAreas } from "../services/areaServices";
 import { useNavigate } from "react-router-dom";
 import { getAllRoles } from "../services/roleServices";
 import Loading from '../components/Loading'
+import Select from "react-select";
+import { useAlert } from "../contexts/AlertContext";
 
 
 const initalForm = {
-    nombre: "",
-    apellido: "",
+    name: "",
+    surname: "",
     dni: "",
     email: "",
     password: "",
     privileges: "",
-    rol: "",
-    area: "",
+    role_id: 0,
+    area_id: 0,
     availableDays: "",
-    totalDays: "",
+    total_days: "",
     signUpDay: "",
-    isAvailable: true,
+    is_cumulative:true,
 }
 
 function FormGroup({ label, name, type, value, onChange }) {
     return (
         <div className="form__register-group">
             <label className="form__register-label" htmlFor={name}>{label}</label>
-            <input type={type} className="form__register-input" name={name} value={value} onChange={onChange}/>
+            {(type == 'number')?
+                <input type={type} className="form__register-input" name={name} value={value} min={0} onChange={onChange}/>
+            :
+                <input type={type} className="form__register-input" name={name} value={value}  onChange={onChange}/>
+            }
+
         </div>
     );
 }
@@ -44,6 +51,7 @@ export default function RegisterUser ({auth}){
     const [loaded, setLoaded] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const navigate = useNavigate();
+    const { alertConfig, setAlertConfig } = useAlert(); // Usa el contexto alert
 
 
     useEffect(()=>{
@@ -59,14 +67,24 @@ export default function RegisterUser ({auth}){
     }
 
     const handleForm = (e)=>{
+        setErrorMsg("")
         setForm({
             ...form,
             [e.target.name]: e.target.value
         });
     }
+    const handleSelectChangeAreas = (selectedOption) => {
+        setForm({ ...form, area_id: selectedOption.value });
+      };
 
-    const handleSubmit = async () => {
-        if ( !form.nombre || !form.apellido || !form.dni || !form.email || !form.password || !form.privileges || !form.rol || !form.area || !form.availableDays || !form.totalDays || !form.signUpDay || !form.isAvailable) {
+    const handleSelectChangeRoles = (selectedOption) => {
+        setForm({ ...form, role_id: selectedOption.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log(form)
+        if ( !form.name || !form.surname || !form.dni || !form.email || !form.password || !form.privileges || !form.role_id || !form.area_id || !form.availableDays || !form.total_days || !form.signUpDay ) {
             setErrorMsg("Por favor, rellene los campos.");
             return;
         } 
@@ -75,9 +93,30 @@ export default function RegisterUser ({auth}){
             setErrorMsg("La contraseña debe tener como minimo 8 caracteres");
             return;
         }
-
-        
-
+        const newEmployerToSend = {
+            ...form,
+            signUpDay : `${form.signUpDay}T00:00:00`
+            
+        }
+        try {
+            const save = await addEmployer(newEmployerToSend)
+            if(save.status != 200){throw new Error(`No se pudo registrar,${save.date.error || save.date.message}`)}
+            setAlertConfig({
+                show: true,
+                status: "success",
+                title: "Registrado",
+                message: `Se registro a ${form.name} ${form.surname} con exito`,
+              });
+        } catch (error) {
+            console.error(error)
+            setAlertConfig({
+                show: true,
+                status: "danger",
+                title: "Error",
+                message: `Hubo un error con el registro, ${error.message}`,
+              });
+        }
+       
     };
 
     const fetch = async () => {
@@ -111,7 +150,44 @@ export default function RegisterUser ({auth}){
           });
         }
       };
- 
+      const darkTheme = (theme) => ({
+        ...theme,
+        colors: {
+          ...theme.colors,
+          primary: '#999595', // selected option
+          primary75: 'white', //no se
+          primary50: '#787777', // al hacer click
+          primary25: '#999595', //selected option default
+          danger: 'red',
+          dangerLight: 'white',
+          neutral0: '#212020', //background
+          neutral5: 'white',
+          neutral10: '#212020',
+          neutral20: 'white', //flecha select control
+          neutral30: 'gray', // hover del input controler
+          neutral40: 'white', //text not option 
+          neutral50: 'white', //texto placeholder
+          neutral60: 'white', // flecha selected contrtol
+          neutral70: '#212020',
+          neutral80: 'white', //texto select control
+          neutral90: 'red',
+        },
+      });
+      const styleSelect = {
+        control: (provided, state) => ({
+          ...provided,
+          backgroundColor: 'transparent',
+          border: '1px solid #ccc',
+          color: 'white', 
+          cursor:"pointer"
+
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            cursor:"pointer"
+  
+          })
+      };
 
     useEffect(() => {
         fetch()
@@ -131,8 +207,8 @@ export default function RegisterUser ({auth}){
                     <h1 className="form__register-title">Registrar Usuario</h1>
                     <h2 className="form__register-subtitle">Información Personal</h2>
                     <div className="form__inputs-info">
-                        <FormGroup label="Nombre" name="nombre" type="text" value={form.nombre} onChange={handleForm}/>
-                        <FormGroup label="Apellido" name="apellido" type="text" value={form.apellido} onChange={handleForm}/>
+                        <FormGroup label="Nombre" name="name" type="text" value={form.name} onChange={handleForm}/>
+                        <FormGroup label="Apellido" name="surname" type="text" value={form.surname} onChange={handleForm}/>
                         <FormGroup label="DNI" name="dni" type="text" value={form.dni} onChange={handleForm}/>
                     </div>
                     <h2 className="form__register-subtitle">Información de la Cuenta</h2>
@@ -148,28 +224,57 @@ export default function RegisterUser ({auth}){
                     <div className="form__container-contrat-info">
                         <div className="form__inputs-info">
                         <FormGroup label="Privilegios" name="privileges" type="number" value={form.privileges} onChange={handleForm}/>
-                        <FormGroup label="Rol" name="rol" type="text" value={form.rol} onChange={handleForm}/>
-                            <div className="form__register-group">
-                                <label className="form__register-label" htmlFor="area">Área</label>
-                                <select className="form__register-select" name="area" id="area" value={form.area} onChange={handleForm}>
-                                    <option className="form__register-option" value="" disabled>Elige un área</option>
-                                    {fetchData.areas.map((area) => (
-                                        <option key={area.id} className="form__register-option" value={area.id}>{area.name}</option>
-                                    ))}
-                                </select>
-                            </div>
+                        <div className="form__register-group">
+                            <label className="form__register-label" htmlFor="">Area</label>
+                            <Select
+                                theme={darkTheme}
+                                styles={styleSelect}
+                                options={fetchData?.areas}
+                                isDisabled={!loaded}
+                                value={(loaded && fetchData?.areas)?fetchData.areas.find(option => option.value == form.area_id) : null}
+                                onChange={handleSelectChangeAreas}
+                                placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
+                            />
                         </div>
-                        <div className="form__inputs-info">
-                            <FormGroup label="Días Disponibles" name="availableDays" type="number" value={form.availableDays} onChange={handleForm}/>
-                            <FormGroup label="Total de Días" name="totalDays" type="number" value={form.totalDays} onChange={handleForm}/>
-                            <FormGroup label="Día de Alta" name="signUpDay" type="date" value={form.signUpDay} onChange={handleForm}/>
+                        <div className="form__register-group">
+                            <label className="form__register-label" htmlFor="">Rol</label>
+                            <Select
+                                theme={darkTheme}
+                                styles={styleSelect}
+                                options={fetchData?.roles}
+                                isDisabled={!loaded}
+                                value={(loaded && fetchData?.areas)?fetchData.roles.find(option => option.value == form.role_id) : null}
+                                onChange={handleSelectChangeRoles}
+                                placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
+                            />
+                        </div>
+                        </div>
+                        <div className="form__inputs-info d-flex flex-column">
+                            <div className="form__inputs-info">
+                                <FormGroup label="Días Disponibles" name="availableDays" type="number" value={form.availableDays} onChange={handleForm}/>
+                                <FormGroup label="Total de Días" name="total_days" type="number" value={form.total_days} onChange={handleForm}/>
+                            </div>
+                            
+                            <div className="form__inputs-info">
+                                <div className="form__register-group">
+                                    <label className="form__register-label" htmlFor="form-control">Rol</label>
+                                    <select
+                                        className="form__register-input form__register-input_options"
+                                        id="is_cumulative"
+                                        name="is_cumulative"
+                                        value={form?.is_cumulative}
+                                        onChange={handleForm}
+                                        >
+                                        <option value={true}>Sí</option>
+                                        <option value={false}>No</option>
+                                    </select>
+                                </div>
+                                <FormGroup label="Fecha de contratacion" name="signUpDay" type="date" value={form.signUpDay} onChange={handleForm}/>
+                            </div>
+
                         </div>
                     </div>
-                    <div className="form__register-check-submit">
-                        <div className="form__container-checkbox">
-                            <input type="checkbox" className="form__register-checkbox" name="isAvailable" checked={form.isAvailable}/>
-                            <label className="form__register-label-check" htmlFor="isAvailable">Está Disponible</label>
-                        </div>
+                    <div className="form__register-check-submit">                        
                         <input type="submit" className="btn-register" value="Registrarse"/>
                     </div>
                 </form>
