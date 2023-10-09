@@ -7,6 +7,7 @@ import {
 import { useState, useEffect } from "react";
 import { useAlert } from "../contexts/AlertContext";
 import { compareObjects } from "../helpers/misc/objectsUtils";
+import { formatDateToString } from '../helpers/misc/dateUtils';
 import { useParams } from "react-router-dom";
 import { getAllAreas } from "../services/areaServices";
 import Select from "react-select";
@@ -26,7 +27,6 @@ export default function ProfileConfig({ auth }) {
     total_days: "",
     is_acumulative: "",
     contrat_day: "",
-    sign_up_date: "",
     // Otros campos de perfil
   };
 
@@ -81,6 +81,7 @@ export default function ProfileConfig({ auth }) {
 
       setFetchData({profile:profile.data,areas:areasOrder,roles:rolesOrder});
       setEmployerToEdit(profile.data);
+      console.log(profile.data)
       setLoaded(true);
     } catch (error) {
       console.error(error);
@@ -125,6 +126,11 @@ export default function ProfileConfig({ auth }) {
       const employerEdited = compareObjects(fetchData?.profile, employerToEdit);
       console.log(employerEdited);
       if (isChanged()) {
+        console.log(employerEdited)
+        const setDate = {
+          ...form,
+          sign_up_date: `${form.sign_up_date}T00:00:00`
+        }
         const save = await editEmployerById(employerEdited, fetchData.profile.id);
         if (save.status == 200) {
           setAlertConfig({
@@ -146,7 +152,9 @@ export default function ProfileConfig({ auth }) {
     } finally {
       setIsSaving(false);
     }
+
   };
+
 
   useEffect(() => {
     fetch();
@@ -240,7 +248,7 @@ export default function ProfileConfig({ auth }) {
                     />
                   </div>
                   <div className="input-field">
-                    <label htmlFor="available_days">Available Days</label>
+                    <label htmlFor="available_days">Días Hábiles</label>
                     <input
                       type="number"
                       min="0"
@@ -250,7 +258,7 @@ export default function ProfileConfig({ auth }) {
                     />
                   </div>
                   <div className="input-field">
-                    <label htmlFor="total_days">Total Days</label>
+                    <label htmlFor="total_days">Días Totales</label>
                     <input
                       type="number"
                       min="0"
@@ -275,19 +283,11 @@ export default function ProfileConfig({ auth }) {
                   <div className="input-field">
                     <label htmlFor="contrat_day">Fecha de Contratacion</label>
                     <input
-                      type="text"
+                      type="date"
                       onChange={handleChange}
                       name="contrat_day"
-                      value={employerToEdit?.contrat_day}
-                    />
-                  </div>
-                  <div className="input-field">
-                    <label htmlFor="sign_up_date">Fecha de Alta</label>
-                    <input
-                      type="text"
-                      onChange={handleChange}
-                      name="sign_up_date"
-                      value={employerToEdit?.sign_up_date}
+                      isDisabled={!loaded}
+                      value={(loaded && employerToEdit)?formatDateToString(employerToEdit.sign_up_date) :"Cargando..."}
                     />
                   </div>
                 </div>
