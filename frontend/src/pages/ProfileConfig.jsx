@@ -81,7 +81,6 @@ export default function ProfileConfig({ auth }) {
 
       setFetchData({profile:profile.data,areas:areasOrder,roles:rolesOrder});
       setEmployerToEdit(profile.data);
-      console.log(profile.data)
       setLoaded(true);
     } catch (error) {
       console.error(error);
@@ -109,7 +108,11 @@ export default function ProfileConfig({ auth }) {
   //Este const maneja los cambios a realizar en el perfil
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEmployerToEdit({ ...employerToEdit, [name]: value });
+    if(name == 'sign_up_date'){
+      setEmployerToEdit({ ...employerToEdit, [name]: `${value}T00:00:00` });
+    }else{
+      setEmployerToEdit({ ...employerToEdit, [name]: value });
+    }
   };
 
   //Este refresh es para llamar al fetch
@@ -122,21 +125,10 @@ export default function ProfileConfig({ auth }) {
     e.preventDefault();
     setIsSaving(true);
     try {
-      console.log(fetchData)
       const employerEdited = compareObjects(fetchData?.profile, employerToEdit);
-      console.log(employerEdited);
       if (isChanged()) {
-        console.log(employerEdited)
-        let setDate = {...employerEdited}
-        if(employerEdited.sign_up_date){
-          setDate = {
-            ...employerEdited,
-            sign_up_date: `${employerEdited.sign_up_date}T00:00:00`
-          }
-        }
 
-        
-        const save = await editEmployerById(setDate, fetchData.profile.id);
+        const save = await editEmployerById(employerEdited, fetchData.profile.id);
         if (save.status == 200) {
           setAlertConfig({
             show: true,
@@ -286,13 +278,13 @@ export default function ProfileConfig({ auth }) {
                     </select>
                   </div>
                   <div className="input-field">
-                    <label htmlFor="contrat_day">Fecha de Contratacion</label>
+                    <label htmlFor="sign_up_date">Fecha de Contratacion</label>
                     <input
                       type="date"
                       onChange={handleChange}
-                      name="contrat_day"
+                      name="sign_up_date"
                       isDisabled={!loaded}
-                      value={(loaded && employerToEdit)?formatDateToString(employerToEdit.sign_up_date) :"Cargando..."}
+                      value={(loaded && employerToEdit.sign_up_date)?formatDateToString(employerToEdit.sign_up_date) :"Cargando..."}
                     />
                   </div>
                 </div>
