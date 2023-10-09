@@ -215,10 +215,7 @@ export default function AreaBoss({auth}){
 
    
     return(
-        
-        <div className="vacation_manager">
- <h2>Gestión de Vacaciones</h2>
-
+        <>
             {/* MODAL DE DENEGACÓN */}
             <Modal show={showModalDeny} onHide={toggleShowModalDeny}>
                 <DenyVacationBody
@@ -242,12 +239,17 @@ export default function AreaBoss({auth}){
                 >
                 </AproveVacationBody>
             </Modal>
+            
+        <div className="vacation_manager">
+            <div className="d-flex justify-content-between align-items-center mt-3">
+                <h2>Gestión de Vacaciones</h2>
+                <select name="filterVacation" id="filterVacation" onChange={handleFilter} className="select_filter" >
+                    <option value="null">Pending</option>
+                    <option value="denied">Denieded</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
 
-            <select name="filterVacation" id="filterVacation" onChange={handleFilter} className="select_filter" >
-                <option value="null">Pending</option>
-                <option value="denied">Denieded</option>
-                <option value="all">All</option>
-            </select>
 
             <CustomTable
                 rows={formatVacationsToTable(filter)}
@@ -268,7 +270,7 @@ export default function AreaBoss({auth}){
 
             </CustomTable>
         </div>
-        
+        </>
     
     )
 }
