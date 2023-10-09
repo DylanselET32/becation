@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import "../stylesheets/passwordreset.css"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { confirmEmailResetPassword, resetPassword } from "../services/employeeServices";
 import { useAlert } from "../contexts/AlertContext";
 import { useNavigate } from "react-router-dom";
