@@ -128,10 +128,10 @@ export default function ProfileConfig({ auth }) {
       if (isChanged()) {
         console.log(employerEdited)
         const setDate = {
-          ...form,
-          sign_up_date: `${form.sign_up_date}T00:00:00`
+          ...employerEdited,
+          sign_up_date: `${employerEdited.sign_up_date}T00:00:00`
         }
-        const save = await editEmployerById(employerEdited, fetchData.profile.id);
+        const save = await editEmployerById(setDate, fetchData.profile.id);
         if (save.status == 200) {
           setAlertConfig({
             show: true,
@@ -242,6 +242,7 @@ export default function ProfileConfig({ auth }) {
                     <Select
                       options={fetchData?.areas}
                       isDisabled={!loaded}
+                      value={(loaded && fetchData?.areas)?fetchData.areas.find(option => option.value == employerToEdit.area_id) : null}
                       onChange={handleSelectChangeAreas}
                       placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
                     />
