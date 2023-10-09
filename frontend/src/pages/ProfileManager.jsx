@@ -90,7 +90,7 @@ export default function ProfileManager({auth}){
   };
   //Función para blanquear la contraseña de un empleado
   const handleResetPassword = async (item) => {
-    console.log("Blanquear contraseña");
+    console.log("Blanqueando contraseña");
     try{
       const reset = await resetPassword(item?.id);
       if(reset.status !== 200){
