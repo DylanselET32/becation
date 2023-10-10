@@ -37,7 +37,7 @@ export default function DenyVacationBody(props){
             {errorMessage}
           </div>
         )}
-        <p>Estas seguro que deseas denegar la vacacion?"<span className="text-nowrap fw-bold">{props.item.start_date} - {props.item.end_date}"</span></p>
+        <p>Estas seguro que deseas denegar la vacacion?"<span className="text-nowrap fw-bold">{props.item?.start_date} - {props.item?.end_date}"</span></p>
         <p><span className="text-danger">Esta acción no se puede deshacer.</span></p>
           <input
             id="check"

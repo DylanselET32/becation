@@ -1,7 +1,7 @@
 import {React} from "react";
 import "../stylesheets/vacationAdministration.css"
 import { useState, useEffect } from "react";
-import {  getVacations, editVacation } from "../services/vacationService";
+import {  getVacations, editVacation, getAllVacations } from "../services/vacationService";
 import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
 import CustomTable from "../components/CustomTable";
 import { Modal } from "react-bootstrap";
@@ -30,6 +30,7 @@ export default function VacationManager({auth}){
     }, [auth, navigate]);
 
     const [filter, setFilter] = useState([]); // Estado de filtro
+    const [filterName, setFilterName]= useState(null)
 
     const toggleShowModalDeny = ()=>{setShowModalDeny(!showModalDeny)};
     const toggleShowModalAprove = ()=>{setShowModalAprove(!showModalAprove)};
@@ -43,17 +44,19 @@ export default function VacationManager({auth}){
     //Pedir todas las vacaciones y mostrarlas
     const fetchVacations = async () => {
         try {
+            setSelectItem(null)
+            setActionButton('')
             setFetchData([])
             setFilter([])
-            const vacations = await getVacations();
-
+            const vacations = await getAllVacations();
+            console.log(vacations)
             const vacationsAproved = vacations.data.filter(v => v.area_manager_authorization == 1)
 
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
             setFetchData(vacationsAproved);
             
-            setFilter(vacationsAproved.filter(f => f.status == null))     
-            console.log("VACAS APROBADAS: ", vacationsAproved)
+            setFilter(vacationsAproved.filter(f => f.status == "null"))     
+   
         } catch (error) {
             setAlertConfig({
                 show: true,
@@ -152,22 +155,18 @@ export default function VacationManager({auth}){
 
     //Acciones de vacacion
     const handleAproveVacation = (item) => {
-        console.log("se esta aprobando...",item);
         toggleShowModalAprove()
     };
 
     const handleDenyVacation = async (item) => {
-        console.log("se esta denegando...",item);
         toggleShowModalDeny()
     };
     
     const handleSendNote = (item) => {
-        console.log("Nota a... ",item);
         toggleShowModalSendRevision();
     };
 
     const handleSeeCalendar = (item) => {
-        console.log("redireccionando... ",item)
         navigate(`/vacationManagerCalendar/${item?.id}`)
     }
 
@@ -192,13 +191,16 @@ export default function VacationManager({auth}){
 
         if(e.target.value == "all"){
             setFilter(fetchData);
+            setFilterName(e.target.value)
             return
         }else if(e.target.value == "null"){
-            temporalFilter = fetchData.filter((event)=> event.status == null);
+            temporalFilter = fetchData.filter((event)=> event.status == "null");
             setFilter(temporalFilter)
+            setFilterName(e.target.value)
             return
         }
         temporalFilter = fetchData.filter((event)=> event.status == e.target.value);
+        setFilterName(e.target.value)
         setFilter(temporalFilter)
     }
 
@@ -238,17 +240,18 @@ export default function VacationManager({auth}){
     }
 
     //Prueba de acciones
-        const aproveVacation = async () => {
-            await editVacationFetch(selectItem, "aproved")
-            console.log("APROBADOOOOOOOOOO");
+        const aproveVacation =  () => {
+            editVacationFetch(selectItem, "aproved")
+            refresh()
         }
 
-        const denyVacation = async ()=>{
-            await editVacationFetch(selectItem, "denied")
+        const denyVacation =  ()=>{
+            editVacationFetch(selectItem, "denied")
+            refresh()
         }
 
-        const sendRevision = async ()=>{
-            await editVacationNoteFetch(selectItem, "revision")
+        const sendRevision =  ()=>{
+            editVacationNoteFetch(selectItem, "revision")
             refresh()
         }
 
@@ -322,6 +325,7 @@ export default function VacationManager({auth}){
 
 
                 </CustomTable>
+                <button onClick={()=>{refresh()}}>RECARGAR</button>
             </div>
         </div>
         </>
