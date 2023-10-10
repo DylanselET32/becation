@@ -23,37 +23,44 @@ return (<>
         message="¿Está seguro que sesea cerrar sesion?"
     />
 
-    <header className='header'>
-        <div className='img_container'>
-            <img src={LogoBecation} alt="" />
-        </div>
-        <nav className='nav_container'>
-            <ul className='routes_links_container'>
-                <li><Link className='li_route' to="/">Home</Link></li>
-                {user?.privileges >= 2 ?  <li><Link className='li_route' to="/areaBoss">Jefe del area</Link></li> : ""}
-                {user?.privileges >= 3 ? <li><Link className='li_route' to="/vacationManager">Admin. Vacaciones</Link></li> : ""}
-                {user?.privileges >= 3 ? <li><Link className='li_route' to="/profileManager">Admin. de Perfiles</Link></li> : ""}
-                {user?.privileges >= 3 ? <li><Link className='li_route' to="/adminAreaRole">Admin. Area-Rol</Link></li> : ""}
-                {!user ? <li className='li_route'><a href="login">Login</a></li> : <li className='li_route'><a onClick={singOut}>Logout</a></li>}
-                {user != null ? <li className='li_route user_name'>{user.name}</li> : ""}
-            </ul>
+        <nav class="navbar navbar-expand-xl bg-body-tertiary b_custom">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><img src={LogoBecation} alt="" width={"70px"}></img></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <Link className='nav-link text-light' to="/">Home</Link>
+                    </li>
+                    {!user ? <li><Link className='nav-link text-light' to="login">Login</Link></li> : <li><a className='nav-link text-light' onClick={singOut}>Logout</a></li>}
+                    {user?.privileges >= 2 ?  <li><Link className='nav-link text-light' to="/areaBoss">Jefe del area</Link></li> : ""}
+                    {user?.privileges >= 3 ? <li><Link className='nav-link text-light' to="/vacationManager">Admin. Vacaciones</Link></li> : ""}
+                    {user?.privileges >= 3 ? <li><Link className='nav-link text-light' to="/profileManager">Admin. de Perfiles</Link></li> : ""}
+                    {user?.privileges >= 3 ? <li><Link className='nav-link text-light' to="/adminAreaRole">Admin. Area-Rol</Link></li> : ""}
+                    {user != null ? <li className='badge fs-6'><a className='nav-link text-info'>{user.name}</a></li> : ""}
+                </ul>
+                </div>
+            </div>
         </nav>
-        <nav className='menu_responsive'> 
-            <label className='burger_activator' htmlFor="check_menu"><span className="material-symbols-outlined logo_burger">menu</span></label>
-            <input type="checkbox" name="" id="check_menu" hidden/>
-            <ul className='routes_links_container_responsive' >
-                <li className='li_route'><a href="home">Home</a></li>
-                <li className='li_route'><a href="login">Login</a></li>
-                <li className='li_route'><a onClick={singOut}>Logout</a></li>
-                {user?.privileges >= 2 ?  <li><Link className='li_route' to="/areaBoss">Jefe del area</Link></li> : ""}
-                {user?.privileges >= 3 ? <li><Link className='li_route' to="/vacationManager">Admin. Vacaciones</Link></li> : ""}
-                {user?.privileges >= 3 ? <li><Link className='li_route' to="/profileManager">Admin. de Perfiles</Link></li> : ""}
-                {user?.privileges >= 3 ? <li><Link className='li_route' to="/adminAreaRole">Admin. Area-Rol</Link></li> : ""}
-            </ul>
-        </nav>
-    </header>
+    {/* </header> */}
     </>
     )
 }
 
 export default Header
+
+       {/* <nav className='menu_responsive'> 
+            <label className='burger_activator' htmlFor="check_menu"><span className="material-symbols-outlined logo_burger">menu</span></label>
+            <input type="checkbox" name="" id="check_menu" hidden/>
+            <ul className='routes_links_container_responsive' >
+                <li className='li_route'><Link className='li_route' to="/">Home</Link></li>
+                <li className='li_route'><a href="/login">Login</a></li>
+                <li className='li_route'><a onClick={singOut}>Logout</a></li>
+                {user?.privileges >= 2 ?  <li className='li_route' ><Link to="/areaBoss">Jefe del area</Link></li> : ""}
+                {user?.privileges >= 3 ? <li className='li_route' ><Link to="/vacationManager">Admin. Vacaciones</Link></li> : ""}
+                {user?.privileges >= 3 ? <li className='li_route' ><Link to="/profileManager">Admin. de Perfiles</Link></li> : ""}
+                {user?.privileges >= 3 ? <li className='li_route' ><Link to="/adminAreaRole">Admin. Area-Rol</Link></li> : ""}
+            </ul>
+        </nav> */}

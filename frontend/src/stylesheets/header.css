@@ -1,5 +1,9 @@
+.b_custom{
+    background: #2e2e2e !important;
+    /* color: #f0f0f0 !important; */
+}
+
 .header{
-    background: #2e2e2e;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,8 +27,22 @@
 .header .nav_container{
     width: 80%;
     height: 100%;
-    padding: 0 1rem 0 0;
+    /* background: blue; */
+    display: flex;
+    justify-content: end;
 }
+
+
+.routes_links_container{
+    /* background: red; */
+    width: auto;
+    height: 100%;
+    min-width: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 
 .header .nav_container ul{
     display: flex;
@@ -33,11 +51,14 @@
     height: 100%;
     display: flex;
     align-items: center;
+    /* background: pink; */
+    padding: 0 .4rem;
 }
 
 .header .nav_container ul li{
     list-style: none;
 }   
+
 
 .header .nav_container ul li a{
     text-decoration: none;
@@ -99,7 +120,7 @@
     .header .menu_responsive .routes_links_container_responsive{
         position: absolute;
         background: #2e2e2e;
-        top: 8vh;
+        top: 12vh;
         display: none;
         left: 0;
         width: 100vw;
@@ -134,7 +155,14 @@
     .burger_activator ~ input:checked ~ .routes_links_container_responsive{
         display: flex;
         /* background: red; */
-        height: 30vh;
+        height: auto;
+        min-height: 30vh;
+        /* background: red; */
+    }
+
+    .header .menu_responsive .li_route{
+        /* background: green; */
+        padding: .5rem;
     }
 }
 

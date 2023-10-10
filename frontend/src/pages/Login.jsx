@@ -18,9 +18,6 @@ export default function Login ({auth}){
     const [passHidden, setPassHidden] = useState(false)
     const [form, setForm] = useState(initalForm)
 
-    
-
-
     const changePassVisibility = ()=>{
         setPassHidden(!passHidden)
     }
@@ -56,17 +53,24 @@ export default function Login ({auth}){
         }
     }
 
-    const redirec = ()=>{
-        const previousUrl = document.referrer;
-        console.log("SON IGUALES: ",previousUrl == window.location.href )
-        console.log(previousUrl)
-        console.log(window.location.href)
+    // const redirec = ()=>{
+    //     const previousUrl = document.referrer;
+      
 
-        if (previousUrl === window.location.href || !previousUrl ) {
-          navigate('/');
-        } else {
-          navigate(-1);
-        }
+    //     if (previousUrl === window.location.href || !previousUrl ) {
+    //       navigate('/');
+    //     } else {
+    //       navigate(-1);
+    //     }
+    // }
+    const redirec = () => {
+      const previousUrl = document.referrer;
+    
+      if (previousUrl === window.location.href || !previousUrl) {
+        navigate('/');
+      } else {
+        window.history.back();
+      }
     }
 
 
@@ -78,9 +82,9 @@ export default function Login ({auth}){
         }
       }
 
-      useEffect(()=>{
-        reloaded()
-      },[])
+      // useEffect(()=>{
+      //   reloaded()
+      // },[])
       
 
     return (
