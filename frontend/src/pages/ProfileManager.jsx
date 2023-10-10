@@ -145,7 +145,7 @@ export default function ProfileManager({auth}){
             rows={fetchData.filter(v=>v.is_able==true)}
             fields={[
               // ["date_asked","Solicitud"],
-              ["name","Nombre"],
+              ["name,surname","Nombre y Apellido"],
               ["email","Email"],
               ["area","Area"],
               ["role_name","Rol"]

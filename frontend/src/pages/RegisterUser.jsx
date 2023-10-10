@@ -21,10 +21,10 @@ const initalForm = {
     privileges: "",
     role_id: 0,
     area_id: 0,
-    availableDays: "",
+    available_days: "",
     total_days: "",
-    signUpDay: "",
-    is_cumulative:true,
+    sign_up_date: "",
+    is_cumulative: true,
 }
 
 function FormGroup({ label, name, type, value, onChange }) {
@@ -84,7 +84,7 @@ export default function RegisterUser ({auth}){
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(form)
-        if ( !form.name || !form.surname || !form.dni || !form.email || !form.password || !form.privileges || !form.role_id || !form.area_id || !form.availableDays || !form.total_days || !form.signUpDay ) {
+        if ( !form.name || !form.surname || !form.dni || !form.email || !form.password || !form.privileges || !form.role_id || !form.area_id || !form.available_days || !form.total_days || !form.sign_up_date ) {
             setErrorMsg("Por favor, rellene los campos.");
             return;
         } 
@@ -95,7 +95,7 @@ export default function RegisterUser ({auth}){
         }
         const newEmployerToSend = {
             ...form,
-            signUpDay : `${form.signUpDay}T00:00:00`
+            sign_up_date : `${form.sign_up_date}T00:00:00`
             
         }
         try {
@@ -233,7 +233,7 @@ export default function RegisterUser ({auth}){
                                 isDisabled={!loaded}
                                 value={(loaded && fetchData?.areas)?fetchData.areas.find(option => option.value == form.area_id) : null}
                                 onChange={handleSelectChangeAreas}
-                                placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
+                                placeholder={loaded ? "Seleccione el area" : "Cargando..."}
                             />
                         </div>
                         <div className="form__register-group">
@@ -245,19 +245,19 @@ export default function RegisterUser ({auth}){
                                 isDisabled={!loaded}
                                 value={(loaded && fetchData?.areas)?fetchData.roles.find(option => option.value == form.role_id) : null}
                                 onChange={handleSelectChangeRoles}
-                                placeholder={loaded ? "Seleccione un jefe de área" : "Cargando..."}
+                                placeholder={loaded ? "Seleccione el rol" : "Cargando..."}
                             />
                         </div>
                         </div>
                         <div className="form__inputs-info d-flex flex-column">
                             <div className="form__inputs-info">
-                                <FormGroup label="Días Disponibles" name="availableDays" type="number" value={form.availableDays} onChange={handleForm}/>
+                                <FormGroup label="Días Disponibles" name="available_days" type="number" value={form.available_days} onChange={handleForm}/>
                                 <FormGroup label="Total de Días" name="total_days" type="number" value={form.total_days} onChange={handleForm}/>
                             </div>
                             
                             <div className="form__inputs-info">
                                 <div className="form__register-group">
-                                    <label className="form__register-label" htmlFor="form-control">Rol</label>
+                                    <label className="form__register-label" htmlFor="form-control">Vacaciones Acumulables</label>
                                     <select
                                         className="form__register-input form__register-input_options"
                                         id="is_cumulative"
@@ -269,7 +269,7 @@ export default function RegisterUser ({auth}){
                                         <option value={false}>No</option>
                                     </select>
                                 </div>
-                                <FormGroup label="Fecha de contratacion" name="signUpDay" type="date" value={form.signUpDay} onChange={handleForm}/>
+                                <FormGroup label="Fecha de contratacion" name="sign_up_date" type="date" value={form.sign_up_date} onChange={handleForm}/>
                             </div>
 
                         </div>
