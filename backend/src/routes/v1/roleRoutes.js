@@ -188,7 +188,7 @@ module.exports = router;
 // Delete an existing role
 /**
  * @swagger
- * /v1/role/deleteRole:
+ * /v1/role/deleteRole/{id}:
  *  delete:
  *    summary: Delete role
  *    tags: [Role]
