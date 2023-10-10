@@ -193,3 +193,99 @@ module.exports = router;
  *      400: 
  *        description: Bad request
  */
+
+//Reset Password component
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    ResetPassword:
+ *      type: object
+ *      properties:
+ *        email:
+ *          type: string
+ *          description: Email
+ *        password:
+ *          type: string
+ *          description: Password
+ *      required:
+ *        - email
+ *        - password
+ *      example:
+ *        email: admin@streambe.com
+ *        password: admin
+ */
+
+//Reset Password
+/**
+ * @swagger
+ * /v1/user/resetPassword/{id}:
+ *  post:
+ *    summary: Reset Password
+ *    tags: [Reset Password]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/ResetPassword'
+ *    responses:
+ *      200:
+ *        description: Now confirm the Email!
+ *      409:
+ *        description: Conflict
+ *      400: 
+ *        description: Bad request
+ */
+
+//Confirm Email component
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    ConfirmEmail:
+ *      type: object
+ *      properties:
+ *        email:
+ *          type: string
+ *          description: Email
+ *        password:
+ *          type: string
+ *          description: Password
+ *      required:
+ *        - email
+ *        - password
+ *      example:
+ *        email: admin@streambe.com
+ *        password: admin
+ */
+
+//Reset Password
+/**
+ * @swagger
+ * /v1/user/confirmEmailResetPassword/{token}:
+ *  post:
+ *    summary: Confirm Email to reset password
+ *    tags: [Reset Password]
+ *    parameters:
+ *      - in: path
+ *        name: token
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/ConfirmEmail'
+ *    responses:
+ *      200:
+ *        description: The password has been reset!
+ *      409:
+ *        description: Conflict
+ *      400: 
+ *        description: Bad request
+ */
