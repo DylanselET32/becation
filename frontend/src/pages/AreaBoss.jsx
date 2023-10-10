@@ -11,9 +11,18 @@ import AproveVacationBody from "../components/vacationsModal/AproveVacationBody"
 import DenyVacationBody from "../components/vacationsModal/DenyVacationBody";
 
 
-export default function AreaBoss({auth}){
+export default function AreaBoss({auth,privilegeLevelCondition}){
 
     const navigate = useNavigate();
+    // Efecto que redirige a la página de inicio de sesión si no hay usuario autenticado.
+    const verifyAuthenticity = ()=>{
+        if(!auth.user && !privilegeLevelCondition(auth.user?.privileges)){
+            navigate("/login");
+        }
+    }
+    useEffect(verifyAuthenticity, []);
+    useEffect(verifyAuthenticity, [auth, navigate]);
+  
 
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
@@ -25,13 +34,6 @@ export default function AreaBoss({auth}){
 
     const toggleShowModalDeny = ()=>{setShowModalDeny(!showModalDeny)};
     const toggleShowModalAprove = ()=>{setShowModalAprove(!showModalAprove)};
-
-    useEffect(()=>{
-        const isNotLoginPage = location.pathname !== "/login";
-        if(!auth.user && isNotLoginPage){
-            navigate("/login");
-        }
-    }, [auth, navigate]);
 
     //Pedir todas las vacaciones y mostrarlas
     const fetchVacations = async () => {

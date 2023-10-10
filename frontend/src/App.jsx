@@ -31,17 +31,17 @@ function App() {
           <ModalAlert/>
           <Header auth={auth} />
            <Routes>
-            <Route exact path="/" element={<Home auth={auth} />} />
-            <Route exact path="/login" element={<Login auth={auth} />} />
-            <Route path="/home" element={<Home  auth={auth} />} />
-            <Route path="/areaBoss" element={<AreaBoss auth={auth} />} />
-            <Route path="/adminAreaRole" element={<AdminAreaRole auth={auth} />} />
-            <Route path="/vacationManager" element={<VacationManager auth={auth} />} />
-            <Route path="/vacationManagerCalendar/:id" element={<VacationManagerCalendar auth={auth} />} />
-            <Route path="/profileManager" element={<ProfileManager auth={auth} />} />
-            <Route path="/profileConfig/:id" element={<ProfileConfig auth={auth} />} />
-            <Route path="/registerUser" element={<RegisterUser auth={auth} />} />
-            <Route path="/resetPassword/:token" element={<ResetPassword auth={auth} />} />
+            <Route exact path="/" element={<Home auth={auth} privilegeLevelCondition={p=>p>=1} />} /> {/*ACCESIBLE POR NIVEL 1 en adelante*/} 
+            <Route exact path="/login" element={<Login auth={auth} privilegeLevelCondition={p=>true}/>} /> {/*ACCESIBLE POR TODOS*/} 
+            <Route path="/home" element={<Home  auth={auth}  privilegeLevelCondition={p=>p>=1}/>} /> {/*ACCESIBLE POR NIVEL 1 en adelante*/} 
+            <Route path="/areaBoss" element={<AreaBoss auth={auth} privilegeLevelCondition={p=>p>=2 && p != 3 }/>} /> {/*SOLO ACCESIBLE POR NIVEL 2 y no por el 3*/} 
+            <Route path="/adminAreaRole" element={<AdminAreaRole auth={auth} privilegeLevelCondition={p=>p>=4}/>} />   {/*SOLO ACCESIBLE POR NIVEL 4*/} 
+            <Route path="/vacationManager" element={<VacationManager auth={auth} privilegeLevelCondition={p=>p>=3}/>} /> {/*SOLO ACCESIBLE POR NIVEL 4*/} 
+            <Route path="/vacationManagerCalendar/:id" element={<VacationManagerCalendar auth={auth} privilegeLevelCondition={p=>p>=3}/>} /> {/*SOLO ACCESIBLE POR NIVEL 4*/} 
+            <Route path="/profileManager" element={<ProfileManager auth={auth} privilegeLevelCondition={p=>p>=3}/>} /> {/*SOLO ACCESIBLE POR NIVEL 4*/} 
+            <Route path="/profileConfig/:id" element={<ProfileConfig auth={auth} privilegeLevelCondition={p=>p>=3}/>} /> {/*SOLO ACCESIBLE POR NIVEL 4*/} 
+            <Route path="/registerUser" element={<RegisterUser auth={auth} privilegeLevelCondition={p=>p>=3}/>} /> {/*SOLO ACCESIBLE POR NIVEL 4*/} 
+            <Route path="/resetPassword/:token" element={<ResetPassword auth={auth} privilegeLevelCondition={p=>true}/>} /> {/*ACCESIBLE POR TODOS*/}  
             <Route path="*" element={<NotFound />} />
           </Routes> 
         </AlertProvider>

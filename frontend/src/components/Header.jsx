@@ -23,22 +23,22 @@ return (<>
         message="¿Está seguro que sesea cerrar sesion?"
     />
 
-        <nav class="navbar navbar-expand-xl bg-body-tertiary b_custom">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#"><img src={LogoBecation} alt="" width={"70px"}></img></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+        <nav className="navbar navbar-expand-xl bg-body-tertiary b_custom">
+            <div className="container-fluid">
+                <a className="navbar-brand" href="#"><img src={LogoBecation} alt="" width={"70px"}></img></a>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
+                <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav">
+                    <li className="nav-item">
                         <Link className='nav-link text-light' to="/">Home</Link>
                     </li>
                     {!user ? <li><Link className='nav-link text-light' to="login">Login</Link></li> : <li><a className='nav-link text-light' onClick={singOut}>Logout</a></li>}
-                    {user?.privileges >= 2 ?  <li><Link className='nav-link text-light' to="/areaBoss">Jefe del area</Link></li> : ""}
-                    {user?.privileges >= 3 ? <li><Link className='nav-link text-light' to="/vacationManager">Admin. Vacaciones</Link></li> : ""}
-                    {user?.privileges >= 3 ? <li><Link className='nav-link text-light' to="/profileManager">Admin. de Perfiles</Link></li> : ""}
-                    {user?.privileges >= 3 ? <li><Link className='nav-link text-light' to="/adminAreaRole">Admin. Area-Rol</Link></li> : ""}
+                    {(user?.privileges >= 2 && user?.privileges != 3) ?  <li><Link className='nav-link text-light' to="/areaBoss">Jefe del area</Link></li> : ""}
+                    {(user?.privileges >= 3) ? <li><Link className='nav-link text-light' to="/vacationManager">Admin. Vacaciones</Link></li> : ""}
+                    {(user?.privileges >= 3) ? <li><Link className='nav-link text-light' to="/profileManager">Admin. de Perfiles</Link></li> : ""}
+                    {(user?.privileges >= 4) ? <li><Link className='nav-link text-light' to="/adminAreaRole">Admin. Area-Rol</Link></li> : ""}
                     {user != null ? <li className='badge fs-6'><a className='nav-link text-info'>{user.name}</a></li> : ""}
                 </ul>
                 </div>
