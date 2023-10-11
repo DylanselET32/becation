@@ -35,7 +35,7 @@ const swaggerDocs = (app, port) => {
         res.send(swaggerSpec);
     });
 
-    console.log(`Version 1.0 Docs are available at http://localhost:${port}/api/docs.json`);
+    console.log(`Version 1.0 Docs are available at http://localhost:${port}/api/docs`);
 };
 
 module.exports = { swaggerDocs }
