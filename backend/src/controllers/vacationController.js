@@ -150,7 +150,7 @@ const editVacation = async (req, res) => {
 
     const areaData = await  getAreaById(employer.area_id)
     const AreaManagerEmployer = await getEmployerById(areaData.area_manager) ;
-    if(AreaManagerEmployer.id == idEmployerAdmin || employerAdmin.privileges >= 3){
+    if(AreaManagerEmployer.id == idEmployerAdmin || employerAdmin.privileges >= 3 || employer.id == vacation.employee){
       
       const vacationData = {
       ...data,
@@ -160,6 +160,26 @@ const editVacation = async (req, res) => {
 
       const edit = await vDAO.editVacation(vacationData, id);
       if(!edit){res.status(404).json({ message: 'error to update vacation' });}
+
+      const dateDiff = calculateDaysBetweenDates(vacation.start_date,vacation.end_date)
+      const newVacationDiff = calculateDaysBetweenDates(data.start_date || vacation.start_date ,data.end_date || vacation.end_date)
+      console.log("DIAS VIEJOS:",dateDiff)
+      console.log("DIAS NUEVOS:",newVacationDiff)
+      let newAvailableDays = 0;
+      if(dateDiff> newVacationDiff){
+        //sumar
+        newAvailableDays = employer.available_days + (dateDiff - newVacationDiff);
+      }else if(dateDiff< newVacationDiff){
+        //restar
+        newAvailableDays = employer.available_days - (newVacationDiff - dateDiff);
+      }
+      const updateAvailableDays = await EmployerDAO.editEmployer({available_days:newAvailableDays}, employer.id);
+
+      if (data.area_manager_authorization == 0) {
+        const vacacionEditada = await vDAO.getVacationById(id);
+        const giveBackDays =  employer.available_days + calculateDaysBetweenDates(vacacionEditada.start_date, vacacionEditada.end_date);
+        const updateAvailableDays = await EmployerDAO.editEmployer({available_days:giveBackDays}, employer.id);
+      }
 
       if (data.status == 'denied') {
         const vacacionEditada = await vDAO.getVacationById(id);
