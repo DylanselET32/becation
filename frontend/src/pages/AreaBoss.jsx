@@ -56,7 +56,7 @@ export default function AreaBoss({auth,privilegeLevelCondition}){
 
     useEffect(()=>{
         fetchVacations();
-    },[]);
+    },[auth]);
 
     //Manejo de acciones en cada vacacion
     useEffect((e) => {

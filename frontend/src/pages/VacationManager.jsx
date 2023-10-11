@@ -61,7 +61,7 @@ export default function VacationManager({auth,privilegeLevelCondition}){
 
     useEffect(()=>{
         fetchVacations();
-    },[]);
+    },[auth]);
 
     //Manejo de acciones en cada vacacion
     useEffect((e) => {

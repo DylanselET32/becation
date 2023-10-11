@@ -66,7 +66,7 @@ export default function VacationManagerCalendar({auth,privilegeLevelCondition}){
 
     useEffect(()=>{
         fetchData() 
-    },[])
+    },[auth])
 
     return(<>
         {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:

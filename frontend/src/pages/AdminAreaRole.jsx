@@ -143,7 +143,7 @@ export default function AdminAreaRole({auth,privilegeLevelCondition}){
     // Efecto para cargar las vacaciones al montar el componente
     useEffect(()=>{
         fetchVacations();
-    },[]);
+    },[auth]);
 
     return(<>
         {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:

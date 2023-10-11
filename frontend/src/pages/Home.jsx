@@ -240,7 +240,7 @@ export default function Home({auth,privilegeLevelCondition}){
     // Efecto para cargar las vacaciones al montar el componente
     useEffect(()=>{
         fetchVacations();
-    },[]);
+    },[auth]);
 
     return(<>{loaded == 0 ?<Loading/>:
         loaded == 2 ?<Unauthorized auth={auth}/>:

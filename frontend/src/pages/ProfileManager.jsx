@@ -115,7 +115,7 @@ export default function ProfileManager({auth,privilegeLevelCondition}){
   // Efecto para cargar los empleados al montar el componente
   useEffect(()=>{
     fetchEmployers();
-  },[]);
+  },[auth]);
   return(<>
     {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:
     <>
