@@ -21,7 +21,7 @@ require('dotenv').config()
       const info = await transporter.sendMail({...data,from:jConfig.auth.user});
       return info.response;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new Error('Error al enviar el correo electrónico');
     }
   }

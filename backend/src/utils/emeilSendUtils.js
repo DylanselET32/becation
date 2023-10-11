@@ -25,7 +25,7 @@ const resetPassword = async (idEmployer) => {
 
     await sendEmail(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(error);
   }
 };
@@ -71,7 +71,7 @@ async function sendVacationUploadConfirmation(idEmployer, idVacation) {
 
     await sendEmail(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(error);
   }
 }
@@ -117,7 +117,7 @@ async function sendVacationModification(idEmployer, idVacation) {
 
     await sendEmail(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(error);
   }
 }

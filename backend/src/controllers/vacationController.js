@@ -144,7 +144,6 @@ const editVacation = async (req, res) => {
     for (const prop in req.body) {
       data[prop] = req.body[prop];
     }
-    console.log(data)
     const employer = await getCompleteEmployer(vacation.employee)
     const employerAdmin = await getCompleteEmployer(idEmployerAdmin)
 
@@ -166,28 +165,22 @@ const editVacation = async (req, res) => {
       
       let newAvailableDays = 0;
       if(dateDiff> newVacationDiff){
-        //sumar
-        console.log("sumar")
         newAvailableDays = employer.available_days + (dateDiff - newVacationDiff);
         const updateAvailableDays = await EmployerDAO.editEmployer({available_days:newAvailableDays}, employer.id);
 
       }else if(dateDiff< newVacationDiff){
-        //restar
-        console.log("restar")
         newAvailableDays = employer.available_days - (newVacationDiff - dateDiff);
         const updateAvailableDays = await EmployerDAO.editEmployer({available_days:newAvailableDays}, employer.id);
       }
 
 
       if (data.area_manager_authorization === 0 && !data.status) {
-        console.log("area_manager_authorization")
         const vacacionEditada = await vDAO.getVacationById(id);
         const giveBackDays =  employer.available_days + calculateDaysBetweenDates(vacacionEditada.start_date, vacacionEditada.end_date);
         const updateAvailableDays = await EmployerDAO.editEmployer({available_days:giveBackDays}, employer.id);
       }
 
       if (data.status == 'denied') {
-        console.log("status   denied")
         const vacacionEditada = await vDAO.getVacationById(id);
         const giveBackDays =  employer.available_days + calculateDaysBetweenDates(vacacionEditada.start_date, vacacionEditada.end_date);
         const updateAvailableDays = await EmployerDAO.editEmployer({available_days:giveBackDays}, employer.id);

@@ -66,8 +66,6 @@ const editArea = async (req, res) => {
               to_update:employerAdmin_id,
             }
         }
-        console.log(Object.keys(data).length)
-        console.log(data)
         const edit = await AreaDAO.editArea(data, id);
         if(!edit){throw new Error("Error to edit area")}
         res.status(200).json({});
