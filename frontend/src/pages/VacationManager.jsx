@@ -201,13 +201,8 @@ export default function VacationManager({auth,privilegeLevelCondition}){
 
     const editVacationFetch = async (selectItem, newStatus)=>{
         let newVacationState = {
-            employee: selectItem.employee,
-            start_date: `${formatDateToSend(selectItem.start_date)}T00:00:00`,
-            end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
             status: newStatus,
             note: selectItem.note,
-            date_asked: formatDateAsked(selectItem.date_asked),
-            area_manager_authorization: selectItem.area_manager_authorization
         }
 
         console.log("LO QUE SE ENVÍA", newVacationState)

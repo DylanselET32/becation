@@ -181,12 +181,6 @@ export default function AreaBoss({auth,privilegeLevelCondition}){
 
     const editVacationFetch = async (selectItem, newAuth)=>{
         let newVacationState = {
-            employee: selectItem.employee,
-            start_date: `${formatDateToSend(selectItem.start_date)}T00:00:00`,
-            end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
-            status: "null",
-            note: selectItem.note,
-            date_asked: formatDateAsked(selectItem.date_asked),
             area_manager_authorization: newAuth
         }
 
