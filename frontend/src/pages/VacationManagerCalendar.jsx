@@ -6,8 +6,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import "../stylesheets/calendarAdministration.css";
 import { getAllVacationsByArea, getVacationById } from "../services/vacationService";
 import { formatDateToString, operateDate } from "../helpers/misc/dateUtils";
+import Unauthorized from "../components/Unauthorized";
 
-export default function VacationManagerCalendar({auth}){
+export default function VacationManagerCalendar({auth,privilegeLevelCondition}){
     const id_vacacion = useParams();
     const [vacations, setVacations] = useState([]);
     const [vacationParams,setVacationParams] = useState();
@@ -15,13 +16,6 @@ export default function VacationManagerCalendar({auth}){
     const volverAtras = ()=>{
         navigate(-1);
     };
-
-    useEffect(()=>{
-        const isNotLoginPage = location.pathname !== "/login";
-        if(!auth.user && isNotLoginPage){
-            navigate("/login");
-        }
-    }, [auth, navigate]);
 
     const fetchData = async()=>{
         const vacationByParams = await getVacationById(parseInt(id_vacacion.id));
@@ -74,7 +68,8 @@ export default function VacationManagerCalendar({auth}){
         fetchData() 
     },[])
 
-    return(
+    return(<>
+        {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:
         <>
         <div className="ms-4 d-flex align-items-center justify-content-start">
             <button className="btn-volver" onClick={volverAtras}>Volver</button>
@@ -108,6 +103,6 @@ export default function VacationManagerCalendar({auth}){
                 />
             </div>
         </section>
-        </>
+        </>}</>
     )
 }

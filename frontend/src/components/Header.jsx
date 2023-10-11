@@ -10,7 +10,6 @@ const Header = ({auth}) => {
 
 const user = auth ? auth.user : null;
 const { showModal, handleShowModal, handleCloseModal, handleConfirm } = useConfirmation();
-const [navShow,setNavShow] = useState(false)
 const singOut = () => {
     handleShowModal(auth.logOut)
 }
@@ -32,12 +31,12 @@ return (<>
     />
         <nav className="navbar navbar-expand-xl bg-body-tertiary bg-dark b_custom">
             <div className="container-fluid">
-                <a className="navbar-brand" href="#"><img src={LogoBecation} alt="" width={"70px"}></img></a>
+                <a className="navbar-brand" href="#"><img src={LogoBecation} alt="" width={"50px"}></img></a>
                 <button className="navbar-toggler text-light" id="navbar-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="bi bi-list fs-1"></span>
                 </button>
                 <div className={`collapse navbar-collapse justify-content-end`} id="navbarNav">
-                <ul className="navbar-nav" onClick={()=>setNavShow(false)}>
+                <ul className="navbar-nav">
                     <li className="nav-item" onClick={toggleNav}><Link className='nav-link text-light' to="/">Home</Link></li>
                     {(user?.privileges >= 2 && user?.privileges != 3) ?  <li onClick={toggleNav}><Link className='nav-link text-light' to="/areaBoss">Jefe del area</Link></li> : ""}
                     {(user?.privileges >= 3) ? <li onClick={toggleNav}><Link className='nav-link text-light' to="/vacationManager">Admin. Vacaciones</Link></li> : ""}

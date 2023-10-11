@@ -24,7 +24,7 @@ export default function Home({auth,privilegeLevelCondition}){
     // Efecto que redirige a la página de inicio de sesión si no hay usuario autenticado.
 
     useEffect(()=>{
-        if(!auth.user && !privilegeLevelCondition(auth.user?.privileges)){
+        if(!auth.user){
             navigate("/login");
         }
     }, [auth, navigate]);
@@ -43,6 +43,7 @@ export default function Home({auth,privilegeLevelCondition}){
     const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
     // Función para obtener las vacaciones del servidor
     const fetchVacations = async () => {
+        if(!auth.user){return;}
         try {
             setVacationDaysAsked([])
             setFetchDataToCalendara([])

@@ -20,15 +20,7 @@ export default function ResetPassword({auth}){
   const [errorMsg,setErrorMsg] = useState(false)
   const [seePassword1,setSeePassword1] = useState(false)
   const [seePassword2,setSeePassword2] = useState(false)
-  const navigate = useNavigate();
 
-  useEffect(()=>{
-    const isNotLoginPage = location.pathname !== "/login";
-    if(!auth.user && isNotLoginPage){
-        navigate("/login");
-    }
-}, [auth, navigate]);
-    
   //Este const maneja los cambios a realizar en la contraseña
   const handleChange = (e) => {
     setErrorMsg("")

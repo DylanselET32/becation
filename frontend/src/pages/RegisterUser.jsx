@@ -10,6 +10,7 @@ import { getAllRoles } from "../services/roleServices";
 import Loading from '../components/Loading'
 import Select from "react-select";
 import { useAlert } from "../contexts/AlertContext";
+import Unauthorized from "../components/Unauthorized";
 
 
 const initalForm = {
@@ -41,7 +42,7 @@ function FormGroup({ label, name, type, value, onChange }) {
     );
 }
 
-export default function RegisterUser ({auth}){
+export default function RegisterUser ({auth,privilegeLevelCondition}){
     
     const [passHidden, setPassHidden] = useState(false);
     const [form, setForm] = useState(initalForm);
@@ -52,15 +53,6 @@ export default function RegisterUser ({auth}){
     const [isSaving, setIsSaving] = useState(false);
     const navigate = useNavigate();
     const { alertConfig, setAlertConfig } = useAlert(); // Usa el contexto alert
-
-
-    useEffect(()=>{
-        const isNotLoginPage = location.pathname !== "/login";
-        if(!auth.user && isNotLoginPage){
-            navigate("/login");
-        }
-    }, [auth, navigate]);
-
 
     const changePassVisibility = ()=>{
         setPassHidden(!passHidden);
@@ -120,6 +112,7 @@ export default function RegisterUser ({auth}){
     };
 
     const fetch = async () => {
+        if(!auth?.user){return}
         try {
           setLoaded(false);
           const areas = await getAllAreas()
@@ -193,7 +186,9 @@ export default function RegisterUser ({auth}){
         fetch()
     }, []);
 
-    return (
+    return (<>
+        {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:
+        <>
         <div className="main_register-container">
             
             {loaded?<div className="container_register">
@@ -284,5 +279,6 @@ export default function RegisterUser ({auth}){
             <Loading/>
             }
         </div>
+        </>}</>
     );
 }

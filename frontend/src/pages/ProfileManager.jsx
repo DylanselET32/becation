@@ -6,8 +6,9 @@ import { Modal } from 'react-bootstrap';
 import { getAllEmployers, deleteEmployer, resetPassword, disableUserByEmployerId } from '../services/employeeServices';
 import ModalSeeProfileDetails from '../components/profilesModal/ModalSeeProfileDetails';
 import ModalDeleteProfile from '../components/profilesModal/ModalDeleteProfile';
+import Unauthorized from '../components/Unauthorized';
 
-export default function ProfileManager({auth}){
+export default function ProfileManager({auth,privilegeLevelCondition}){
 
   const navigate = useNavigate();
   
@@ -20,15 +21,10 @@ export default function ProfileManager({auth}){
   const [showModalDelete,setShowModalDelete] = useState(false); // Estado que controla al modal ModalDeleteProfile
   const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
   
-  useEffect(()=>{
-    const isNotLoginPage = location.pathname !== "/login";
-    if(!auth.user && isNotLoginPage){
-        navigate("/login");
-    }
-  }, [auth, navigate]);
 
   // Función para obtener los empleados del servidor
   const fetchEmployers = async () => {
+    if(!auth?.user){return}
     try {
       setFetchData([])
       const employers = await getAllEmployers();
@@ -121,6 +117,8 @@ export default function ProfileManager({auth}){
     fetchEmployers();
   },[]);
   return(<>
+    {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:
+    <>
     {actionButton}
     <Modal show={showModalDelete} onHide={toggleShowModalDelete}>
           <ModalDeleteProfile
@@ -161,6 +159,6 @@ export default function ProfileManager({auth}){
         </section>
       </div>
     </div> 
-    </>
+    </>}</>
   );
 }

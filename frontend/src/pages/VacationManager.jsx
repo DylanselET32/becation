@@ -9,9 +9,10 @@ import AproveVacationBody from "../components/vacationsModal/AproveVacationBody"
 import DenyVacationBody from "../components/vacationsModal/DenyVacationBody";
 import SendRevisionBody from "../components/vacationsModal/SendRevisionBody";
 import { useNavigate } from "react-router-dom";
+import Unauthorized from "../components/Unauthorized";
 
 
-export default function VacationManager({auth}){
+export default function VacationManager({auth,privilegeLevelCondition}){
 
     const [selectItem, setSelectItem] = useState(null); // Estado que almacena el elemento seleccionado en la tabla
     const [actionButton, setActionButton] = useState(); // Estado que indica la acción a realizar
@@ -21,13 +22,6 @@ export default function VacationManager({auth}){
     const [showModalSendRevision, setShowModalSendRevision ] = useState(false)
     const [noteRevision, setNoteRevision] = useState('');
     const navigate = useNavigate();
-
-    useEffect(()=>{
-        const isNotLoginPage = location.pathname !== "/login";
-        if(!auth.user && isNotLoginPage){
-            navigate("/login");
-        }
-    }, [auth, navigate]);
 
     const [filter, setFilter] = useState([]); // Estado de filtro
 
@@ -42,6 +36,7 @@ export default function VacationManager({auth}){
 
     //Pedir todas las vacaciones y mostrarlas
     const fetchVacations = async () => {
+        if(!auth?.user){return}
         try {
             setFetchData([])
             setFilter([])
@@ -252,7 +247,8 @@ export default function VacationManager({auth}){
             refresh()
         }
 
-    return(
+    return( <>
+        {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:
         <>
         {/* MODAL DE REVISIÓN */}
         <Modal show={showModalSendRevision} onHide={toggleShowModalSendRevision}>
@@ -324,7 +320,7 @@ export default function VacationManager({auth}){
                 </CustomTable>
             </div>
         </div>
-        </>
+        </>}</>
         
     
     )
