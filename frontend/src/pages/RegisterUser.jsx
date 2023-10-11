@@ -43,7 +43,7 @@ function FormGroup({ label, name, type, value, onChange }) {
 }
 
 export default function RegisterUser ({auth,privilegeLevelCondition}){
-    
+
     const [passHidden, setPassHidden] = useState(false);
     const [form, setForm] = useState(initalForm);
     const [areas, setAreas] = useState([]);
@@ -92,6 +92,7 @@ export default function RegisterUser ({auth,privilegeLevelCondition}){
         }
         try {
             const save = await addEmployer(newEmployerToSend)
+            console.log(save)
             if(save.status != 200){throw new Error(`No se pudo registrar,${save.date.error || save.date.message}`)}
             setAlertConfig({
                 show: true,
@@ -99,6 +100,7 @@ export default function RegisterUser ({auth,privilegeLevelCondition}){
                 title: "Registrado",
                 message: `Se registro a ${form.name} ${form.surname} con exito`,
               });
+              goBack()
         } catch (error) {
             console.error(error)
             setAlertConfig({
@@ -110,7 +112,9 @@ export default function RegisterUser ({auth,privilegeLevelCondition}){
         }
        
     };
-
+    const goBack = ()=>{
+        navigate(-1);
+    }
     const fetch = async () => {
         if(!auth?.user){return}
         try {
@@ -199,7 +203,11 @@ export default function RegisterUser ({auth,privilegeLevelCondition}){
                 </div>
                 )}
                 <form action="" onSubmit={handleSubmit}>
-                    <h1 className="form__register-title">Registrar Usuario</h1>
+                    <div className="d-flex justify-content-between">
+                        <button title="Volver" type="button" class="btn btn-danger" onClick={goBack}><i className="bi bi-arrow-left"></i></button>
+                        <h1 className="form__register-title m-auto">Registrar Usuario</h1>
+
+                    </div>  
                     <h2 className="form__register-subtitle">Información Personal</h2>
                     <div className="form__inputs-info">
                         <FormGroup label="Nombre" name="name" type="text" value={form.name} onChange={handleForm}/>
