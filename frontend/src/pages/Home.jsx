@@ -16,20 +16,22 @@ import { Modal } from 'react-bootstrap';
 import DeleteVacationBody from '../components/vacationsModal/DeleteVacationBody'
 import ModalEditVacation from '../components/vacationsModal/ModalEditVacation';
 import { getEmployer } from '../services/employeeServices';
+import Loading from '../components/Loading';
+import Unauthorized from '../components/Unauthorized';
 export default function Home({auth,privilegeLevelCondition}){
 
     const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
     
     const navigate = useNavigate();
     // Efecto que redirige a la página de inicio de sesión si no hay usuario autenticado.
-
     useEffect(()=>{
-        if(!auth.user){
-            navigate("/login");
+        if(auth.user){
+            setLoaded(1)
+        }else{
+            setLoaded(2)
         }
-    }, [auth, navigate]);
-
-
+    },[auth])
+    const [loaded,setLoaded] = useState(0); 
     const initialFetch = {vacations:[]}
     const [isAvailableForm, setIsAvailableForm] = useState(false); // Estado que controla si el formulario de vacaciones está disponible
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}]); // Estado que almacena los días de vacaciones solicitados
@@ -240,7 +242,10 @@ export default function Home({auth,privilegeLevelCondition}){
         fetchVacations();
     },[]);
 
-    return(
+    return(<>{loaded == 0 ?<Loading/>:
+        loaded == 2 ?<Unauthorized auth={auth}/>:
+    
+        <>
         <div className="container-lg">
             <Modal show={showModalDelete} onHide={toggleShowModalDelete}>
                   <DeleteVacationBody
@@ -319,5 +324,6 @@ export default function Home({auth,privilegeLevelCondition}){
                 </section>
             </div>
         </div>
+        </>}</>
     );
 }
