@@ -157,10 +157,16 @@ const editVacation = async (req, res) => {
       to_update: idEmployerAdmin,
       to_update_date: formatFullDateTime(Date()),
       }
-      
+
       const edit = await vDAO.editVacation(vacationData, id);
       if(!edit){res.status(404).json({ message: 'error to update vacation' });}
-     
+
+      if (data.status == 'denied') {
+        const vacacionEditada = await vDAO.getVacationById(id);
+        const giveBackDays =  employer.available_days + calculateDaysBetweenDates(vacacionEditada.start_date, vacacionEditada.end_date);
+        const updateAvailableDays = await EmployerDAO.editEmployer({available_days:giveBackDays}, employer.id);
+      }
+    
       email.sendVacationModification(vacation.employee, id);
       res.status(200).json({});
     }else{
@@ -176,12 +182,17 @@ const editVacation = async (req, res) => {
 const deleteVacation = async (req, res) => {
   try {
     const id = req.params.id; // Obtener el ID de la vacación
-    const result = vDAO.removeVacation(id);
+    const vacation = await vDAO.getVacationById(id);
+    const employer = await getCompleteEmployer(vacation.employee);
+    const result = await vDAO.removeVacation(id);
+    
     if (result === 0) { // Si la vacación no existe
       res.status(404).json({ message: 'Vacation not found' });
       return;
     }
     res.status(200).json({ message: "La vacación se eliminó correctamente."}); //confirmo que se eliminó correctamente
+    const giveBackDays =  employer.available_days + calculateDaysBetweenDates(vacation.start_date,vacation.end_date);
+    const updateAvailableDays = await EmployerDAO.editEmployer({available_days:giveBackDays}, employer.id);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
