@@ -31,12 +31,14 @@ export default function AreaBoss({auth,privilegeLevelCondition}){
         try {
             setSelectItem(null)
             setActionButton('')
-            setFetchData(null)
+   
             const user = await getUser();
             const userId = await user.data.area_id;
+            console.log("AREA ID: ",userId)
 
             setFetchData([])
             const vacations = await getAllVacationsByArea(userId);
+            console.log(vacations)
 
             const vacationsAproved = vacations.data.filter(f => f.area_manager_authorization == null)
 
@@ -182,7 +184,7 @@ export default function AreaBoss({auth,privilegeLevelCondition}){
             employee: selectItem.employee,
             start_date: `${formatDateToSend(selectItem.start_date)}T00:00:00`,
             end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
-            status: null,
+            status: "null",
             note: selectItem.note,
             date_asked: formatDateAsked(selectItem.date_asked),
             area_manager_authorization: newAuth
@@ -200,10 +202,12 @@ export default function AreaBoss({auth,privilegeLevelCondition}){
     //Prueba de acciones
         const aproveVacation = ()=> {
             editVacationFetch(selectItem, 1)
+            refresh()
         }
 
         const denyVacation =()=>{
             editVacationFetch(selectItem, 0)
+            refresh();
         }
 
    
