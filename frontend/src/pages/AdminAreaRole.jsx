@@ -20,20 +20,11 @@ import ModalEditRole from '../components/roleModal/ModalEditRole';
 import ModalSeeRoleDetails from '../components/roleModal/ModalSeeRoleDetaills';
 import DeleteRoleBody from '../components/roleModal/DeleteRoleBody';
 import ModalAddRole from '../components/roleModal/ModalAddRole';
+import Unauthorized from '../components/Unauthorized';
 
-export default function AdminAreaRole({auth}){
+export default function AdminAreaRole({auth,privilegeLevelCondition}){
 
-    const navigate = useNavigate();
     const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
-
-    //Efecto que redirige a la página de inicio de sesión si no hay usuario autenticado.
-    // useEffect(()=>{
-    //     const isNotLoginPage = location.pathname !== "/login";
-    //     console.log(location.pathname)
-    //     if(!auth.user && isNotLoginPage){
-    //         navigate("/login");
-    //     }
-    // }, [auth, navigate]);
 
 
 
@@ -59,6 +50,7 @@ export default function AdminAreaRole({auth}){
     const toggleShowModalDeleteRole = ()=>{setShowModalDeleteRole(!showModalDeleteRole)};
     // Función para obtener las vacaciones del servidor
     const fetchVacations = async () => {
+        if(!auth?.user){return}
         try {
             setIsLoaded(false)
             setFetchAreas([]);
@@ -153,7 +145,9 @@ export default function AdminAreaRole({auth}){
         fetchVacations();
     },[]);
 
-    return(
+    return(<>
+        {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:
+        <>
         <div className="container-lg">
             <Modal show={showModalDeleteArea && !showModalDeleteRole} onHide={toggleShowModalDeleteArea}>
                   <DeleteAreaBody
@@ -228,5 +222,9 @@ export default function AdminAreaRole({auth}){
             }
             
         </div>
+        </>}
+        
+        </>
     );
+    
 }

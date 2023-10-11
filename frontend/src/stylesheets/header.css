@@ -2,7 +2,9 @@
     background: #2e2e2e !important;
     /* color: #f0f0f0 !important; */
 }
-
+.toggler_color_custom{
+    color: white !important;
+}
 .header{
     display: flex;
     justify-content: space-between;

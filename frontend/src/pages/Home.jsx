@@ -16,18 +16,20 @@ import { Modal } from 'react-bootstrap';
 import DeleteVacationBody from '../components/vacationsModal/DeleteVacationBody'
 import ModalEditVacation from '../components/vacationsModal/ModalEditVacation';
 import { getEmployer } from '../services/employeeServices';
-export default function Home({auth}){
+export default function Home({auth,privilegeLevelCondition}){
 
-    const navigate = useNavigate();
     const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
-
+    
+    const navigate = useNavigate();
     // Efecto que redirige a la página de inicio de sesión si no hay usuario autenticado.
+
     useEffect(()=>{
-        const isNotLoginPage = location.pathname !== "/login";
-        if(!auth.user && isNotLoginPage){
+        if(!auth.user){
             navigate("/login");
         }
     }, [auth, navigate]);
+
+
     const initialFetch = {vacations:[]}
     const [isAvailableForm, setIsAvailableForm] = useState(false); // Estado que controla si el formulario de vacaciones está disponible
     const [vacationDaysAsked, setVacationDaysAsked] = useState([{start: "", end: "", title: "Vacaciones"}]); // Estado que almacena los días de vacaciones solicitados
@@ -41,6 +43,7 @@ export default function Home({auth}){
     const toggleShowModalDelete = ()=>{setShowModalDelete(!showModalDelete)};
     // Función para obtener las vacaciones del servidor
     const fetchVacations = async () => {
+        if(!auth.user){return;}
         try {
             setVacationDaysAsked([])
             setFetchDataToCalendara([])

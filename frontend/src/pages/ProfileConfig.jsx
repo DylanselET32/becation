@@ -12,8 +12,9 @@ import { useParams } from "react-router-dom";
 import { getAllAreas } from "../services/areaServices";
 import Select from "react-select";
 import { getAllRoles } from "../services/roleServices";
+import Unauthorized from "../components/Unauthorized";
 
-export default function ProfileConfig({ auth }) {
+export default function ProfileConfig({ auth,privilegeLevelCondition }) {
   const initialFilds = {
     name: "",
     surname: "",
@@ -40,12 +41,6 @@ export default function ProfileConfig({ auth }) {
   const [isSaving, setIsSaving] = useState(false);
   const params = useParams();
 
-  useEffect(() => {
-    const isNotLoginPage = location.pathname !== "/login";
-    if (!auth.user && isNotLoginPage) {
-      navigate("/login");
-    }
-  }, [auth, navigate]);
 
   const handleClose = () => {
     setErrorMsg(null);
@@ -57,6 +52,7 @@ export default function ProfileConfig({ auth }) {
   };
 
   const fetch = async () => {
+    if(!auth?.user){return}
     try {
       setLoaded(false);
       const profile = await getEmployerById(params?.id);
@@ -157,7 +153,8 @@ export default function ProfileConfig({ auth }) {
     fetch();
   }, []);
 
-  return (
+  return (<>
+    {(!privilegeLevelCondition(auth.user?.privileges))?<Unauthorized auth={auth}/>:
     <>
       <main>
         <div className="container">
@@ -302,6 +299,6 @@ export default function ProfileConfig({ auth }) {
           </form>
         </div>
       </main>
-    </>
+    </>}</>
   );
 }
