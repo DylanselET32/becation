@@ -163,9 +163,17 @@ export default function Home({auth,privilegeLevelCondition}){
             end_date:  operateDate(new Date(vacationToSend.end), -1),
             status: "null",
             note: null,
-            date_asked: new Date(),
             area_manager_authorization: null,
         };
+        if( vacationToSend.start_date < vacationToSend.end_date){
+            setAlertConfig({
+                show: true,
+                status: 'warning',
+                title: 'Fechas invalidas',
+                message: `La fechas no son válidas, revísalas y vuelve a intentarlo`,
+            });
+            return;
+        }
         if( fetchData.employer?.available_days < calculateDaysBetweenDates(vacationToSend.start_date,vacationToSend.end_date)){
             setAlertConfig({
                 show: true,
