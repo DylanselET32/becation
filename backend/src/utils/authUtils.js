@@ -25,9 +25,14 @@ const createToken = (employer) => {
   return token;
 };
 
-const createEmailTokenById = (user_id,email,data = null) => {
-  const token = jwt.sign({ user_id, email, data}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_EMAIL});
-  return token;
+const createEmailTokenById = (user_id, email, data = null) => {
+  try {
+    const token = jwt.sign({ user_id, email, data }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_EMAIL});
+    return token;
+  } catch (error) {
+    console.error('Error al crear el token:', error);
+    return ''; // O manejar el error de otra manera si es necesario.
+  }
 };
 const verifyToken = (token) => {
   try {
