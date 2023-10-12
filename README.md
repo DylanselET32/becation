@@ -32,13 +32,31 @@ Este repositorio contiene el proyecto web de la aplicación BeCation, desarrolla
 - Base de Datos: **MySQL**
 - Organización: **Trello, GitHub**
 
+- Detalle Versionados:
+  - HTML5
+  - CSS3
+  - Js ECMA 6
+  - Java  17
+  - TamCat 9.0
+  - Node 18.14
+  - npm 9.3
+  - React 18.2
+  - Vite
+  - Boostrap 5.3.2
+  - MySQL
+  - Swager 6.2
+
 ## Fecha de entrega
 
 El proyecto se tiene que entregar a Streambe el día 15 de Octubre de 2023.
 
 ## Links 
 - [Trello](https://trello.com/b/48xJqkQC/becation)
-- [FrontEnd](https://www.becation.com.ar)
+- [FrontEnd Deployado](https://becation.pages.dev/)
+- [BackEnd Deployado](https://becationapi.onrender.com/)
+- [BackEnd Swagger](https://becationapi.onrender.com/api/docs)
+- [Manual de usuario](https://github.com/DylanselET32/becation/blob/develop/documentation/)
+- [Manual de instalacion](https://github.com/DylanselET32/becation/blob/develop/documentation/Manual%20de%20Instalaci%C3%B3n%20-%20BeCation.pdf)
 
 ## Licencia
 
