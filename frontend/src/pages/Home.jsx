@@ -165,7 +165,7 @@ export default function Home({auth,privilegeLevelCondition}){
             note: null,
             area_manager_authorization: null,
         };
-        if( vacationToSend.start_date < vacationToSend.end_date){
+        if( vacationToSend.start_date > vacationToSend.end_date){
             setAlertConfig({
                 show: true,
                 status: 'warning',
