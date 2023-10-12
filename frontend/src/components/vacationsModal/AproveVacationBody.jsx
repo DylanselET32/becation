@@ -37,7 +37,7 @@ export default function AproveVacationBody(props){
             {errorMessage}
           </div>
         )}
-        <p>Estas seguro que deseas aprobar la vacacion "<span className="text-nowrap fw-bold">{props.item?.start_date} - {props.item?.end_date}"</span></p>
+        <p>Estas seguro que deseas aprobar la vacacion "<span className="text-nowrap fw-bold">{props.item?.start_date} - {props.item?.end_date}" de {props.item?.name} {props.item?.surname}</span></p>
         <p><span className="text-danger">Esta acción no se puede deshacer.</span></p>
           <input
             id="check"

@@ -246,6 +246,7 @@ export default function AreaBoss({auth,privilegeLevelCondition}){
                 <CustomTable
                     rows={formatVacationsToTable(filter)}
                     fields={[
+                        ["name,surname","Empleado"],
                         ["start_date","Inicio"],
                         ["end_date","Fin"],
                         ["status","Estado"],

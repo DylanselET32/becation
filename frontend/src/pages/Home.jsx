@@ -161,7 +161,7 @@ export default function Home({auth,privilegeLevelCondition}){
         vacationToSend = {
             start_date: new Date(vacationToSend.start),
             end_date:  operateDate(new Date(vacationToSend.end), -1),
-            status: null,
+            status: "null",
             note: null,
             date_asked: new Date(),
             area_manager_authorization: null,

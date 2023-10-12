@@ -205,43 +205,50 @@ export default function VacationManager({auth,privilegeLevelCondition}){
             note: selectItem.note,
         }
 
-        console.log("LO QUE SE ENVÍA", newVacationState)
         let idVacation = selectItem.id
-        const response = editVacation(newVacationState, idVacation)
-        const data = await response.data
-        console.log("RESPONSE: ", data )
+        const response = await editVacation(newVacationState, idVacation)
+        if(response.status != 200){throw new Error(response.data?.error || response.data?.message)}
+        const data = response.data
+        
 
     }
 
     const editVacationNoteFetch = async (selectItem, newStatus)=>{
-        let newVacationState = {
-            employee: selectItem.employee,
-            start_date: `${formatDateToSend(selectItem.start_date)}T00:00:00`,
-            end_date: `${formatDateToSend(selectItem.end_date)}T00:00:00`,
-            status: newStatus,
-            note: noteRevision,
-            date_asked: formatDateAsked(selectItem.date_asked),
-            area_manager_authorization: selectItem.area_manager_authorization
-        }
-
-        let idVacation = selectItem.id
-        const response = editVacation(newVacationState, idVacation)
-        const data = await response.data
+       try {
+           let newVacationState = {
+               status: newStatus,
+               note: noteRevision,
+               area_manager_authorization: null
+           }
+   
+           let idVacation = selectItem.id
+           const response = await editVacation(newVacationState, idVacation)
+           if(response.status != 200){throw new Error(response.data?.error || response.data?.message)}
+       } catch (error) {
+            console.error(error)
+            setAlertConfig({
+                show: true,
+                status: 'danger',
+                title: 'Error',
+                message: `Hubo un error al realizar la accion, ${error.message}`,
+            });
+       }
+       
     }
 
     //Prueba de acciones
-        const aproveVacation =  () => {
-            editVacationFetch(selectItem, "aproved")
+        const aproveVacation = async () => {
+            await editVacationFetch(selectItem, "aproved")
             refresh()
         }
 
-        const denyVacation =  ()=>{
-            editVacationFetch(selectItem, "denied")
+        const denyVacation =  async ()=>{
+            await editVacationFetch(selectItem, "denied")
             refresh()
         }
 
-        const sendRevision =  ()=>{
-            editVacationNoteFetch(selectItem, "revision")
+        const sendRevision =  async()=>{
+            await editVacationNoteFetch(selectItem, "revision")
             refresh()
         }
 
@@ -300,6 +307,8 @@ export default function VacationManager({auth,privilegeLevelCondition}){
                 <CustomTable
                     rows={formatVacationsToTable(filter)}
                     fields={[
+                        ["name,surname","Empleado"],
+                        ["area","Area"],
                         ["start_date","Inicio"],
                         ["end_date","Fin"],
                         ["status","Estado"],
@@ -316,7 +325,6 @@ export default function VacationManager({auth,privilegeLevelCondition}){
 
 
                 </CustomTable>
-                <button onClick={()=>{refresh()}}>RECARGAR</button>
             </div>
         </div>
         </>}</>
