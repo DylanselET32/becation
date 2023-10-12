@@ -54,7 +54,8 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
     try {
       const vacationEdited  = {
         ...compareObjects(fetchData,vacationToEdit),
-        status:"null"
+        status:"null",
+        note:null
       }
       if(isChanged()){
         
