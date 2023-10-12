@@ -1,0 +1,55 @@
+.administration_container{
+    padding: 4rem;
+    
+}
+
+.select_filter{
+    padding: 5px;
+    border-radius: 10px;
+    border: 0.3px solid rgb(117, 117, 117);
+}
+
+
+
+.vacation_manager{
+    padding: 2rem;
+}
+
+.manager_container{
+    
+    width: 90vw;
+}
+
+.select_container{
+    margin: 0 0 4rem 0;
+}
+
+.table{
+    background: #1f1f1f;
+    border-radius: 12px;
+    color: #f1f1f1;
+    /* width: 90vw; */
+}
+
+.thead tr th{
+    background: rgb(20, 20, 20) !important;
+    color: rgb(126, 126, 126) !important;
+}
+
+.thead tr th:nth-child(1){
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+}
+
+
+.thead tr th:nth-child(5){
+    border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.b-red{
+    background-color: red !important;
+}
+
+.calendarHeight{
+    height:40vh !important;
+}

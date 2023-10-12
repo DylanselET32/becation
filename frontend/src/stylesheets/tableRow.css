@@ -1,0 +1,43 @@
+th{
+    padding: 1rem 2rem;
+    text-align: center;
+    /* border: 1px solid black; */
+}
+
+.action-field{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn_table{
+    font-size:.8rem;
+}
+
+.button_table{
+    border: none;
+    min-width: 80px;
+    margin: 0 .3rem;
+    background: transparent !important;
+}
+
+button img{
+    width: 20px;
+}
+
+@media screen and (max-width: 1132px) {
+    th{
+        font-size: .8rem;
+    }
+
+    .button_table{
+        display: none;
+    }
+}
+
+
+@media screen and (max-width: 1132px) {
+    th{
+        font-size: .6rem;
+    }
+
+}
