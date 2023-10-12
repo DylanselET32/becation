@@ -52,7 +52,10 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
     e.preventDefault();
     setIsSaving(true)
     try {
-      const vacationEdited  = compareObjects(fetchData,vacationToEdit)
+      const vacationEdited  = {
+        ...compareObjects(fetchData,vacationToEdit),
+        status:"null"
+      }
       if(isChanged()){
         
           const save = await editVacation(vacationEdited,fetchData.id)
@@ -101,6 +104,7 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
               <Form.Control
                 type="date"
                 name='start_date'
+                min={formatDateToString(new Date())}
                 disabled={!loaded}
                 value={(loaded && vacationToEdit)?formatDateToString(vacationToEdit.start_date) :"Cargando..."}
                 onInput={handleInput}
@@ -113,6 +117,7 @@ export default function ModalEditVacation({ item, show, setShow,refresh }) {
                 type="date"
                 name='end_date'
                 disabled={!loaded}
+                min={ formatDateToString(new Date(vacationToEdit?.start_date))  || formatDateToString(new Date())  }
                 value={(loaded && vacationToEdit)?formatDateToString(vacationToEdit.end_date):"Cargando..."}
                 onInput={handleInput}
               />

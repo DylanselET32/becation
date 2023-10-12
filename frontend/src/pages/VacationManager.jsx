@@ -32,7 +32,6 @@ export default function VacationManager({auth,privilegeLevelCondition}){
 
     const handleNoteChange = (newState) => {
         setNoteRevision(newState);
-        console.log("NOTA: ",noteRevision)
       }
 
     //Pedir todas las vacaciones y mostrarlas
@@ -44,7 +43,6 @@ export default function VacationManager({auth,privilegeLevelCondition}){
             setFetchData([])
             setFilter([])
             const vacations = await getAllVacations();
-            console.log(vacations)
             const vacationsAproved = vacations.data.filter(v => v.area_manager_authorization == 1)
 
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
@@ -296,11 +294,11 @@ export default function VacationManager({auth,privilegeLevelCondition}){
             <div className="d-flex justify-content-between align-items-center mt-3">
                 <h1>Gestión de Vacaciones</h1>
                 <select name="filterVacation" id="filterVacation" onChange={handleFilter} className="select_filter" >
-                    <option value="null">Pending</option>
-                    <option value="denied">Denieded</option>
-                    <option value="aproved">Approved</option>
-                    <option value="revision">In Revision</option>
-                    <option value="all">All</option>
+                    <option value="null">Pendientes</option>
+                    <option value="denied">Denegadas</option>
+                    <option value="aproved">Aprovadas</option>
+                    <option value="revision">En Revision</option>
+                    <option value="all">Todas</option>
                 </select>
             </div>
             <div className="row">

@@ -40,7 +40,7 @@ export default function AreaBoss({auth,privilegeLevelCondition}){
             const vacations = await getAllVacationsByArea(userId);
             console.log(vacations)
 
-            const vacationsAproved = vacations.data.filter(f => f.area_manager_authorization == null)
+            const vacationsAproved = vacations.data.filter(f => f.area_manager_authorization == null && f.status == 'null')
 
             if(vacations.status !== 200) throw new Error("Error de servidor, intentar más tarde");
             setFetchData(vacationsAproved);

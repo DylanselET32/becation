@@ -5,7 +5,7 @@ import { Button, ModalHeader, ModalBody, ModalFooter, Spinner, Form } from 'reac
 const SendRevisionBody = (props) => {
   const [canSendRevision, setCanSendRevision] = useState(false)
   const [isSendingRevision, setIsSendingRevision] = useState(false)
-  const [errorMessage,setErrorMessage] = useState(false)
+  const [errorMessage,setErrorMessage] = useState('')
 
   const handleRevisionField = (e) => {
     setCanSendRevision(!canSendRevision)
@@ -52,7 +52,7 @@ const SendRevisionBody = (props) => {
             {errorMessage}
           </div>
         )}
-        <p>Estas seguro que deseas mandar a revisión esta vacacion?"<span className="text-nowrap fw-bold">{props.item.start_date} - {props.item.end_date}"</span></p>
+        <p>Estas seguro que deseas mandar a revisión esta vacacion?"<span className="text-nowrap fw-bold">{props.item?.start_date} - {props.item?.end_date} de {props.item?.name} {props.item?.surname}"</span></p>
         <p><span className="text-danger">Esta acción no se puede deshacer.</span></p>
           <input
             id="check"
