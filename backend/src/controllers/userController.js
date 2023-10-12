@@ -108,7 +108,7 @@ const login = async (req, res) => {
 const confirmEmailResetPassword = async (req, res) => {
   try {
     //aca va a ir la funcion para blanquear una contraseña 
-    const infoToken = verifyToken(req.params.token.replaceAll("*","."));
+    const infoToken = verifyToken(req.params.token.replace(/\*/g, '.'));
     const uEmail = infoToken.email; // Obtener el email desde el token
     const newPassword = req.body.password;
     if(!infoToken.user_id)throw new Error("invalid or modified token"); 

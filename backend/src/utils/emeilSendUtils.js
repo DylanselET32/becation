@@ -6,8 +6,7 @@ const { formatDateToString } = require("./dateUtils");
 
 const linkConfirmEmailByIdUser  = (employer)=>{
   const token = createEmailTokenById(employer.user_id,employer.email)
-  console.log(token)
-  return `${process.env.DOMAIN_FRONTEND}resetPassword/${token?.replaceAll(".","*")}`
+  return `${process.env.DOMAIN_FRONTEND}resetPassword/${token.replace(/\./g, '*')}`
 }
 
 const resetPassword = async (idEmployer) => {
