@@ -5,8 +5,13 @@ const { createEmailTokenById } = require("./authUtils");
 const { formatDateToString } = require("./dateUtils");
 
 const linkConfirmEmailByIdUser  = (employer)=>{
-  const token = createEmailTokenById(employer.user_id,employer.email)
-  return `${process.env.DOMAIN_FRONTEND}resetPassword/${token.replaceAll(".","*")}`
+  try {
+    const token = createEmailTokenById(employer.user_id,employer.email)
+    return `${process.env.DOMAIN_FRONTEND}resetPassword/${token?.replaceAll(".","*")}`
+  } catch (error) {
+    console.error(error)
+  }
+ 
 }
 
 const resetPassword = async (idEmployer) => {
