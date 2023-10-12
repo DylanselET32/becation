@@ -138,7 +138,7 @@ const editEmployer = async (req,res) => {
     }
     const previousUser = await UserDAO.getUserById(previousEmployer.employer_id)
 
-    const fieldsUser = ['name','surname','dni','privileges','sign_up_date','password'];
+    const fieldsUser = ['name','surname','dni','email','privileges','sign_up_date','password'];
     const fieldsEmployer = ['available_days','total_days','is_cumulative','role_id','area_id','to_update'];
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
     let dataUser = {};
@@ -197,7 +197,7 @@ const editEmployerById = async (req,res) => {
     }
     const previousUser = await UserDAO.getUserById(previousEmployer.user_id)
 
-    const fieldsUser = ['name','surname','dni','privileges','sign_up_date','password'];
+    const fieldsUser = ['name','surname','dni','email','privileges','sign_up_date','password'];
     const fieldsEmployer = ['available_days','total_days','is_cumulative','role_id','area_id','to_update'];
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
     let dataUser = {};
