@@ -16,6 +16,7 @@ const initalForm = {
 export default function Login({ auth }) {
   const navigate = useNavigate();
   const [passHidden, setPassHidden] = useState(false);
+  const [isLogining, setIsLogining] = useState(false);
   const [form, setForm] = useState(initalForm);
   const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
 
@@ -32,46 +33,61 @@ export default function Login({ auth }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.email || !form.password) {
+    setIsLogining(true)
+    try {
+      if (!form.email || !form.password) {
+        setAlertConfig({
+          show: true,
+          status: 'warning',
+          title: 'Error al iniciar sesion',
+          message: "Complete los datos faltantes",
+        });
+        setIsLogining(false)
+        return;
+      }
+      const { data, status } = await login(form);
+      if (status == 401) {
+        setAlertConfig({
+          show: true,
+          status: 'danger',
+          title: 'Error al iniciar sesion',
+          message: "Contraseña Incorrecta",
+        });
+      } else if (status == 404) {
+        setAlertConfig({
+          show: true,
+          status: 'danger',
+          title: 'Error al iniciar sesion',
+          message: "Email incorrecto",
+        });
+      } else if (status == 500) {
+        setAlertConfig({
+          show: true,
+          status: 'danger',
+          title: 'Error al iniciar sesion',
+          message: "Error en el servidor, intentelo mas tarde",
+        });
+      } else if (status == 200) {
+       
+        await auth.reloaded();
+        console.log("USER...", auth);
+        redirec(); 
+        setAlertConfig({
+          show: false,
+         });
+      }
+    } catch (error) {
       setAlertConfig({
         show: true,
-        status: 'warning',
+        status: 'danger',
         title: 'Error al iniciar sesion',
-        message: "Complete los datos faltantes",
+        message: error.message,
       });
-      return;
+    }finally{
+      setIsLogining(false)
+
     }
-    const { data, status } = await login(form);
-    if (status == 401) {
-      setAlertConfig({
-        show: true,
-        status: 'danger',
-        title: 'Error al iniciar sesion',
-        message: "Contraseña Incorrecta",
-      });
-    } else if (status == 404) {
-      setAlertConfig({
-        show: true,
-        status: 'danger',
-        title: 'Error al iniciar sesion',
-        message: "Email incorrecto",
-      });
-    } else if (status == 500) {
-      setAlertConfig({
-        show: true,
-        status: 'danger',
-        title: 'Error al iniciar sesion',
-        message: "Error en el servidor, intentelo mas tarde",
-      });
-    } else if (status == 200) {
-     
-      await auth.reloaded();
-      console.log("USER...", auth);
-      redirec(); 
-      setAlertConfig({
-        show: false,
-       });
-    }
+    
   };
 
   const redirec = () => {
@@ -137,7 +153,12 @@ export default function Login({ auth }) {
                 </span>
               </div>
             </div>
-            <button className="btn-login">Continuar</button>
+            <button className="btn-login">{!isLogining?`Ingresar`:<>
+            <div className="d-flex justify-content-center align-items-center">
+               Cargando<span className="spinner-border " role="status"/>
+            </div>
+            
+            </>}</button>
           </form>
         </div>
         {/* {alert && <ModalAlert msg={msg} handleModalAlert={handleModalAlert} modalStyle={alert ? modalAlertCalled : "aviso-hidden"}/>} */}
